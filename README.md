@@ -1,5 +1,5 @@
 # CSSE_Ticketing_System
 
-## fontend folder contains Angular project
+ fontend folder contains Angular project
 
-## Ticketing_System folder contains spring project
+ Ticketing_System folder contains spring project
