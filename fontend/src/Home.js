@@ -1,9 +1,9 @@
 import React from 'react';
-import Sidebar from "./sidebar";
-import CreditCardDetails from "./creditCardDetails";
-import OtherOperations from "./OtherOperations";
-import Navbar from "./NavBar";
-import BlueGradientbar from "./BlueGradientBar";
+import Sidebar from "./components/sidebar";
+import CreditCardDetails from "./components/creditCardDetails";
+import OtherOperations from "./components/OtherOperations";
+import Navbar from "./components/NavBar";
+import BlueGradientbar from "./components/BlueGradientBar";
 
 
 import "bootstrap/dist/css/bootstrap.min.css";
