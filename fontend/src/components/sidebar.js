@@ -1,7 +1,17 @@
 import React, {Component} from 'react';
+import Cookies from 'universal-cookie';
 import Graph from "./graph";
 
+
+
 export default class sidebar extends Component {
+  constructor() {
+    super();
+    const userDetails = new Cookies();
+    this.state = {
+      name: userDetails.get('username')
+    };
+}
   render() {
     return (
 
@@ -14,7 +24,7 @@ export default class sidebar extends Component {
             <br/>
               <img src="img_avatar.png" alt="Avatar" style={{width: '100px'}} />
               <br/>
-              <h3 className="w3-bar-item" style={{textAlign: 'center'}}>Fernando</h3>
+              <h3 className="w3-bar-item" style={{textAlign: 'center'}}>{this.state.name}</h3>
               <h5 className="w3-bar-item" style={{textAlign: 'center'}}>Malabe</h5>
               <br/><br/>
               <div>

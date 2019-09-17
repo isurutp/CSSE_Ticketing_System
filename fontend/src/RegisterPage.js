@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 
 import Background from './images/forestbridge.jpg';
+import Cookies from 'universal-cookie';
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -18,7 +19,6 @@ export default class RegisterPage extends Component {
         this.registerUser = this.registerUser.bind(this);
         this.handleChange = this.handleChange.bind(this);
 
-        this.json = {}
     }
 
     handleChange({ target }) {
@@ -28,22 +28,12 @@ export default class RegisterPage extends Component {
       }
 
     registerUser()
-    {
-        const SAMPLE_JSON = {   
-                                name: this.name, 
-                                nic: this.nic,
-                                address: this.address,
-                                dob: this.dob                                
-                            }
-        const json = window.localStorage.getItem('someJson') || JSON.stringify(SAMPLE_JSON, null, 2)
-        this.setState({ json })
-        const validJson = JSON.stringify(JSON.parse(this.state.json), null, 2)
-                                
-        window.localStorage.setItem(
-            'someJson',
-            validJson
-            )
-        alert('HELLO');
+    {        
+        const cookies = new Cookies();
+        cookies.get('page');
+        cookies.set('page', 'login');
+        alert('Please confirm Registration by clicking the link in your email');
+        window.location.reload();  
     }
 
     render() {

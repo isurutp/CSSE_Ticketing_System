@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import Cookies from 'universal-cookie';
 
 import Sidebar from "./components/sidebar";
 import CreditCardDetails from "./components/creditCardDetails";
@@ -12,13 +13,25 @@ import Navbar from "./components/NavBar";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
-var loggedin = false;
-var pageName = "register";
+const cookies = new Cookies();
+const userDetails = new Cookies();
 
+
+const UmvValidator = (actions) => {
+    const expiryTime = localStorage.getItem('expiryTime');
+    const init = localStorage.getItem('init');
+    if (!expiryTime && init) {
+        
+        localStorage.setItem('init',1)
+        cookies.set('page', 'login', { path: '/' });
+        userDetails.set('username', null, { path: '/' });
+    }
+}
 
 export default class Home extends Component {
+    
     render() {
-        if (pageName == "home") {
+        if (cookies.get('page') == "home") {
             return(
                 <Router>
                     <div>
@@ -43,19 +56,19 @@ export default class Home extends Component {
                     </div>
                     </Router>
             );
-        } else if (pageName == "login") {
+        } else if (cookies.get('page') == "login") {
             return(
                 <div>
                     <LoginPage/>
                 </div>
             );
-        } else if (pageName == "register") {
+        } else if (cookies.get('page') == "register") {
             return(
                 <div>
                     <RegisterPage/>
                 </div>
             );
-        } else if (pageName == "addCredit") {
+        } else if (cookies.get('page') == "addCredit") {
             return(
                 <div>
                     <AddCredit/>
