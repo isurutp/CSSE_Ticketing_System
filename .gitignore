@@ -55,3 +55,4 @@ local.properties
 /bin/
 /build/
 /Ticketing_System/target/
+/temp/nbproject/private/

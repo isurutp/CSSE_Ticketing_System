@@ -20,6 +20,22 @@ public class LocalPassenger extends Passenger
     private String address;
     private Date dob;
 
+    public LocalPassenger(String NIC, String tokenId, float amount, String name, String address, Date dob)
+    {
+        this.NIC = NIC;
+        this.tokenId = tokenId;
+        this.amount = amount;
+        this.name = name;
+        this.address = address;
+        this.dob = dob;
+    }
+
+    
+    public void showDetails()
+    {
+       
+    }
+    
     public void addCredit()
     {}
     
