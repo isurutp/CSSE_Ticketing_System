@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import Cookies from 'universal-cookie';
 
 import Sidebar from "./components/sidebar";
 import CreditCardDetails from "./components/creditCardDetails";
@@ -12,13 +13,34 @@ import Navbar from "./components/NavBar";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
-var loggedin = false;
-var pageName = "register";
+const cookies = new Cookies();
+const userDetails = new Cookies();
 
+
+const UmvValidator = (actions) => {
+    const expiryTime = localStorage.getItem('expiryTime');
+    const init = localStorage.getItem('init');
+    if (!expiryTime && init) {
+        
+        localStorage.setItem('init',1)
+        cookies.set('page', 'login', { path: '/' });
+        userDetails.set('username', null, { path: '/' });
+    }
+}
 
 export default class Home extends Component {
+    
+    addCredit()
+    {
+        const cookies = new Cookies();
+        cookies.get('page');
+        cookies.set('page', 'addCredit');
+        window.location.reload();  
+    }
+    
+
     render() {
-        if (pageName == "home") {
+        if (cookies.get('page') == "home") {
             return(
                 <Router>
                     <div>
@@ -29,10 +51,10 @@ export default class Home extends Component {
                             <Sidebar/>
                             <div className="row justify-content-md-center">
                                 <div className="col-md-10 align-center">
-                                    <br/>
-                                    <Link to="/AddCredit" className="nav-link">
-                                        <div className="mbr-section-btn"><a className="btn btn-md btn-primary display-4" >Add Credit</a></div>
-                                    </Link>
+                                    <br/><br/><br/>
+                                        <div className="mbr-section-btn">
+                                            <button className="btn btn-md btn-primary display-4" onClick={this.addCredit}>Add Credit</button>
+                                        </div>
                                 </div>
                             </div>
                         </div>
@@ -43,25 +65,27 @@ export default class Home extends Component {
                     </div>
                     </Router>
             );
-        } else if (pageName == "login") {
-            return(
-                <div>
-                    <LoginPage/>
-                </div>
-            );
-        } else if (pageName == "register") {
+        } else if (cookies.get('page') == "register") {
             return(
                 <div>
                     <RegisterPage/>
                 </div>
             );
-        } else if (pageName == "addCredit") {
+        } else if (cookies.get('page') == "addCredit") {
             return(
                 <div>
                     <AddCredit/>
                 </div>
             );
         }
+        else{
+            return(
+                <div>
+                    <LoginPage/>
+                </div>
+            );
+        } 
+
         
 
     }

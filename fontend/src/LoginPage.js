@@ -4,9 +4,57 @@ import { Switch, Route } from 'react-router-dom'
 import Background from './images/forestbridge.jpg';
 
 import "bootstrap/dist/css/bootstrap.min.css";
+import Cookies from 'universal-cookie';
 
 export default class LoginPage extends Component {
 
+    constructor() {
+        super();
+        this.state = {
+          name: null,
+          password: null
+        };
+    
+        this.register = this.register.bind(this);
+        this.login = this.login.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    register()
+    {
+        const cookies = new Cookies();
+        cookies.get('page');
+        cookies.set('page', 'register');
+        window.location.reload();  
+    }
+
+    login()
+    {
+        if(this.state.name != null)
+        {
+            const userDetails = new Cookies();
+            userDetails.get('username');
+            userDetails.set('username', this.state.name);
+                
+
+            const cookies = new Cookies();
+            cookies.get('page');
+            cookies.set('page', 'home');
+
+            window.location.reload();  
+        }
+        else
+        {
+            alert('Please fill both fields');
+        }
+    }
+
+    handleChange({ target }) {
+        this.setState({
+          [target.name]: target.value
+        });
+      }
+    
     render() {
         var sectionStyle = {
             backgroundImage: "url(" + Background + ")",
@@ -38,17 +86,17 @@ export default class LoginPage extends Component {
                         <table style={{height:"100px", width:"100px"}}>
                             <tr>
                                 <td><p>Username: </p></td>
-                                <td><input type="text" name="uname" required /></td> 
+                                <td><input type="text" name="name" value={ this.state.name } onChange={ this.handleChange } /></td> 
                             </tr>
                             <tr>
                                 <td><p>Password: </p></td>
-                                <td><input type="password" name="psw" required /></td> 
+                                <td><input type="password" name="psw" value={ this.state.password } onChange={ this.handleChange } /></td> 
                             </tr>
                         </table>
                         <br/>
                         <div className="mbr-section-btn">
-                            <a className="btn btn-md btn-primary display-4" style={{float:"left"}}>Register</a>
-                            <a className="btn btn-md btn-primary display-4" style={{float:"right"}}>login</a>
+                        <button className="btn btn-md btn-primary display-4" style={{float:"left"}} onClick={this.register}>Register</button>
+                        <button className="btn btn-md btn-primary display-4" style={{float:"right"}} onClick={this.login}>login</button>
                         </div>
                     </div>
                 </div>

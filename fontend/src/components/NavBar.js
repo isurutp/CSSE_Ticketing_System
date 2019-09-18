@@ -1,6 +1,15 @@
 import React, {Component} from 'react';
+import Cookies from 'universal-cookie';
 
 export default class NavBar extends Component {
+    logout()
+    {
+        const cookies = new Cookies();
+        cookies.get('page');
+        cookies.set('page', 'login');
+        window.location.reload();  
+    }
+
     render() {
             var alertBox = {
                 padding: "20px",
@@ -41,8 +50,9 @@ export default class NavBar extends Component {
                             About Us
                         </a>
                         </li></ul>
-                    <div className="navbar-buttons mbr-section-btn"><a className="btn btn-sm btn-primary display-4" href="#">
-                        Log Out</a></div>
+                    <div className="navbar-buttons mbr-section-btn">
+                        <button className="btn btn-sm btn-primary display-4" href="#" onClick={this.logout}>Log Out</button>
+                    </div>
                     </div>
                 </nav>
                 </section>
