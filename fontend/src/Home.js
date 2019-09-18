@@ -30,6 +30,15 @@ const UmvValidator = (actions) => {
 
 export default class Home extends Component {
     
+    addCredit()
+    {
+        const cookies = new Cookies();
+        cookies.get('page');
+        cookies.set('page', 'addCredit');
+        window.location.reload();  
+    }
+    
+
     render() {
         if (cookies.get('page') == "home") {
             return(
@@ -42,10 +51,10 @@ export default class Home extends Component {
                             <Sidebar/>
                             <div className="row justify-content-md-center">
                                 <div className="col-md-10 align-center">
-                                    <br/>
-                                    <Link to="/AddCredit" className="nav-link">
-                                        <div className="mbr-section-btn"><a className="btn btn-md btn-primary display-4" >Add Credit</a></div>
-                                    </Link>
+                                    <br/><br/><br/>
+                                        <div className="mbr-section-btn">
+                                            <button className="btn btn-md btn-primary display-4" onClick={this.addCredit}>Add Credit</button>
+                                        </div>
                                 </div>
                             </div>
                         </div>
@@ -55,12 +64,6 @@ export default class Home extends Component {
                         <OtherOperations/>
                     </div>
                     </Router>
-            );
-        } else if (cookies.get('page') == "login") {
-            return(
-                <div>
-                    <LoginPage/>
-                </div>
             );
         } else if (cookies.get('page') == "register") {
             return(
@@ -75,6 +78,14 @@ export default class Home extends Component {
                 </div>
             );
         }
+        else{
+            return(
+                <div>
+                    <LoginPage/>
+                </div>
+            );
+        } 
+
         
 
     }
