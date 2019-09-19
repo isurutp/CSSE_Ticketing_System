@@ -11,6 +11,10 @@ import AddCredit from "./AddCredit";
 import RegisterPage from "./RegisterPage";
 import Navbar from "./components/NavBar";
 import CreditHistory from "./CreditHistory";
+import Admin from "./AdminPanel";
+import AdminOvercrowd from "./AdminOverCrowd";
+import AdminTimetable from "./AdminTimetable";
+import AdminCountDetails from "./AdminCountDetails";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -83,6 +87,31 @@ export default class Home extends Component {
         return(
             <div>
                 <CreditHistory/>
+            </div>
+        );
+    }else if (cookies.get('page') === "admin") {
+        return(
+            <div>
+                <Admin/>
+            </div>
+        );
+    }else if (cookies.get('page') === "adminOverCrowd") {
+        return(
+            <div>
+                <AdminOvercrowd/>
+            </div>
+        );
+    }else if (cookies.get('page') === "adminTimetable") {
+        return(
+            <div>
+                <AdminTimetable/>
+            </div>
+        );
+    }
+    else if (cookies.get('page') === "adminCountDetails") {
+        return(
+            <div>
+                <AdminCountDetails/>
             </div>
         );
     }

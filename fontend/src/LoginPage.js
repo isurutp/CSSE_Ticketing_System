@@ -30,18 +30,24 @@ export default class LoginPage extends Component {
 
     login()
     {
+        const cookies = new Cookies();
+        cookies.get('page');
+
+        const userDetails = new Cookies();
+        userDetails.get('username');
+        userDetails.set('username', this.state.name);
+        userDetails.set('creditBalance', 1723.51);
+
+        if(this.state.name == 'admin')
+        {
+            cookies.set('page', 'admin');
+            window.location.reload(); 
+            return;
+        }
+
         if(this.state.name != null)
         {
-            const userDetails = new Cookies();
-            userDetails.get('username');
-            userDetails.set('username', this.state.name);
-            userDetails.set('creditBalance', 1723.51);
-                
-
-            const cookies = new Cookies();
-            cookies.get('page');
             cookies.set('page', 'home');
-
             window.location.reload();  
         }
         else
