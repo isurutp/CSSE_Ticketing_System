@@ -1,24 +1,40 @@
 package com.example.demo;
 
 import java.util.Date;
+import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.annotation.Id;
+import org.springframework.beans.factory.annotation.Autowired;
 
+
+@Document
 public class LocalPassenger extends Passenger
 {
+	@Id
+	private ObjectId id;
+	private String name;
     private String NIC;
     private String tokenId;
     private float amount;
-    private String name;
     private String address;
     private Date dob;
 
-    public LocalPassenger(String NIC, String tokenId, float amount, String name, String address, Date dob)
+    @Autowired
+    private LocalPassengerRepository localPassengerRepository;
+    
+    public LocalPassenger(String name, String NIC, String tokenId, float amount, String address, Date dob)
     {
+    	this.name = name;
         this.NIC = NIC;
         this.tokenId = tokenId;
         this.amount = amount;
-        this.name = name;
         this.address = address;
         this.dob = dob;
+    }
+    
+    public void addUser()
+    {
+    	localPassengerRepository.save(this);
     }
 
     
@@ -44,6 +60,14 @@ public class LocalPassenger extends Passenger
 //**********************************************************************************************************
 //--------------------------------------- Setters and Getters ----------------------------------------------
 //**********************************************************************************************************
+    
+    public ObjectId getId() {
+        return id;
+    }
+
+    public void setId(ObjectId id) {
+        this.id = id;
+    } 
     
     public String getNIC()
     {
@@ -106,4 +130,3 @@ public class LocalPassenger extends Passenger
     }
 
 }
-

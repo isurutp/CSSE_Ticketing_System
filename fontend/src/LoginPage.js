@@ -35,6 +35,7 @@ export default class LoginPage extends Component {
             const userDetails = new Cookies();
             userDetails.get('username');
             userDetails.set('username', this.state.name);
+            userDetails.set('creditBalance', 1723.51);
                 
 
             const cookies = new Cookies();
