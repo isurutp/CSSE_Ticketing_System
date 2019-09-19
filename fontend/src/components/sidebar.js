@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Cookies from 'universal-cookie';
-import Graph from "./graph";
+import Graph from "./SidebarGraph";
 
 
 
