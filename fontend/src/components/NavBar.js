@@ -2,6 +2,26 @@ import React, {Component} from 'react';
 import Cookies from 'universal-cookie';
 
 export default class NavBar extends Component {
+
+    constructor() {
+        super();
+        const userDetails = new Cookies();
+        this.state = {
+          name: userDetails.get('username')
+        };
+
+        this.Home = this.Home.bind(this);
+        this.logout = this.logout.bind(this);
+    }
+
+    Home()
+    {
+            const cookies = new Cookies();
+            cookies.get('page');
+            cookies.set('page', 'home');
+            window.location.reload();  
+    }
+
     logout()
     {
         const cookies = new Cookies();
@@ -37,19 +57,21 @@ export default class NavBar extends Component {
                     
                     <div className="menu-logo">
                     <div className="navbar-brand">
-                        <span className="navbar-caption-wrap"><a className="navbar-caption text-primary display-5" href="#">SMARTBUSTICKETING</a></span>
+                        <span className="navbar-caption-wrap"><a className="navbar-caption text-primary display-5" onClick={this.Home}>SMARTBUSTICKETING</a></span>
                     </div>
                     </div>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul className="navbar-nav nav-dropdown" data-app-modern-menu="true"><li className="nav-item">
-                        <a className="nav-link link text-black display-4" href="#">
-                            Notifications</a>
+                    <ul className="navbar-nav nav-dropdown" data-app-modern-menu="true">
+                        <li className="nav-item">
+                            <a className="nav-link link text-black display-4" href="#">Notifications</a>
                         </li>
                         <li className="nav-item">
-                        <a className="nav-link link text-black display-4" href="#">
-                            About Us
-                        </a>
-                        </li></ul>
+                            <a className="nav-link link text-black display-4" href="#">About Us</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link link text-black display-4" href="#">logged in as {this.state.name}</a>
+                        </li>
+                    </ul>
                     <div className="navbar-buttons mbr-section-btn">
                         <button className="btn btn-sm btn-primary display-4" href="#" onClick={this.logout}>Log Out</button>
                     </div>

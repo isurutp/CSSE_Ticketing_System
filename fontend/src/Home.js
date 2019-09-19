@@ -10,23 +10,25 @@ import LoginPage from "./LoginPage";
 import AddCredit from "./AddCredit";
 import RegisterPage from "./RegisterPage";
 import Navbar from "./components/NavBar";
+import CreditHistory from "./CreditHistory";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const cookies = new Cookies();
-const userDetails = new Cookies();
 
 
-const UmvValidator = (actions) => {
-    const expiryTime = localStorage.getItem('expiryTime');
-    const init = localStorage.getItem('init');
-    if (!expiryTime && init) {
+// const UmvValidator = (actions) => {
+//     const expiryTime = localStorage.getItem('expiryTime');
+//     const init = localStorage.getItem('init');
+//     if (once) {
         
-        localStorage.setItem('init',1)
-        cookies.set('page', 'login', { path: '/' });
-        userDetails.set('username', null, { path: '/' });
-    }
-}
+//         localStorage.setItem('init',1)
+//         cookies.set('page', null, { path: '/' });
+//         userDetails.set('username', null, { path: '/' });
+//         userDetails.set('creditBalance', 1723.51);
+//         once = false;
+//     }
+// }
 
 export default class Home extends Component {
     
@@ -40,7 +42,7 @@ export default class Home extends Component {
     
 
     render() {
-        if (cookies.get('page') == "home") {
+        if (cookies.get('page') === "home") {
             return(
                 <Router>
                     <div>
@@ -65,19 +67,25 @@ export default class Home extends Component {
                     </div>
                     </Router>
             );
-        } else if (cookies.get('page') == "register") {
+        } else if (cookies.get('page') === "register") {
             return(
                 <div>
                     <RegisterPage/>
                 </div>
             );
-        } else if (cookies.get('page') == "addCredit") {
+        } else if (cookies.get('page') === "addCredit") {
             return(
                 <div>
                     <AddCredit/>
                 </div>
             );
-        }
+        }else if (cookies.get('page') === "creditHistory") {
+        return(
+            <div>
+                <CreditHistory/>
+            </div>
+        );
+    }
         else{
             return(
                 <div>
