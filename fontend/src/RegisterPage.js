@@ -43,6 +43,14 @@ export default class RegisterPage extends Component {
         }
     }
 
+    cancel()
+    {
+            const cookies = new Cookies();
+            cookies.get('page');
+            cookies.set('page', 'login');
+            window.location.reload();  
+    }
+
     render() {
         var sectionStyle = {
             backgroundImage: "url(" + Background + ")",
@@ -91,6 +99,7 @@ export default class RegisterPage extends Component {
                         </table>
                         <br/>
                         <div className="mbr-section-btn">
+                        <button className="btn btn-md btn-primary display-4" style={{float:"left"}} onClick={this.cancel}>Cancel</button>
                             <button className="btn btn-md btn-primary display-4" style={{float:"right"}} onClick={this.registerUser}>Submit</button>
                         </div>
                     </div>
