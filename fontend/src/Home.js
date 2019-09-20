@@ -17,6 +17,8 @@ import AdminOvercrowd from "./AdminOverCrowd";
 import AdminTimetable from "./AdminTimetable";
 import AdminCountDetails from "./AdminCountDetails";
 import AdminFinancePanel from "./AdminFinancePanel";
+import AdminPlanFinance from "./AdminPlanFiniance";
+import AdminUnauthorized from "./AdminUnauthorized";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -73,63 +75,78 @@ export default class Home extends Component {
                     </div>
                     </Router>
             );
-        } else if (cookies.get('page') === "register") {
+        } else if (cookies.get('page') === "register") {            //Register Page
             return(
                 <div>
                     <RegisterPage/>
                 </div>
             );
-        } else if (cookies.get('page') === "addCredit") {
+        } else if (cookies.get('page') === "addCredit") {           //Add credit to account Page
             return(
                 <div>
                     <AddCredit/>
                 </div>
             );
-        }else if (cookies.get('page') === "creditHistory") {
+        }else if (cookies.get('page') === "creditHistory") {        //Credit History details Page
         return(
             <div>
                 <CreditHistory/>
             </div>
         );
-    }else if (cookies.get('page') === "admin") {
-        return(
-            <div>
-                <Admin/>
-            </div>
-        );
-    }else if (cookies.get('page') === "adminOverCrowd") {
-        return(
-            <div>
-                <AdminOvercrowd/>
-            </div>
-        );
-    }else if (cookies.get('page') === "adminTimetable") {
-        return(
-            <div>
-                <AdminTimetable/>
-            </div>
-        );
-    }else if (cookies.get('page') === "adminCountDetails") {
-        return(
-            <div>
-                <AdminCountDetails/>
-            </div>
-        );
-    }else if (cookies.get('page') === "adminFinancePanel") {
-        return(
-            <div>
-                <AdminFinancePanel/>
-            </div>
-        );
-    }
+        }else if (cookies.get('page') === "admin") {                //Admin Main Page
+            return(
+                <div>
+                    <Admin/>
+                </div>
+            );
+        }else if (cookies.get('page') === "adminOverCrowd") {       //Admin overcrowded table Page
+            return(
+                <div>
+                    <AdminOvercrowd/>
+                </div>
+            );
+        }else if (cookies.get('page') === "adminTimetable") {       //Admin Bus timetable Page
+            return(
+                <div>
+                    <AdminTimetable/>
+                </div>
+            );
+        }else if (cookies.get('page') === "adminCountDetails") {    //Admin Passenger count graph Page
+            return(
+                <div>
+                    <AdminCountDetails/>
+                </div>
+            );
+        }else if (cookies.get('page') === "adminFinancePanel") {     //Admin Finance Main Page
+            return(
+                <div>
+                    <AdminFinancePanel/>
+                </div>
+            );
+        }else if (cookies.get('page') === "planFinance") {           //Bus Details Page
+            return(
+                <div>
+                    <AdminPlanFinance/>
+                </div>
+            );
+        }else if (cookies.get('page') === "unauthorizedTravels") {   //Unauthorized travel Page with graph
+            return(
+                <div>
+                    <AdminUnauthorized/>
+                </div>
+            );
+        }
 
-    else{
-        return(
-            <div>
-                <LoginPage/>
-            </div>
-        );
-    } 
+        
+
+        //Login Page
+        else{
+            return(
+                <div>
+                    <LoginPage/>
+                </div>
+            );
+        } 
 
         
 
