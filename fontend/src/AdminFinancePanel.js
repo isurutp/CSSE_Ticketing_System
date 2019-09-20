@@ -32,6 +32,8 @@ export default class AdminPanel extends Component {
 
                         <AdminSideBar/>
 
+
+
                         <table style={{textAlign:'center', width: '100%'}}>
                             <tr>
                                 <button onClick={this.planFinance} style={{backgroundColor:'white',color:'blue', padding: '20px 80px'}}>Plan Finances</button>  
