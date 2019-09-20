@@ -16,6 +16,7 @@ import Admin from "./AdminPanel";
 import AdminOvercrowd from "./AdminOverCrowd";
 import AdminTimetable from "./AdminTimetable";
 import AdminCountDetails from "./AdminCountDetails";
+import AdminFinancePanel from "./AdminFinancePanel";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -108,21 +109,27 @@ export default class Home extends Component {
                 <AdminTimetable/>
             </div>
         );
-    }
-    else if (cookies.get('page') === "adminCountDetails") {
+    }else if (cookies.get('page') === "adminCountDetails") {
         return(
             <div>
                 <AdminCountDetails/>
             </div>
         );
+    }else if (cookies.get('page') === "adminFinancePanel") {
+        return(
+            <div>
+                <AdminFinancePanel/>
+            </div>
+        );
     }
-        else{
-            return(
-                <div>
-                    <LoginPage/>
-                </div>
-            );
-        } 
+
+    else{
+        return(
+            <div>
+                <LoginPage/>
+            </div>
+        );
+    } 
 
         
 
