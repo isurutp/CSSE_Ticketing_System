@@ -7,6 +7,22 @@ import AdminSideBar from "./components/AdminSidebar";
 
 export default class AdminOverCrowd extends Component {
     render() {
+
+        const Buses= [
+            {id: 'b001', Route: 'Malabe-Kaduwela', Seats: '64', Passengers: '120'},
+            {id: 'b002', Route: 'galle-Jaffna', Seats: '53', Passengers: '89'}
+            ]
+      
+          const BusItems = Buses.map((Buses) =>
+          <tr>
+            <td>{Buses.id}</td>
+            <td>{Buses.Route}</td>
+            <td>{Buses.Seats}</td>
+            <td>{Buses.Passengers}</td>
+          </tr>
+          );
+
+
         return(
             <div>
                     <AdminNavbar/>
@@ -24,18 +40,7 @@ export default class AdminOverCrowd extends Component {
                             <th>noOfPassengers</th>
                         </tr>
                         <br/>
-                        <tr>
-                            <td>b001</td>
-                            <td>Malabe-Kaduwela</td>
-                            <td>64</td>
-                            <td>120</td>
-                        </tr>
-                        <tr>
-                            <td>b002</td>
-                            <td>galle-Jaffna</td>
-                            <td>53</td>
-                            <td>89</td>
-                        </tr>
+                        {BusItems}
                     </table>
 
                     <div style={{float:'right', textAlign:'center', marginRight:'150px'}}>

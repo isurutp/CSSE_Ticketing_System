@@ -7,6 +7,21 @@ import AdminSideBar from "./components/AdminSidebar";
 
 export default class AdminTimetable extends Component {
     render() {
+
+        const Buses= [
+            {id: 'r001', JourneyTime: '02', Start: 'Kaduwela', End: 'Malabe'},
+            {id: 'r002', JourneyTime: '03', Start: 'Moratuwa', End: 'Malabe'}
+            ]
+      
+          const BusItems = Buses.map((Buses) =>
+          <tr>
+            <td>{Buses.id}</td>
+            <td>{Buses.JourneyTime}</td>
+            <td>{Buses.Start}</td>
+            <td>{Buses.End}</td>
+          </tr>
+          );
+        
         return(
             <div>
                     <AdminNavbar/>
@@ -24,18 +39,7 @@ export default class AdminTimetable extends Component {
                             <th>Ending Point</th>
                         </tr>
                         <br/>
-                        <tr>
-                            <td>r001</td>
-                            <td>02</td>
-                            <td>Kaduwela</td>
-                            <td>Malabe</td>
-                        </tr>
-                        <tr>
-                            <td>r002</td>
-                            <td>03</td>
-                            <td>Moratuwa</td>
-                            <td>Malabe</td>
-                        </tr>
+                        {BusItems}
                     </table>
 
                     <div style={{float:'right', textAlign:'center', marginRight:'150px'}}>

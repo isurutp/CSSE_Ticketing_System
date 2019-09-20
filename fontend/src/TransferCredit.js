@@ -25,7 +25,7 @@ export default class TransferCredit extends Component {
     {
         if(this.state.amount<100)
         {
-            alert('Please enter a valid amount')
+            // alert('Please enter a valid amount')
             return;
         }
 
