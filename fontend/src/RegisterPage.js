@@ -13,7 +13,7 @@ export default class RegisterPage extends Component {
           name: null,
           nic: null,
           address: null,
-          dob: null
+          dob: "1990-01-01"
         };
     
         this.registerUser = this.registerUser.bind(this);
@@ -28,12 +28,19 @@ export default class RegisterPage extends Component {
       }
 
     registerUser()
-    {        
-        const cookies = new Cookies();
-        cookies.get('page');
-        cookies.set('page', 'login');
-        alert('Please confirm Registration by clicking the link in your email');
-        window.location.reload();  
+    { 
+        if(this.state.name != null)
+        {
+            const cookies = new Cookies();
+            cookies.get('page');
+            cookies.set('page', 'login');
+            alert('Please confirm Registration by clicking the link in your email');
+            window.location.reload();  
+        }
+        else
+        {
+            alert('Please fill all fields');
+        }
     }
 
     render() {
@@ -64,22 +71,22 @@ export default class RegisterPage extends Component {
                     <div style={centerStyle}>
                         <h1>Register</h1> 
                         <br/>
-                        <table style={{height:"100px", width:"120px"}}>
+                        <table style={{height:"100px"}}>
                             <tr>
                                 <td><p>Username: </p></td>
-                                <td><input type="text" name="name" required value={ this.state.name } onChange={ this.handleChange }/></td> 
+                                <td><input type="text" name="name" value={ this.state.name } onChange={ this.handleChange }/></td> 
                             </tr>
                             <tr>
                                 <td><p>NIC: </p></td>
-                                <td><input type="text" name="nic" required value={ this.state.nic } onChange={ this.handleChange }/></td>
+                                <td><input type="text" name="nic" value={ this.state.nic } onChange={ this.handleChange }/></td>
                             </tr>
                             <tr>
                                 <td><p>Address: </p></td>
-                                <td><input type="text" name="address" required value={ this.state.address } onChange={ this.handleChange }/></td>
+                                <td><input type="text" name="address" value={ this.state.address } onChange={ this.handleChange }/></td>
                             </tr>
                             <tr>
                                 <td><p>Date of Birth: </p></td>
-                                <td><input type="date" name="dob" value="1990-01-01" required value={ this.state.dob } onChange={ this.handleChange }/></td>
+                                <td><input type="date" name="dob" value={ this.state.dob } onChange={ this.handleChange }/></td>
                             </tr>
                         </table>
                         <br/>

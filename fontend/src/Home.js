@@ -3,13 +3,14 @@ import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import Cookies from 'universal-cookie';
 
 import Sidebar from "./components/sidebar";
-import CreditCardDetails from "./components/creditCardDetails";
+import CreditCardDetails from "./components/CreditCardDetails";
 import OtherOperations from "./components/OtherOperations";
 import BlueGradientbar from "./components/BlueGradientBar";
+import Navbar from "./components/NavBar";
+
 import LoginPage from "./LoginPage";
 import AddCredit from "./AddCredit";
 import RegisterPage from "./RegisterPage";
-import Navbar from "./components/NavBar";
 import CreditHistory from "./CreditHistory";
 import Admin from "./AdminPanel";
 import AdminOvercrowd from "./AdminOverCrowd";

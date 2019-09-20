@@ -6,6 +6,23 @@ import Navbar from "./components/NavBar";
 
 export default class CreditHistory extends Component {
     render() {
+
+      const MyCredit= [
+        {id: '01', Date: '01-07-2019', Amount: 1500.00},
+        {id: '02', Date: '15-07-2019', Amount: 550.00},
+        {id: '03', Date: '27-07-2019', Amount: 1000.00}
+        ]
+  
+      const MyCreditItems = MyCredit.map((MyCredit) =>
+      <tr>
+        <td>{MyCredit.Date}</td>
+        <td>{MyCredit.Amount}</td>
+        <br/><br/>
+      </tr>
+      );
+
+
+
         return(
             <div>
                 <Navbar/>
@@ -22,20 +39,7 @@ export default class CreditHistory extends Component {
                   <th>Amount</th>
                 </tr>
                 <br/>
-                <tr>
-                  <td>01-07-2019</td>
-                  <td>1500.00</td>
-                </tr>
-                <br/>
-                <tr>
-                  <td>15-07-2019</td>
-                  <td>550.00</td>
-                </tr>
-                <br/>
-                <tr>
-                  <td>27-07-2019</td>
-                  <td>1000.00</td>
-                </tr>
+                {MyCreditItems}
               </table>
                 
                 

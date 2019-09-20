@@ -9,12 +9,30 @@ export default class sidebar extends Component {
     super();
     const userDetails = new Cookies();
     this.state = {
-      name: userDetails.get('username')
+      name: userDetails.get('username'),
+      Location: 'Malabe',
+      TotalFare: 3542.00,
+      TotalJourneys: 56
     };
 }
   render() {
-    return (
 
+    const Trips= [
+      {id: '01', item: 'July 20th', color: 'Malabe', size: 'Kandy', price: 125.00},
+      {id: '02', item: 'July 18th', color: 'Kaduwela', size: 'Nugegoda', price: 50.00}
+      ]
+
+    const TripItems = Trips.map((Trips) =>
+    <tr>
+      <td>{Trips.item}</td>
+      <td>{Trips.color}</td>
+      <td>{Trips.size}</td>
+      <td>{Trips.price}</td>
+    </tr>
+    );
+
+
+    return (
       <div style={{textAlign: 'center'}}>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <link rel="stylesheet" href="assets/external.css" />
@@ -25,13 +43,13 @@ export default class sidebar extends Component {
               <img src="img_avatar.png" alt="Avatar" style={{width: '100px'}} />
               <br/>
               <h3 className="w3-bar-item" style={{textAlign: 'center'}}>{this.state.name}</h3>
-              <h5 className="w3-bar-item" style={{textAlign: 'center'}}>Malabe</h5>
+              <h5 className="w3-bar-item" style={{textAlign: 'center'}}>{this.state.Location}</h5>
               <br/><br/>
               <div>
                 <table style={{width: '100%'}}>
                   <tr>
-                    <th>56</th>
-                    <th>LKR3542.00</th>
+                    <th>{this.state.TotalJourneys}</th>
+                    <th>LKR {this.state.TotalFare}</th>
                   </tr>
                   <tr>
                   <td>Journeys</td>
@@ -51,12 +69,7 @@ export default class sidebar extends Component {
                   <th>Price</th>
                 </tr>
                 <br/>
-                <tr>
-                  <td>July 20th</td>
-                  <td>Malabe</td>
-                  <td>Kandy</td>
-                  <td>LKR 125.00</td>
-                </tr>
+                  {TripItems}
               </table>
               <br/><br/><br/><br/>
           </div>
