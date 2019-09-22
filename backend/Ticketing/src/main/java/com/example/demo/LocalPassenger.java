@@ -19,7 +19,6 @@ public class LocalPassenger extends Passenger
     private String address;
     private Date dob;
 
-    @Autowired
     private LocalPassengerRepository localPassengerRepository;
     
     public LocalPassenger(String name, String NIC, String tokenId, float amount, String address, Date dob)
