@@ -1,17 +1,15 @@
 package com.example.demo;
 
 import java.util.Date;
-import org.bson.types.ObjectId;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.annotation.Id;
-import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-@Document
+@RestController
 public class LocalPassenger extends Passenger
 {
-	@Id
-	private ObjectId id;
+
 	private String name;
     private String NIC;
     private String tokenId;
@@ -19,22 +17,33 @@ public class LocalPassenger extends Passenger
     private String address;
     private Date dob;
 
-    private LocalPassengerRepository localPassengerRepository;
     
-    public LocalPassenger(String name, String NIC, String tokenId, float amount, String address, Date dob)
-    {
-    	this.name = name;
-        this.NIC = NIC;
-        this.tokenId = tokenId;
-        this.amount = amount;
-        this.address = address;
-        this.dob = dob;
+//    public LocalPassenger(String name, String NIC, String tokenId, float amount, String address, Date dob)
+//    {
+//    	this.name = name;
+//        this.NIC = NIC;
+//        this.tokenId = tokenId;
+//        this.amount = amount;
+//        this.address = address;
+//        this.dob = dob;
+//    }
+    
+    /**
+     * Capturing data sent from RegisterPage.js when the registerUser function is called
+     * @param details is an array of the user's details.
+     * 					details[0]	-> User name
+     * 					details[1]	-> NIC
+     * 					details[2]	-> Address
+     * 					details[3]	-> date of Birth
+     */
+    @RequestMapping(value="/register")
+    public void addUser(@RequestParam(value="userDetails") String[] details) {
+        System.out.println(details[0]);
+        System.out.println(details[1]);
+        System.out.println(details[2]);
+        System.out.println(details[3]);
     }
     
-    public void addUser()
-    {
-    	localPassengerRepository.save(this);
-    }
 
     
     public void showDetails()
@@ -44,6 +53,22 @@ public class LocalPassenger extends Passenger
     
     public void addCredit()
     {}
+    
+    /**
+     * Capturing data sent from AddCard.js when the addCard function is called
+     * @param details is an array of the Card's details.
+     * 					details[0]	-> Card number
+     * 					details[1]	-> Expire month
+     * 					details[2]	-> Expire Year
+     * 					details[3]	-> CVV number
+     */
+    @RequestMapping(value="/addCreditCard")
+    public void addCreditCard(@RequestParam(value="cardDetails") String[] details) {
+        System.out.println(details[0]);
+        System.out.println(details[1]);
+        System.out.println(details[2]);
+        System.out.println(details[3]);
+    }
     
     public void searchJourneysTaken()
     {}
@@ -59,14 +84,6 @@ public class LocalPassenger extends Passenger
 //**********************************************************************************************************
 //--------------------------------------- Setters and Getters ----------------------------------------------
 //**********************************************************************************************************
-    
-    public ObjectId getId() {
-        return id;
-    }
-
-    public void setId(ObjectId id) {
-        this.id = id;
-    } 
     
     public String getNIC()
     {

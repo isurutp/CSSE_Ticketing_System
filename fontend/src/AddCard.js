@@ -2,6 +2,44 @@ import React, {Component} from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export default class AddCard extends Component {
+
+    constructor() {
+        super();
+        this.state = {
+            cardNo: null,
+            month: 'january',
+            year: 2020,
+            cvv: null
+        };
+    
+        this.handleChange = this.handleChange.bind(this);
+        this.addCard = this.addCard.bind(this);
+    }
+    
+    addCard(event)
+    { 
+        if(this.state.cardNo != null && this.state.cvv != null)
+        {
+            // Sending form data to backend
+            event.preventDefault();
+            var details = [this.state.cardNo,this.state.month,this.state.year,this.state.cvv];
+            fetch(`/addCreditCard?cardDetails=${details}`);
+
+            alert('Card has been added to your Account');
+            window.location.reload();  
+        }
+        else
+        {
+            alert('Please fill all fields');
+        }
+    }
+
+    handleChange({ target }) {
+        this.setState({
+          [target.name]: target.value
+        });
+      }
+
     render() {
         return(
             <form>
@@ -10,11 +48,11 @@ export default class AddCard extends Component {
                 </div>
                 <div>
                 {/* Card Number */}
-                <input type="text" placeholder="Card Number" />
+                <input onChange={ this.handleChange } name="cardNo" type="text" placeholder="Card Number" />
                 {/* Date Field */}
                 <div>
                     <div className="month">
-                    <select name="Month">
+                    <select name="month" onChange={ this.handleChange }>
                         <option value="january">January</option>
                         <option value="february">February</option>
                         <option value="march">March</option>
@@ -30,7 +68,7 @@ export default class AddCard extends Component {
                     </select>
                     </div>
                     <div>
-                    <select name="Year">
+                    <select name="year" onChange={ this.handleChange }>
                         <option value={2020}>2020</option>
                         <option value={2021}>2021</option>
                         <option value={2022}>2022</option>
@@ -46,14 +84,14 @@ export default class AddCard extends Component {
                 {/* Card Verification Field */}
                 <div>
                     <div>
-                        <input type="text" placeholder="CVV" />
+                        <input onChange={ this.handleChange } name="cvv" type="text" placeholder="CVV" />
                     </div>
                     <div>
                         <p>3 or 4 digits usually found <br /> on the signature strip</p>
                     </div>
                 </div>
                 {/* Buttons */}
-                <div className="mbr-section-btn"><button className="btn btn-md btn-primary display-4" >Add Card</button></div>
+                <div className="mbr-section-btn"><button className="btn btn-md btn-primary display-4" onClick={this.addCard} >Add Card</button></div>
                 </div>
             </form>
         );

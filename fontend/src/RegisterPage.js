@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 
 import Background from './images/forestbridge.jpg';
 import Cookies from 'universal-cookie';
-import axios from 'axios';
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -28,16 +27,14 @@ export default class RegisterPage extends Component {
         });
       }
 
-    registerUser()
+    registerUser(event)
     { 
         if(this.state.name != null)
         {
             //Sending form data to backend
-            const form = new FormData();
-            form.set('name', this.state.name);
-            axios.post('http://localhost:3000/register', form, {
-                headers: { 'Content-Type': 'multipart/form-data' },
-              })
+            event.preventDefault();
+            var details = [this.state.name,this.state.nic,this.state.address,this.state.dob];
+            fetch(`/register?userDetails=${details}`);
 
             
 
