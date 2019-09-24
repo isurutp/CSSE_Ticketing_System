@@ -5,6 +5,7 @@ import java.util.Date;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @RestController
 public class LocalPassenger implements Passenger
@@ -15,9 +16,14 @@ public class LocalPassenger implements Passenger
 //    private String tokenId;
     private float amount;
     private String address;
-    private Date dob;
+    private String dob;
     
-    public LocalPassenger(String name, String NIC, /*String tokenID,*/ float amount, String address, Date dob)
+    @Autowired
+    private LocalPassengerRepository LPRepository;
+    
+    public LocalPassenger() {}
+    
+    public LocalPassenger(String name, String NIC, /*String tokenID,*/ float amount, String address, String dob)
     {
 		this.name = name;
 		this.NIC = NIC;
@@ -37,11 +43,22 @@ public class LocalPassenger implements Passenger
      * 					details[3]	-> date of Birth
      */
     @RequestMapping(value="/register")
-    public void addUser(@RequestParam(value="userDetails") String[] details) {
-        System.out.println(details[0]);
-        System.out.println(details[1]);
-        System.out.println(details[2]);
-        System.out.println(details[3]);
+    public boolean addUser(@RequestParam(value="userDetails") String[] details) {
+    	this.name = details[0];
+    	this.NIC = details[1];
+    	this.address = details[2];
+    	this.dob = details[3];
+        
+    	LPRepository.save(this);
+    	
+    	if(LPRepository.findByName(this.name) == null)
+    	{
+    		return false;
+    	}
+    	
+    	System.out.println("FOUND");
+    	return true;
+        
     }
     
     
@@ -166,12 +183,12 @@ public class LocalPassenger implements Passenger
         this.address = address;
     }
 
-    public Date getDob()
+    public String getDob()
     {
         return dob;
     }
 
-    public void setDob(Date dob)
+    public void setDob(String dob)
     {
         this.dob = dob;
     }

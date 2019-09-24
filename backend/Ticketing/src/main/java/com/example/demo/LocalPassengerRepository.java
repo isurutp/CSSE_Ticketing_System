@@ -1,6 +1,13 @@
 package com.example.demo;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
-public interface LocalPassengerRepository extends CrudRepository<LocalPassenger, String> {
+
+@Repository
+public interface LocalPassengerRepository extends MongoRepository<LocalPassenger, String>
+{
+		public LocalPassenger findByName(String name);
+		
+
 }
