@@ -7,26 +7,26 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class LocalPassenger extends Passenger
+public class LocalPassenger implements Passenger
 {
 
 	private String name;
     private String NIC;
-    private String tokenId;
+//    private String tokenId;
     private float amount;
     private String address;
     private Date dob;
-
     
-//    public LocalPassenger(String name, String NIC, String tokenId, float amount, String address, Date dob)
-//    {
-//    	this.name = name;
-//        this.NIC = NIC;
-//        this.tokenId = tokenId;
-//        this.amount = amount;
-//        this.address = address;
-//        this.dob = dob;
-//    }
+    public LocalPassenger(String name, String NIC, /*String tokenID,*/ float amount, String address, Date dob)
+    {
+		this.name = name;
+		this.NIC = NIC;
+//		this.tokenId = tokenID;
+		this.amount = amount;
+		this.address = address;
+		this.dob = dob;
+	}
+
     
     /**
      * Capturing data sent from RegisterPage.js when the registerUser function is called
@@ -44,7 +44,6 @@ public class LocalPassenger extends Passenger
         System.out.println(details[3]);
     }
     
-
     
     public void showDetails()
     {
@@ -53,6 +52,7 @@ public class LocalPassenger extends Passenger
     
     public void addCredit()
     {}
+    
     
     /**
      * Capturing data sent from AddCard.js when the addCard function is called
@@ -70,12 +70,43 @@ public class LocalPassenger extends Passenger
         System.out.println(details[3]);
     }
     
+    
     public void searchJourneysTaken()
     {}
     
     public void searchFaresPaid()
     {}
     
+    
+	@Override
+	public void verifyPassenger() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void setPassengerData() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void setJourney() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void calculateTicketPrice() {
+		// TODO Auto-generated method stub
+		
+	}
     
     
     
@@ -95,15 +126,15 @@ public class LocalPassenger extends Passenger
         this.NIC = NIC;
     }
 
-    public String getTokenId()
-    {
-        return tokenId;
-    }
-
-    public void setTokenId(String tokenId)
-    {
-        this.tokenId = tokenId;
-    }
+//    public String getTokenId()
+//    {
+//        return tokenId;
+//    }
+//
+//    public void setTokenId(String tokenId)
+//    {
+//        this.tokenId = tokenId;
+//    }
 
     public float getAmount()
     {

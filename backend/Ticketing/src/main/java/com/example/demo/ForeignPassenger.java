@@ -1,10 +1,35 @@
 package com.example.demo;
 
-public class ForeignPassenger extends Passenger
+public class ForeignPassenger implements Passenger
 {
     private String temporaryTokenID;
 
     
+    
+    
+	@Override
+	public void verifyPassenger() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setPassengerData() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setJourney() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void calculateTicketPrice() {
+		// TODO Auto-generated method stub
+		
+	}
     
     
     
