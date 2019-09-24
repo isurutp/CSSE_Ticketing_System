@@ -5,7 +5,7 @@ import CreditCardDetails from "./components/CreditCardDetails";
 import BlueGradientbar from "./components/BlueGradientBar";
 import Navbar from "./components/NavBar";
 import AddCard from "./AddCard";
-import TransferCredit from "./TransferCredit";
+import TransferCredit from "./components/TransferCredit";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
