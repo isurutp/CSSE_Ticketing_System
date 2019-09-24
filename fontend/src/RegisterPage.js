@@ -34,15 +34,25 @@ export default class RegisterPage extends Component {
             //Sending form data to backend
             event.preventDefault();
             var details = [this.state.name,this.state.nic,this.state.address,this.state.dob];
-            fetch(`/register?userDetails=${details}`);
+            var successful = false;
+            successful = fetch(`/register?userDetails=${details}`)
+                            .then(function(response){ return response.json(); })
+                            .then(function(data) {
+                                return data;
+                            });
 
-            
-
-            const cookies = new Cookies();
-            cookies.get('page');
-            cookies.set('page', 'login');
-            alert('Please confirm Registration by clicking the link in your email');
-            window.location.reload();  
+            if(successful)
+            {
+                const cookies = new Cookies();
+                cookies.get('page');
+                cookies.set('page', 'login');
+                alert('Please confirm Registration by clicking the link in your email');
+                window.location.reload();  
+            }
+            else
+            {
+                alert('Something went wrong, unable to create account');
+            }
         }
         else
         {
@@ -96,7 +106,7 @@ export default class RegisterPage extends Component {
                                 <td><input type="text" name="nic" value={ this.state.nic } onChange={ this.handleChange }/></td>
                             </tr>
                             <tr>
-                                <td><p>Address: </p></td>
+                                <td><p>City: </p></td>
                                 <td><input type="text" name="address" value={ this.state.address } onChange={ this.handleChange }/></td>
                             </tr>
                             <tr>
