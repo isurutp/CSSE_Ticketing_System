@@ -1,11 +1,14 @@
 import React, {Component} from 'react';
+import Cookies from 'universal-cookie';
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export default class AddCard extends Component {
 
     constructor() {
         super();
+        const userDetails = new Cookies();
         this.state = {
+            name: userDetails.get('username'),
             cardNo: null,
             month: 'january',
             year: 2020,
@@ -22,7 +25,7 @@ export default class AddCard extends Component {
         {
             // Sending form data to backend
             event.preventDefault();
-            var details = [this.state.cardNo,this.state.month,this.state.year,this.state.cvv];
+            var details = [this.state.name, this.state.cardNo, this.state.month, this.state.year, this.state.cvv];
             fetch(`/addCreditCard?cardDetails=${details}`);
 
             alert('Card has been added to your Account');
