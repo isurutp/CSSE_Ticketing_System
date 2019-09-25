@@ -1,22 +1,26 @@
 package com.example.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.Id;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.CreditCard;
 import com.example.demo.Passenger;
 import com.example.demo.PassengerFactory;
+import com.example.demo.repository.CreditCardRepository;
 import com.example.demo.repository.LocalPassengerRepository;
 
 @RestController
 public class LocalPassenger implements Passenger
 {
 
+	@Id
 	private String name;
     private String NIC;
 //    private String tokenId;
-//    private float amount;
+    private double amount;
     private String address;
     private int password;
     private String dob;    
@@ -24,14 +28,17 @@ public class LocalPassenger implements Passenger
     @Autowired
     private LocalPassengerRepository LPRepository;
     
+    @Autowired
+    private CreditCardRepository CCRepository;
+    
     public LocalPassenger() {}
     
-    public LocalPassenger(String name, String NIC, /*String tokenID, float amount, */String address, String dob, String password)
+    public LocalPassenger(String name, String NIC, /*String tokenID,*/ double amount, String address, String dob, String password)
     {
 		this.name = name;
 		this.NIC = NIC;
 //		this.tokenId = tokenID;
-//		this.amount = amount;
+		this.amount = amount;
 		this.address = address;
 		this.dob = dob;
 		this.setPassword(password.hashCode());	//Avoid storing plain text password
@@ -51,7 +58,7 @@ public class LocalPassenger implements Passenger
     @RequestMapping(value="/register")
     public boolean setPassengerData(@RequestParam(value="userDetails") String[] details) {
     	
-    	LocalPassenger localPassenger = PassengerFactory.makeLocalPassenger(details[0], details[1], details[2], details[3], details[4]);
+    	LocalPassenger localPassenger = PassengerFactory.makeLocalPassenger(details[0], details[1], 0.0, details[2], details[3], details[4]);
         
     	LPRepository.save(localPassenger);
     	
@@ -91,24 +98,46 @@ public class LocalPassenger implements Passenger
        
     }
     
-    public void addCredit()
-    {}
+    /**
+     * Capturing data sent from TransferCredit.js when the TransferMoney function is called
+     * @param details is an array of the transfer details.
+     * 					details[0]	-> User name
+     * 					details[1]	-> amount
+     */
+    @RequestMapping(value="/transferCredit")
+    public boolean addCredit(@RequestParam(value="amountDetails") String[] details)
+    {
+    	LocalPassenger localPassenger = LPRepository.findByName(details[0]);
+    	localPassenger.amount += Double.valueOf(details[1]);
+		LPRepository.save(localPassenger);
+    	
+ 		return true;
+    	
+    }
     
     
     /**
      * Capturing data sent from AddCard.js when the addCard function is called
      * @param details is an array of the Card's details.
-     * 					details[0]	-> Card number
-     * 					details[1]	-> Expire month
-     * 					details[2]	-> Expire Year
-     * 					details[3]	-> CVV number
+     *					details[0]	-> User name
+     * 					details[1]	-> Card number
+     * 					details[2]	-> Expire month
+     * 					details[3]	-> Expire Year
+     * 					details[4]	-> CVV number
      */
     @RequestMapping(value="/addCreditCard")
-    public void addCreditCard(@RequestParam(value="cardDetails") String[] details) {
-        System.out.println(details[0]);
-        System.out.println(details[1]);
-        System.out.println(details[2]);
-        System.out.println(details[3]);
+    public boolean addCreditCard(@RequestParam(value="cardDetails") String[] details) {
+    	
+		CreditCard creditCard = new CreditCard(details[0], details[1], details[2], details[3], details[4]);
+        
+    	CCRepository.save(creditCard);
+    	
+    	if(CCRepository.findByName(creditCard.getName()) == null)
+    	{
+    		return false;
+    	}
+    	
+    	return true;
     }
     
     
@@ -168,15 +197,15 @@ public class LocalPassenger implements Passenger
 //        this.tokenId = tokenId;
 //    }
 
-//    public float getAmount()
-//    {
-//        return amount;
-//    }
-//
-//    public void setAmount(float amount)
-//    {
-//        this.amount = amount;
-//    }
+    public double getAmount()
+    {
+        return amount;
+    }
+
+    public void setAmount(float amount)
+    {
+        this.amount = amount;
+    }
 
     public String getName()
     {
@@ -188,9 +217,10 @@ public class LocalPassenger implements Passenger
         this.name = name;
     }
 
-    public String getAddress()
+    @RequestMapping(value="/getAddress")
+    public String getAddress(@RequestParam(value="username")String name)
     {
-        return address;
+    	return LPRepository.findByName(name).address;
     }
 
     public void setAddress(String address)

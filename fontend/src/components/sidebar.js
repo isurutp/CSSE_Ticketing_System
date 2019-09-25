@@ -14,7 +14,22 @@ export default class sidebar extends Component {
       TotalFare: 3542.00,
       TotalJourneys: 56
     };
+
+    this.getLocation = this.getLocation.bind(this);
+
+    this.getLocation();
+    
 }
+
+async getLocation()
+{
+  //Getting data from backend
+  var address = await fetch(`/getAddress?username=${this.state.name}`)
+                  .then(function(response){ return response.text(); })
+  this.setState({Location: address});
+
+}
+
   render() {
 
     const Trips= [

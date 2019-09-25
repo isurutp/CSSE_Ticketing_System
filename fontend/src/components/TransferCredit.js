@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Cookies from 'universal-cookie';
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -6,9 +7,11 @@ export default class TransferCredit extends Component {
 
     constructor() {
         super();
+        const userDetails = new Cookies();
         this.state = {
-          cardNumber: '4422 2156 0567 9000',
-          amount: 100
+            name: userDetails.get('username'),
+            cardNumber: '4422 2156 0567 9000',
+            amount: 100
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -21,7 +24,7 @@ export default class TransferCredit extends Component {
         });
       }
 
-    TransferMoney() 
+    async TransferMoney() 
     {
         if(this.state.amount<100)
         {
@@ -31,7 +34,22 @@ export default class TransferCredit extends Component {
 
         if (window.confirm('Are you sure you wish to Transfer '+this.state.amount+' from your bank account')) 
         {
-            alert('Transaction is processing')
+            var successful = false;
+            var details = [this.state.name, this.state.amount];
+            successful = await fetch(`/transferCredit?amountDetails=${details}`)
+                            .then(function(response){ return response.json(); })
+                            .then(function(data) {
+                                return data;
+                            });
+            
+            if(successful)
+            {
+                alert('Amount was transferred Sucessfully');
+            }
+            else
+            {
+                alert('Something went wrong, unable to transfer amount');
+            }
         }
         else
         {
