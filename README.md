@@ -2,4 +2,4 @@
 
  fontend folder contains react project
 
- Ticketing_System folder contains spring project
+ backend/Ticketing folder contains spring project
