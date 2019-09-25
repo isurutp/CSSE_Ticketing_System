@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.CreditCard;
 import com.example.demo.Passenger;
 import com.example.demo.PassengerFactory;
 import com.example.demo.repository.CreditCardRepository;
@@ -197,9 +196,10 @@ public class LocalPassenger implements Passenger
 //        this.tokenId = tokenId;
 //    }
 
-    public double getAmount()
+    @RequestMapping(value="/getAmount")
+    public double getAmount(@RequestParam(value="username")String name)
     {
-        return amount;
+    	return LPRepository.findByName(name).amount;
     }
 
     public void setAmount(float amount)

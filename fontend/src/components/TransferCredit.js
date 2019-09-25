@@ -10,12 +10,15 @@ export default class TransferCredit extends Component {
         const userDetails = new Cookies();
         this.state = {
             name: userDetails.get('username'),
-            cardNumber: '4422 2156 0567 9000',
+            cardNumber: 'No cards added',
             amount: 100
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.TransferMoney = this.TransferMoney.bind(this);
+        this.getCardNumber = this.getCardNumber.bind(this);
+
+        this.getCardNumber();
     }
     
     handleChange({ target }) {
@@ -23,6 +26,18 @@ export default class TransferCredit extends Component {
           [target.name]: target.value
         });
       }
+
+    async getCardNumber()
+    {
+        //Getting data from backend
+        var number = await fetch(`/getCardNumber?username=${this.state.name}`)
+                        .then(function(response){ return response.text(); })
+
+        if(!!number)        // !! means check for undefined, null, and empty value
+        {
+            this.setState({cardNumber: number});
+        }
+    }
 
     async TransferMoney() 
     {

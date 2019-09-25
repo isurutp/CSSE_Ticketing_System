@@ -4,9 +4,27 @@ import Cookies from 'universal-cookie';
 export default class CreditCardDetails extends Component {
   constructor() {
     super();
+    const userDetails = new Cookies();
     this.state = {
-      CardNumber: '4422 2156 0567 9000'
+      name: userDetails.get('username'),
+      CardNumber: 'No cards added'
     };
+
+    this.getCardNumber = this.getCardNumber.bind(this);
+
+    this.getCardNumber();
+}
+
+async getCardNumber()
+{
+    //Getting data from backend
+    var number = await fetch(`/getCardNumber?username=${this.state.name}`)
+                    .then(function(response){ return response.text(); })
+
+    if(!!number)        // !! means check for undefined, null, and empty value
+    {
+        this.setState({CardNumber: number});
+    }
 }
 
   render() {
