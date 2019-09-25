@@ -1,6 +1,6 @@
 package com.example.demo;
 
-import java.util.Date;
+import com.example.demo.controller.LocalPassenger;
 
 //Simple Factory Pattern
 public class PassengerFactory 

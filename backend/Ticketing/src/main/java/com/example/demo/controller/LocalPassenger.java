@@ -1,11 +1,13 @@
-package com.example.demo;
+package com.example.demo.controller;
 
-import java.util.Date;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import com.example.demo.Passenger;
+import com.example.demo.PassengerFactory;
+import com.example.demo.repository.LocalPassengerRepository;
 
 @RestController
 public class LocalPassenger implements Passenger
@@ -32,7 +34,7 @@ public class LocalPassenger implements Passenger
 //		this.amount = amount;
 		this.address = address;
 		this.dob = dob;
-		this.password = password.hashCode();	//Avoid storing plain text password
+		this.setPassword(password.hashCode());	//Avoid storing plain text password
 	}
 
     
@@ -205,5 +207,13 @@ public class LocalPassenger implements Passenger
     {
         this.dob = dob;
     }
+
+	public int getPassword() {
+		return password;
+	}
+
+	public void setPassword(int password) {
+		this.password = password;
+	}
 
 }
