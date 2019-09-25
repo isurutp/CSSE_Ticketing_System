@@ -28,7 +28,7 @@ export default class LoginPage extends Component {
         window.location.reload();  
     }
 
-    login()
+    async login(event)
     {
         const cookies = new Cookies();
         cookies.get('page');
@@ -47,8 +47,26 @@ export default class LoginPage extends Component {
 
         if(this.state.name != null)
         {
-            cookies.set('page', 'home');
-            window.location.reload();  
+
+            //Sending form data to backend
+            event.preventDefault();
+            var details = [this.state.name, this.state.password];
+            var successful = false;
+            successful = await fetch(`/login?userDetails=${details}`)
+                            .then(function(response){ return response.json(); })
+                            .then(function(data) {
+                                return data;
+                            });
+
+            if(successful)
+            {
+                cookies.set('page', 'home');
+                window.location.reload();  
+            }
+            else
+            {
+                alert('Incorrect Login details');
+            }
         }
         else
         {
@@ -97,7 +115,7 @@ export default class LoginPage extends Component {
                             </tr>
                             <tr>
                                 <td><p>Password: </p></td>
-                                <td><input type="password" name="psw" value={ this.state.password } onChange={ this.handleChange } /></td> 
+                                <td><input type="password" name="password" value={ this.state.password } onChange={ this.handleChange } /></td> 
                             </tr>
                         </table>
                         <br/>

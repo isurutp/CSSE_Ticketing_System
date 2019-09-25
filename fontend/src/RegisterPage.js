@@ -12,6 +12,8 @@ export default class RegisterPage extends Component {
         this.state = {
           name: null,
           nic: null,
+          password: null,
+          password2: null,
           address: null,
           dob: "1990-01-01"
         };
@@ -27,15 +29,22 @@ export default class RegisterPage extends Component {
         });
       }
 
-    registerUser(event)
+    async registerUser(event)
     { 
         if(this.state.name != null)
         {
+
+            if(this.state.password != this.state.password2)
+            {
+                alert('Passwords do not match');
+                return;
+            }
+
             //Sending form data to backend
             event.preventDefault();
-            var details = [this.state.name,this.state.nic,this.state.address,this.state.dob];
+            var details = [this.state.name,this.state.nic,this.state.address,this.state.dob,this.state.password];
             var successful = false;
-            successful = fetch(`/register?userDetails=${details}`)
+            successful = await fetch(`/register?userDetails=${details}`)
                             .then(function(response){ return response.json(); })
                             .then(function(data) {
                                 return data;
@@ -96,24 +105,32 @@ export default class RegisterPage extends Component {
                     <div style={centerStyle}>
                         <h1>Register</h1> 
                         <br/>
-                        <table style={{height:"100px"}}>
-                            <tr>
-                                <td><p>Username: </p></td>
-                                <td><input type="text" name="name" value={ this.state.name } onChange={ this.handleChange }/></td> 
-                            </tr>
-                            <tr>
-                                <td><p>NIC: </p></td>
-                                <td><input type="text" name="nic" value={ this.state.nic } onChange={ this.handleChange }/></td>
-                            </tr>
-                            <tr>
-                                <td><p>City: </p></td>
-                                <td><input type="text" name="address" value={ this.state.address } onChange={ this.handleChange }/></td>
-                            </tr>
-                            <tr>
-                                <td><p>Date of Birth: </p></td>
-                                <td><input type="date" name="dob" value={ this.state.dob } onChange={ this.handleChange }/></td>
-                            </tr>
-                        </table>
+                            <table style={{height:"100px"}}>
+                                <tr>
+                                    <td><p>Username: </p></td>
+                                    <td><input type="text" name="name" value={ this.state.name } onChange={ this.handleChange }/></td> 
+                                </tr>
+                                <tr>
+                                    <td><p>Password: </p></td>
+                                    <td><input type="password" name="password" value={ this.state.password } onChange={ this.handleChange }/></td> 
+                                </tr>
+                                <tr>
+                                    <td><p>Confirm Password: </p></td>
+                                    <td><input type="password" name="password2" value={ this.state.password2 } onChange={ this.handleChange }/></td> 
+                                </tr>
+                                <tr>
+                                    <td><p>NIC: </p></td>
+                                    <td><input type="text" name="nic" value={ this.state.nic } onChange={ this.handleChange }/></td>
+                                </tr>
+                                <tr>
+                                    <td><p>City: </p></td>
+                                    <td><input type="text" name="address" value={ this.state.address } onChange={ this.handleChange }/></td>
+                                </tr>
+                                <tr>
+                                    <td><p>Date of Birth: </p></td>
+                                    <td><input type="date" name="dob" value={ this.state.dob } onChange={ this.handleChange }/></td>
+                                </tr>
+                            </table>
                         <br/>
                         <div className="mbr-section-btn">
                         <button className="btn btn-md btn-primary display-4" style={{float:"left"}} onClick={this.cancel}>Cancel</button>
