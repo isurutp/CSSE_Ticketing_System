@@ -14,7 +14,8 @@ public class ForeignPassenger implements Passenger
 	}
 
 	@Override
-	public void setPassengerData() {
+	public boolean setPassengerData(String[] details) {
+		return false;
 		// TODO Auto-generated method stub
 		
 	}

@@ -14,23 +14,25 @@ public class LocalPassenger implements Passenger
 	private String name;
     private String NIC;
 //    private String tokenId;
-    private float amount;
+//    private float amount;
     private String address;
-    private String dob;
+    private int password;
+    private String dob;    
     
     @Autowired
     private LocalPassengerRepository LPRepository;
     
     public LocalPassenger() {}
     
-    public LocalPassenger(String name, String NIC, /*String tokenID,*/ float amount, String address, String dob)
+    public LocalPassenger(String name, String NIC, /*String tokenID, float amount, */String address, String dob, String password)
     {
 		this.name = name;
 		this.NIC = NIC;
 //		this.tokenId = tokenID;
-		this.amount = amount;
+//		this.amount = amount;
 		this.address = address;
 		this.dob = dob;
+		this.password = password.hashCode();	//Avoid storing plain text password
 	}
 
     
@@ -41,25 +43,45 @@ public class LocalPassenger implements Passenger
      * 					details[1]	-> NIC
      * 					details[2]	-> Address
      * 					details[3]	-> date of Birth
+     * 					details[4]	-> password
      */
+    @Override
     @RequestMapping(value="/register")
-    public boolean addUser(@RequestParam(value="userDetails") String[] details) {
-    	this.name = details[0];
-    	this.NIC = details[1];
-    	this.address = details[2];
-    	this.dob = details[3];
-        
-    	LPRepository.save(this);
+    public boolean setPassengerData(@RequestParam(value="userDetails") String[] details) {
     	
-    	if(LPRepository.findByName(this.name) == null)
+    	LocalPassenger localPassenger = PassengerFactory.makeLocalPassenger(details[0], details[1], details[2], details[3], details[4]);
+        
+    	LPRepository.save(localPassenger);
+    	
+    	if(LPRepository.findByName(localPassenger.name) == null)
     	{
     		return false;
     	}
     	
-    	System.out.println("FOUND");
     	return true;
         
     }
+    
+    
+    /**
+     * Capturing data sent from LoginPage.js when the login function is called
+     * @param details is an array of the user's details.
+     * 					details[0]	-> User name
+     * 					details[1]	-> Password
+     */
+    @RequestMapping(value="/login")
+    public boolean loginUser(@RequestParam(value="userDetails") String[] details) {
+    	
+    	if(LPRepository.findByName(details[0]) != null && 
+    			LPRepository.findByPassword(details[1].hashCode()) != null)
+    	{
+    		return true;
+    	}
+    	
+		return false;
+        
+    }
+    
     
     
     public void showDetails()
@@ -100,15 +122,6 @@ public class LocalPassenger implements Passenger
 		// TODO Auto-generated method stub
 		
 	}
-
-
-
-	@Override
-	public void setPassengerData() {
-		// TODO Auto-generated method stub
-		
-	}
-
 
 
 	@Override
@@ -153,15 +166,15 @@ public class LocalPassenger implements Passenger
 //        this.tokenId = tokenId;
 //    }
 
-    public float getAmount()
-    {
-        return amount;
-    }
-
-    public void setAmount(float amount)
-    {
-        this.amount = amount;
-    }
+//    public float getAmount()
+//    {
+//        return amount;
+//    }
+//
+//    public void setAmount(float amount)
+//    {
+//        this.amount = amount;
+//    }
 
     public String getName()
     {

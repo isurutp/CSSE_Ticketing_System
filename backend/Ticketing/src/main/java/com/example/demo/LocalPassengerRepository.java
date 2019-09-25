@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface LocalPassengerRepository extends MongoRepository<LocalPassenger, String>
 {
 		public LocalPassenger findByName(String name);
-		
+		public LocalPassenger findByPassword(int password);
 
 }

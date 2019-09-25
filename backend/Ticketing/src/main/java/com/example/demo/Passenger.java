@@ -4,11 +4,12 @@ public interface Passenger
 {
     public void verifyPassenger();
     
-    public void setPassengerData();
+    public boolean setPassengerData(String[] details);
     
     public void setJourney();
     
     public void calculateTicketPrice();
+	
    
     
 }
