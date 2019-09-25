@@ -12,6 +12,7 @@ export default class NavBar extends Component {
 
         this.Home = this.Home.bind(this);
         this.logout = this.logout.bind(this);
+        
     }
 
     Home()
@@ -29,6 +30,7 @@ export default class NavBar extends Component {
         cookies.set('page', 'login');
         window.location.reload();  
     }
+
 
     render() {
             var alertBox = {

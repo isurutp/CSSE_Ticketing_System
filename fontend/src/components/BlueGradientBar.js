@@ -7,9 +7,25 @@ export default class BlueGradientBar extends Component {
     const userDetails = new Cookies();
     this.state = {
       name: userDetails.get('username'),
-      balance: userDetails.get('creditBalance')
+      balance: 0.0
     };
+
+    this.getBalance = this.getBalance.bind(this);
+
+    this.getBalance();
 }
+
+    async getBalance()
+    {
+        //Getting data from backend
+        var value = await fetch(`/getAmount?username=${this.state.name}`)
+                        .then(function(response){ return response.text(); })
+
+        if(!!value)        // !! means check for undefined, null, and empty value
+        {
+            this.setState({balance: value});
+        }
+    }
 
   render() {
     return (

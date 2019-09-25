@@ -1,7 +1,14 @@
-package com.example.demo;
+package com.example.demo.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.repository.CreditCardRepository;
+
+@RestController
 public class CreditCard 
 {
 	
@@ -13,7 +20,10 @@ public class CreditCard
 	private String ExpiaryYear;
 	private String cvvNumber;
 	
+	@Autowired
+    private CreditCardRepository CCRepository;
 	
+	public CreditCard() {}
 	
 	public CreditCard(String name, String cardNumber, String expiaryMonth, String expiaryYear, String cvvNumber) {
 		super();
@@ -37,9 +47,18 @@ public class CreditCard
 //--------------------------------------- Setters and Getters ----------------------------------------------
 //**********************************************************************************************************
 	
-	public String getCardNumber() {
-		return cardNumber;
+	@RequestMapping(value="/getCardNumber")
+	public String getCardNumber(@RequestParam(value="username")String name) 
+	{
+		try {
+			return CCRepository.findByName(name).cardNumber;
+		}catch(NullPointerException ignored)
+		{
+			return null;
+		}
 	}
+	
+	
 	public void setCardNumber(String cardNumber) {
 		this.cardNumber = cardNumber;
 	}
@@ -62,27 +81,9 @@ public class CreditCard
 		this.cvvNumber = cvvNumber;
 	}
 
-
-
-
-
-
-
-
-
-
 	public String getName() {
 		return name;
 	}
-
-
-
-
-
-
-
-
-
 
 	public void setName(String name) {
 		this.name = name;
