@@ -127,8 +127,21 @@ public class LocalPassenger implements Passenger
     @RequestMapping(value="/addCreditCard")
     public boolean addCreditCard(@RequestParam(value="cardDetails") String[] details) {
     	
-		CreditCard creditCard = new CreditCard(details[0], details[1], details[2], details[3], details[4]);
-        
+    	CreditCard creditCard;
+    	if(CCRepository.findByName(details[0]) == null)
+    	{
+    		creditCard = new CreditCard(details[0], details[1], details[2], details[3], details[4]);
+    	}
+    	else
+    	{
+    		creditCard = CCRepository.findByName(details[0]);
+    		creditCard.setCardNumber(details[1]);
+    		creditCard.setExpiaryMonth(details[2]);
+    		creditCard.setExpiaryYear(details[3]);
+    		creditCard.setCvvNumber(details[4]);
+    	}
+    	
+    	
     	CCRepository.save(creditCard);
     	
     	if(CCRepository.findByName(creditCard.getName()) == null)

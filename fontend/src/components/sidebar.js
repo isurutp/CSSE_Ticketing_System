@@ -64,7 +64,7 @@ async getLocation()
                 <table style={{width: '100%'}}>
                   <tr>
                     <th>{this.state.TotalJourneys}</th>
-                    <th>LKR {this.state.TotalFare}</th>
+                    <th>LKR {this.state.TotalFare}.00</th>
                   </tr>
                   <tr>
                   <td>Journeys</td>
