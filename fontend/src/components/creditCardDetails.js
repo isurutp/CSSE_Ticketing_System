@@ -7,23 +7,33 @@ export default class CreditCardDetails extends Component {
     const userDetails = new Cookies();
     this.state = {
       name: userDetails.get('username'),
-      CardNumber: 'No cards added'
+      CardNumber: 'No cards added',
+      expiaryMonth: null,
+      expiaryYear: null
     };
 
-    this.getCardNumber = this.getCardNumber.bind(this);
+    this.getCardDetails = this.getCardDetails.bind(this);
 
-    this.getCardNumber();
+    this.getCardDetails();
 }
 
-async getCardNumber()
+async getCardDetails()
 {
     //Getting data from backend
     var number = await fetch(`/getCardNumber?username=${this.state.name}`)
                     .then(function(response){ return response.text(); })
 
+    var ExpMonth = await fetch(`/getExpiaryMonth?username=${this.state.name}`)
+                    .then(function(response){ return response.text(); })
+
+    var ExpYear = await fetch(`/getExpiaryYear?username=${this.state.name}`)
+                    .then(function(response){ return response.text(); })
+
     if(!!number)        // !! means check for undefined, null, and empty value
     {
         this.setState({CardNumber: number});
+        this.setState({expiaryMonth: ExpMonth});
+        this.setState({expiaryYear: ExpYear});
     }
 }
 
@@ -43,6 +53,7 @@ async getCardNumber()
                   <div className="cards-block">
                       <div className="card px-3 align-left col-12 col-md-6">
                             <h3 className="count py-3 mbr-fonts-style display-7">Credit Card<br /><br />{this.state.CardNumber}</h3>
+                            <h4 className="count py-3 mbr-fonts-style display-7">{this.state.expiaryMonth} &nbsp; {this.state.expiaryYear}</h4>
                       </div>
                   </div>
                 </div>

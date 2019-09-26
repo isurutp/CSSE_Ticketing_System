@@ -62,25 +62,47 @@ public class CreditCard
 	public void setCardNumber(String cardNumber) {
 		this.cardNumber = cardNumber;
 	}
-	public String getExpiaryMonth() {
-		return ExpiaryMonth;
+	
+	@RequestMapping(value="/getExpiaryMonth")
+	public String getExpiaryMonth(@RequestParam(value="username")String name) {
+		try {
+			return CCRepository.findByName(name).ExpiaryMonth;
+		}catch(NullPointerException ignored)
+		{
+			return null;
+		}
 	}
 	public void setExpiaryMonth(String expiaryMonth) {
 		ExpiaryMonth = expiaryMonth;
 	}
-	public String getExpiaryYear() {
-		return ExpiaryYear;
+	
+	@RequestMapping(value="/getExpiaryYear")
+	public String getExpiaryYear(@RequestParam(value="username")String name) {
+		try {
+			return CCRepository.findByName(name).ExpiaryYear;
+		}catch(NullPointerException ignored)
+		{
+			return null;
+		}
 	}
 	public void setExpiaryYear(String expiaryYear) {
 		ExpiaryYear = expiaryYear;
 	}
-	public String getCvvNumber() {
-		return cvvNumber;
+	
+	@RequestMapping(value="/getCvvNumber")
+	public String getCvvNumber(@RequestParam(value="username")String name) {
+		try {
+			return CCRepository.findByName(name).cvvNumber;
+		}catch(NullPointerException ignored)
+		{
+			return null;
+		}
 	}
 	public void setCvvNumber(String cvvNumber) {
 		this.cvvNumber = cvvNumber;
 	}
 
+	
 	public String getName() {
 		return name;
 	}

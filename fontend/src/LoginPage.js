@@ -108,7 +108,7 @@ export default class LoginPage extends Component {
                     <div style={centerStyle}>
                         <h1>Login</h1> 
                         <br/>
-                        <table style={{height:"100px", width:"100px"}}>
+                        <table style={{height:"100px", width:"100px", margin: "0 auto"}}>
                             <tr>
                                 <td><p>Username: </p></td>
                                 <td><input type="text" name="name" value={ this.state.name } onChange={ this.handleChange } /></td> 
@@ -119,10 +119,8 @@ export default class LoginPage extends Component {
                             </tr>
                         </table>
                         <br/>
-                        <div className="mbr-section-btn">
                         <button className="btn btn-md btn-primary display-4" style={{float:"left"}} onClick={this.register}>Register</button>
                         <button className="btn btn-md btn-primary display-4" style={{float:"right"}} onClick={this.login}>login</button>
-                        </div>
                     </div>
                 </div>
             </section>
