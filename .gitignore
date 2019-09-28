@@ -49,6 +49,27 @@ local.properties
 
 */build/
 
+# Built application files
+*.apk
+*.ap_
+*.aab
+
+# Files for the ART/Dalvik VM
+*.dex
+
+# Java class files
+*.class
+
+# Generated files
+bin/
+gen/
+out/
+release/
+
+# Gradle files
+.gradle/
+build/
+
 *~
 *.swp
 /CodeComplexity/dist/

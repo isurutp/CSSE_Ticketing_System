@@ -11,6 +11,7 @@ export default class RegisterPage extends Component {
         super();
         this.state = {
           name: null,
+          email: null,
           nic: null,
           password: null,
           password2: null,
@@ -42,7 +43,7 @@ export default class RegisterPage extends Component {
 
             //Sending form data to backend
             event.preventDefault();
-            var details = [this.state.name,this.state.nic,this.state.address,this.state.dob,this.state.password];
+            var details = [this.state.name,this.state.nic,this.state.address,this.state.dob,this.state.password,this.state.email];
             var successful = false;
             successful = await fetch(`/register?userDetails=${details}`)
                             .then(function(response){ return response.json(); })
@@ -109,6 +110,10 @@ export default class RegisterPage extends Component {
                                 <tr>
                                     <td><p>Username: </p></td>
                                     <td><input type="text" name="name" value={ this.state.name } onChange={ this.handleChange }/></td> 
+                                </tr>
+                                <tr>
+                                    <td><p>Email: </p></td>
+                                    <td><input type="email" name="email" value={ this.state.email } onChange={ this.handleChange }/></td> 
                                 </tr>
                                 <tr>
                                     <td><p>Password: </p></td>
