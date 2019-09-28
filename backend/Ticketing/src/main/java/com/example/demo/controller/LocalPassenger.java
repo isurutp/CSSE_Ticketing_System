@@ -17,6 +17,7 @@ public class LocalPassenger implements Passenger
 
 	@Id
 	private String name;
+	private String email;
     private String NIC;
 //    private String tokenId;
     private double amount;
@@ -32,12 +33,13 @@ public class LocalPassenger implements Passenger
     
     public LocalPassenger() {}
     
-    public LocalPassenger(String name, String NIC, /*String tokenID,*/ double amount, String address, String dob, String password)
+    public LocalPassenger(String name, String NIC, /*String tokenID,*/ double amount,String address, String dob, String password, String email)
     {
 		this.name = name;
 		this.NIC = NIC;
 //		this.tokenId = tokenID;
 		this.amount = amount;
+		this.email = email;
 		this.address = address;
 		this.dob = dob;
 		this.setPassword(password.hashCode());	//Avoid storing plain text password
@@ -52,12 +54,13 @@ public class LocalPassenger implements Passenger
      * 					details[2]	-> Address
      * 					details[3]	-> date of Birth
      * 					details[4]	-> password
+     * 					details[5]	-> email
      */
     @Override
     @RequestMapping(value="/register")
     public boolean setPassengerData(@RequestParam(value="userDetails") String[] details) {
     	
-    	LocalPassenger localPassenger = PassengerFactory.makeLocalPassenger(details[0], details[1], 0.0, details[2], details[3], details[4]);
+    	LocalPassenger localPassenger = PassengerFactory.makeLocalPassenger(details[0], details[1], 0.0, details[2], details[3], details[4], details[5]);
         
     	LPRepository.save(localPassenger);
     	
