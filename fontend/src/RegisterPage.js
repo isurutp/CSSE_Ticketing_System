@@ -34,7 +34,7 @@ export default class RegisterPage extends Component {
         if(this.state.name != null)
         {
 
-            if(this.state.password != this.state.password2)
+            if(this.state.password !== this.state.password2)
             {
                 alert('Passwords do not match');
                 return;

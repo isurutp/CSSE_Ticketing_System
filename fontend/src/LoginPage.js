@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import { Switch, Route } from 'react-router-dom'
 
 import Background from './images/forestbridge.jpg';
 
@@ -38,7 +37,7 @@ export default class LoginPage extends Component {
         userDetails.set('username', this.state.name);
         userDetails.set('creditBalance', 1723.51);
 
-        if(this.state.name == 'admin')
+        if(this.state.name === 'admin')
         {
             cookies.set('page', 'admin');
             window.location.reload(); 
