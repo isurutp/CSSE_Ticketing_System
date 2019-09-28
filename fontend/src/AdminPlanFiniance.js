@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import AdminNavbar from "./components/AdminNavBar";
-import Cookies from 'universal-cookie';
 import AdminSideBar from "./components/AdminSidebar";
 
 export default class AdminPlanFinance extends Component {

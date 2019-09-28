@@ -19,14 +19,6 @@ export default class AdminNavBar extends Component {
     }
 
     render() {
-            var alertBox = {
-                padding: "20px",
-                backgroundColor: "#2196F3", /* Red */
-                color: "white",
-                marginBottom: "15px",
-                zIndex:1
-            };
-
             return (
             <div> 
                 {/* Navigation Bar */}
