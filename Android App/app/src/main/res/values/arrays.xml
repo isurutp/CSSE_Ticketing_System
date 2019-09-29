@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="Locations" >
+        <item>Malabe</item>
+        <item>Kaduwela</item>
+        <item>Kandy</item>
+        <item>Kollupitiya</item>
+    </string-array>
+</resources>
