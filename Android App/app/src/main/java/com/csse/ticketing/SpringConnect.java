@@ -202,4 +202,158 @@ public class SpringConnect
         }
     }
 
+    /**
+     * Reduces fare from user's balance by connecting to spring backend
+     * @param username
+     * @param amount The fare charge to deduct from the balance
+     */
+    public Boolean ReduceFare(final String username,final String amount)
+    {
+        final AtomicBoolean atomicBoolean = new AtomicBoolean(false);
+        final Thread thread =  new Thread() {
+            public void run() {
+                try {
+
+                    String url = ipAddress + "/ReduceFare?fareDetails=" + username + "," + amount;
+                    URL aURL = new URL(url);
+
+                    HttpURLConnection connection = (HttpURLConnection) aURL.openConnection();
+                    connection.setRequestMethod("GET");
+                    connection.connect();
+
+                    BufferedReader in = new BufferedReader(
+                            new InputStreamReader(
+                                    connection.getInputStream()));
+                    StringBuilder response = new StringBuilder();
+                    String currentLine;
+
+                    while ((currentLine = in.readLine()) != null)
+                        response.append(currentLine);
+
+                    in.close();
+
+                    if (response.toString().trim().equalsIgnoreCase("true"))
+                    {
+                        atomicBoolean.set(true);
+                    }
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return atomicBoolean.get();
+    }
+
+
+    /**
+     * sends Journey details to spring backend
+     * @param username
+     */
+    public Boolean setJourney(final String username,final String starting, final String ending, final String fare, final String tokenID)
+    {
+        final AtomicBoolean atomicBoolean = new AtomicBoolean(false);
+        final Thread thread =  new Thread() {
+            public void run() {
+                try {
+
+                    String url = ipAddress + "/setJourney?journeyDetails=" + username + "," + starting + "," + ending + "," + fare + "," + tokenID;
+                    URL aURL = new URL(url);
+
+                    HttpURLConnection connection = (HttpURLConnection) aURL.openConnection();
+                    connection.setRequestMethod("GET");
+                    connection.connect();
+
+                    BufferedReader in = new BufferedReader(
+                            new InputStreamReader(
+                                    connection.getInputStream()));
+                    StringBuilder response = new StringBuilder();
+                    String currentLine;
+
+                    while ((currentLine = in.readLine()) != null)
+                        response.append(currentLine);
+
+                    in.close();
+
+                    if (response.toString().trim().equalsIgnoreCase("true"))
+                    {
+                        atomicBoolean.set(true);
+                    }
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return atomicBoolean.get();
+    }
+
+    /**
+     * Checks if token ID is usable by connecting to spring backend
+     * @param tokenID
+     */
+    public Boolean checkTokenID(final String tokenID)
+    {
+        final AtomicBoolean atomicBoolean = new AtomicBoolean(false);
+        final Thread thread =  new Thread() {
+            public void run() {
+                try {
+
+                    String url = ipAddress + "/checkToken?token="+tokenID;
+                    URL aURL = new URL(url);
+
+                    HttpURLConnection connection = (HttpURLConnection) aURL.openConnection();
+                    connection.setRequestMethod("GET");
+                    connection.connect();
+
+                    BufferedReader in = new BufferedReader(
+                            new InputStreamReader(
+                                    connection.getInputStream()));
+                    StringBuilder response = new StringBuilder();
+                    String currentLine;
+
+                    while ((currentLine = in.readLine()) != null)
+                        response.append(currentLine);
+
+                    in.close();
+
+                    if (response.toString().trim().equalsIgnoreCase("true"))
+                    {
+                        atomicBoolean.set(true);
+                    }
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return atomicBoolean.get();
+    }
+
+
+
 }

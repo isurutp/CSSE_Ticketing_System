@@ -28,6 +28,7 @@ public class Welcome extends AppCompatActivity {
     private Spinner starting;
     private Spinner ending;
 
+    SpringConnect springConnect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,7 @@ public class Welcome extends AppCompatActivity {
         pincode.setVisibility(View.INVISIBLE);
         pinMsg.setVisibility(View.INVISIBLE);
 
-        SpringConnect springConnect = new SpringConnect();
+        springConnect = new SpringConnect();
         springConnect.getAddress(MainActivity.username);
         springConnect.getAmount(MainActivity.username);
 
@@ -112,17 +113,48 @@ public class Welcome extends AppCompatActivity {
             return;
         }
 
-        pincode.setVisibility(View.VISIBLE);
-        pinMsg.setVisibility(View.VISIBLE);
-        Random rnd = new Random();
-        int number = rnd.nextInt(999999);
+        boolean successful = springConnect.ReduceFare(MainActivity.username,amount.getText().toString());
 
-        pincode.setText(String.format("%06d", number));
+        if(successful)
+        {
+            pincode.setVisibility(View.VISIBLE);
+            pinMsg.setVisibility(View.VISIBLE);
+            String token = null;
 
-        submit.setAlpha(0.5f);
-        submit.setEnabled(false);
-        starting.setEnabled(false);
-        ending.setEnabled(false);
+            while(token == null || !springConnect.checkTokenID(token))
+            {
+                Random rnd = new Random();
+                int number = rnd.nextInt(999999);
+                token = String.format("%06d", number);
+            }
+
+            pincode.setText(token);
+
+            successful = springConnect.setJourney(  MainActivity.username,
+                                                    starting.getSelectedItem().toString(),
+                                                    ending.getSelectedItem().toString(),
+                                                    amount.getText().toString(),
+                                                    pincode.getText().toString()
+                                                );
+            if(successful)
+            {
+                submit.setAlpha(0.5f);
+                submit.setEnabled(false);
+                starting.setEnabled(false);
+                ending.setEnabled(false);
+                springConnect.getAmount(MainActivity.username);
+                balance.setText(String.valueOf(MainActivity.balance));
+            }
+            else
+            {
+                Toast.makeText(getApplicationContext(), "An error occurred, Unable to book journey", Toast.LENGTH_LONG).show();
+            }
+
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(), "An error occurred, Unable to book journey", Toast.LENGTH_LONG).show();
+        }
 
     }
 
