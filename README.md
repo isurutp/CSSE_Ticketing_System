@@ -1,5 +1,7 @@
-# CSSE_Ticketing_System
+# CSSE Ticketing System (Y03)
 
- fontend folder contains react project
+## Developed a complete Bus Ticketing system based on a design document which was provided.
 
- backend/Ticketing folder contains spring project
+ * fontend folder contains react project.
+ * backend/Ticketing folder contains spring project.
+ * Android folder contains the Android app
