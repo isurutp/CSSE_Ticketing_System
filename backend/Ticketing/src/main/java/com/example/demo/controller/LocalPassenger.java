@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.Passenger;
 import com.example.demo.PassengerFactory;
 import com.example.demo.repository.CreditCardRepository;
+import com.example.demo.repository.FareInfoRepository;
 import com.example.demo.repository.LocalPassengerRepository;
 
 @RestController
@@ -30,6 +31,9 @@ public class LocalPassenger implements Passenger
     
     @Autowired
     private CreditCardRepository CCRepository;
+    
+    @Autowired
+    private FareInfoRepository FIRepository;
     
     public LocalPassenger() {}
     
@@ -119,6 +123,24 @@ public class LocalPassenger implements Passenger
     
     
     /**
+     * Reduce Fare charges from balance
+     * @param details is an array of the transfer details.
+     * 					details[0]	-> User name
+     * 					details[1]	-> amount
+     */
+    @RequestMapping(value="/ReduceFare")
+    public boolean ReduceFare(@RequestParam(value="fareDetails") String[] details)
+    {
+    	LocalPassenger localPassenger = LPRepository.findByName(details[0]);
+    	localPassenger.amount -= Double.valueOf(details[1]);
+		LPRepository.save(localPassenger);
+    	
+ 		return true;
+    	
+    }
+    
+    
+    /**
      * Capturing data sent from AddCard.js when the addCard function is called
      * @param details is an array of the Card's details.
      *					details[0]	-> User name
@@ -175,11 +197,37 @@ public class LocalPassenger implements Passenger
      * Capturing data sent Android app when journey is requested
      * @param details is an array of the journey details.
      *					details[0]	-> User name
-     * 					details[1]	-> tokenID
+     *					details[1]	-> Starting Location
+     *					details[2]	-> Ending Location
+     *					details[3]	-> Fare
+     *					details[4]	-> tokenID
      */
     @RequestMapping(value="/setJourney")
-	public void setJourney(@RequestParam(value="journeyDetails") String[] details) {
-		// TODO Auto-generated method stub
+	public boolean setJourney(@RequestParam(value="journeyDetails") String[] details) {
+		
+    	FareInfo fareInfo;
+    	if(FIRepository.findByName(details[0]) == null)
+    	{
+    		fareInfo = new FareInfo(details[0], details[1], details[2], details[3], details[4]);
+    	}
+    	else
+    	{
+    		fareInfo = FIRepository.findByName(details[0]);
+    		fareInfo.setStartingLocation(details[1]);
+    		fareInfo.setEndingLocation(details[2]);
+    		fareInfo.setFare(details[3]);
+    		fareInfo.setTokenID(details[4]);
+    	}
+    	
+    	
+    	FIRepository.save(fareInfo);
+    	
+    	if(FIRepository.findByName(fareInfo.getName()) == null)
+    	{
+    		return false;
+    	}
+    	
+    	return true;
 		
 	}
 
