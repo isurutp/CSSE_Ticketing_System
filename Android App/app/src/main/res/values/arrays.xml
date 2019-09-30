@@ -6,4 +6,7 @@
         <item>Kandy</item>
         <item>Kollupitiya</item>
     </string-array>
+    <string-array name="StartingLocations" >
+        <item>Malabe</item>
+    </string-array>
 </resources>

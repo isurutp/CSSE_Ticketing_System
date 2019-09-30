@@ -171,7 +171,14 @@ public class LocalPassenger implements Passenger
 
 
 	@Override
-	public void setJourney() {
+    /**
+     * Capturing data sent Android app when journey is requested
+     * @param details is an array of the journey details.
+     *					details[0]	-> User name
+     * 					details[1]	-> tokenID
+     */
+    @RequestMapping(value="/setJourney")
+	public void setJourney(@RequestParam(value="journeyDetails") String[] details) {
 		// TODO Auto-generated method stub
 		
 	}

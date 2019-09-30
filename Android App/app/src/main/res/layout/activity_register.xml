@@ -13,6 +13,7 @@
         android:layout_height="53dp"
         android:layout_marginEnd="28dp"
         android:backgroundTint="@android:color/holo_blue_dark"
+        android:onClick="submitButton"
         android:text="Submit"
         android:textColor="@android:color/background_light"
         app:layout_constraintBaseline_toBaselineOf="@+id/loginButton"
@@ -24,7 +25,7 @@
         android:layout_height="53dp"
         android:layout_marginStart="32dp"
         android:backgroundTint="@android:color/holo_blue_dark"
-        android:onClick="LoginButton"
+        android:onClick="loginInsteadButton"
         android:text="Login"
         android:textColor="@android:color/background_light"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -110,6 +111,7 @@
         android:backgroundTint="@android:color/background_light"
         android:ems="10"
         android:inputType="date"
+        android:textColor="@android:color/background_light"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView10"
         app:layout_constraintEnd_toEndOf="parent" />
 
