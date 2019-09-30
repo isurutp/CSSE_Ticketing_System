@@ -6,7 +6,7 @@ public interface Passenger
     
     public boolean setPassengerData(String[] details);
     
-    public void setJourney();
+    public void setJourney(String[] details);
     
     public void calculateTicketPrice();
 	

@@ -21,7 +21,7 @@ public class ForeignPassenger implements Passenger
 	}
 
 	@Override
-	public void setJourney() {
+	public void setJourney(String[] details) {
 		// TODO Auto-generated method stub
 		
 	}
