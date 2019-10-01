@@ -201,28 +201,16 @@ public class LocalPassenger implements Passenger
      *					details[2]	-> Ending Location
      *					details[3]	-> Fare
      *					details[4]	-> tokenID
+     *					details[5]	-> date
      */
     @RequestMapping(value="/setJourney")
 	public boolean setJourney(@RequestParam(value="journeyDetails") String[] details) {
 		
-    	FareInfo fareInfo;
-    	if(FIRepository.findByName(details[0]) == null)
-    	{
-    		fareInfo = new FareInfo(details[0], details[1], details[2], details[3], details[4]);
-    	}
-    	else
-    	{
-    		fareInfo = FIRepository.findByName(details[0]);
-    		fareInfo.setStartingLocation(details[1]);
-    		fareInfo.setEndingLocation(details[2]);
-    		fareInfo.setFare(details[3]);
-    		fareInfo.setTokenID(details[4]);
-    	}
-    	
+    	FareInfo fareInfo = new FareInfo(details[0], details[1], details[2], details[3], details[4], details[5]);
     	
     	FIRepository.save(fareInfo);
     	
-    	if(FIRepository.findByName(fareInfo.getName()) == null)
+    	if(FIRepository.findByToken(fareInfo.getToken()) == null)
     	{
     		return false;
     	}

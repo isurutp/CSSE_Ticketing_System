@@ -4,11 +4,14 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SpringConnect
 {
-    public final String ipAddress = "http://192.168.8.110:8080";
+    public final String ipAddress = "http://192.168.8.111:8080"; //Need to add to network_security_config.xml
 
     /**
      * Checking login details by connecting to spring backend
@@ -264,8 +267,8 @@ public class SpringConnect
         final Thread thread =  new Thread() {
             public void run() {
                 try {
-
-                    String url = ipAddress + "/setJourney?journeyDetails=" + username + "," + starting + "," + ending + "," + fare + "," + tokenID;
+                    String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+                    String url = ipAddress + "/setJourney?journeyDetails=" + username + "," + starting + "," + ending + "," + fare + "," + tokenID + "," + date;
                     URL aURL = new URL(url);
 
                     HttpURLConnection connection = (HttpURLConnection) aURL.openConnection();

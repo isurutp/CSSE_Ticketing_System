@@ -12,12 +12,12 @@ import com.example.demo.repository.FareInfoRepository;
 public class FareInfo 
 {
 	
-	@Id
 	private String name;
 	private String startingLocation;
 	private String endingLocation;
 	private String fare;
 	private String token;
+	private String date;
 	
 	@Autowired
     private FareInfoRepository FIRepository;
@@ -25,29 +25,16 @@ public class FareInfo
 	
 	public FareInfo() {}
 	
-	public FareInfo(String name, String startingLocation, String endingLocation, String fare, String token)
+	public FareInfo(String name, String startingLocation, String endingLocation, String fare, String token, String date)
 	{
 		this.name = name;
 		this.startingLocation = startingLocation;
 		this.endingLocation = endingLocation;
 		this.fare = fare;
 		this.token = token;
+		this.setDate(date);
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
@@ -97,14 +84,8 @@ public class FareInfo
 	}
 
 
-	@RequestMapping(value="/getTokenID")
-	public String getTokenID(@RequestParam(value="username")String name) {
-		try {
-			return FIRepository.findByName(name).token;
-		}catch(NullPointerException ignored)
-		{
-			return null;
-		}
+	public String getToken() {
+		return token;
 	}
 	
 	/**
@@ -118,8 +99,16 @@ public class FareInfo
 	}
 
 
-	public void setTokenID(String token) {
+	public void setToken(String token) {
 		this.token = token;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
 	}
 	
 	
