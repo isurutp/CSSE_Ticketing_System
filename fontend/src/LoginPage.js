@@ -64,6 +64,11 @@ export default class LoginPage extends Component {
             }
             else
             {
+                if (this.state.name === 'bus_001'){
+                    cookies.set('page', 'busDriverMain');
+                    window.location.reload();
+                    return;
+                }
                 alert('Incorrect Login details');
             }
         }
