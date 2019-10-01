@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,14 +72,13 @@ public class LocalPassenger implements Passenger
     public boolean setPassengerData(@RequestParam(value="userDetails") String[] details) {
     	
     	LocalPassenger localPassenger = PassengerFactory.makeLocalPassenger(details[0], details[1], 0.0, details[2], details[3], details[4], details[5]);
-        
-    	LPRepository.save(localPassenger);
     	
-    	if(LPRepository.findByName(localPassenger.name) == null)
+    	if(LPRepository.findByName(localPassenger.name) != null)
     	{
     		return false;
     	}
-    	
+        
+    	LPRepository.save(localPassenger);    	
     	return true;
         
     }
@@ -90,8 +90,9 @@ public class LocalPassenger implements Passenger
      * 					details[0]	-> User name
      * 					details[1]	-> Password
      */
+    @Override
     @RequestMapping(value="/login")
-    public boolean loginUser(@RequestParam(value="userDetails") String[] details) {
+    public boolean verifyPassenger(@RequestParam(value="userDetails") String[] details) {
     	
     	if(LPRepository.findByName(details[0]) != null && 
     			LPRepository.findByPassword(details[1].hashCode()) != null)
@@ -184,15 +185,44 @@ public class LocalPassenger implements Passenger
     }
     
     
+    /**
+     * Get's the Journey History of a particular User
+     * @param name
+     * @return String array of journey details
+     */
     @RequestMapping(value="/searchJourneysTaken")
-    public String[] searchJourneysTaken(@RequestParam(value="username")String name)
+    public String[][] searchJourneysTaken(@RequestParam(value="username")String name)
     {
-    	FareInfo fareInfo = FIRepository.findByName(name);
-    	String[] journeyDet = {fareInfo.getDate(), fareInfo.getStartingLocation(), fareInfo.getEndingLocation(), fareInfo.getFare()};
+    	List<FareInfo> template = FIRepository.findAllByName(name);
+    	int i=0;
+    	String[][] journeyDet = new String[4][4];
+    	for (String[] row : journeyDet) {
+    	    Arrays.fill(row, "");
+    	}
     	
+    	
+    	for(FareInfo fareInfo: template)
+    	{
+    		journeyDet[i][0] = fareInfo.getDate();
+    		journeyDet[i][1] = fareInfo.getStartingLocation();
+			journeyDet[i][2] = fareInfo.getEndingLocation();
+			journeyDet[i][3] = fareInfo.getFare();
+			
+			i++;
+			if(i==5)
+			{
+				break;
+			}
+    	}
 		return journeyDet;
 	}
     
+    
+    /**
+     * Get's the total Fares paid by a particular User
+     * @param name
+     * @return The total fares paid
+     */
     @RequestMapping(value="/searchFaresPaid")
     public Double searchFaresPaid(@RequestParam(value="username")String name)
     {
@@ -206,14 +236,19 @@ public class LocalPassenger implements Passenger
     }
     
     
-	@Override
-	public void verifyPassenger() {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
+    /**
+     * Get's the total Number of journeys taken by a particular User
+     * @param name
+     * @return The total Number of journeys
+     */
+    @RequestMapping(value="/TotalJourneys")
+    public int TotalJourneys(@RequestParam(value="username")String name)
+    {
+    	List<FareInfo> template = FIRepository.findAllByName(name);
+    	return template.size();
+    }
+    
+    
     /**
      * Capturing data sent Android app when journey is requested
      * @param details is an array of the journey details.
@@ -224,6 +259,7 @@ public class LocalPassenger implements Passenger
      *					details[4]	-> tokenID
      *					details[5]	-> date
      */
+    @Override
     @RequestMapping(value="/setJourney")
 	public boolean setJourney(@RequestParam(value="journeyDetails") String[] details) {
 		
@@ -243,7 +279,7 @@ public class LocalPassenger implements Passenger
 
 
 	@Override
-	public void calculateTicketPrice() {
+	public void calculateTicketPrice(String[] details) {
 		// TODO Auto-generated method stub
 		
 	}
