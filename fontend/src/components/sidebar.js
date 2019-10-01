@@ -11,37 +11,51 @@ export default class sidebar extends Component {
     this.state = {
       name: userDetails.get('username'),
       Location: 'Malabe',
+      JourneyHis: ["","","",""],
       TotalFare: 3542.00,
       TotalJourneys: 56
     };
 
-    this.getLocation = this.getLocation.bind(this);
+    this.getDetails = this.getDetails.bind(this);
 
-    this.getLocation();
+    this.getDetails();
     
 }
 
-async getLocation()
+async getDetails()
 {
-  //Getting data from backend
+  //Getting User's address from backend
   var address = await fetch(`/getAddress?username=${this.state.name}`)
                   .then(function(response){ return response.text(); })
   this.setState({Location: address});
 
+  //Getting user's journey history from backend
+  var details = await fetch(`/searchJourneysTaken?username=${this.state.name}`)
+  .then(function(response){ return response.text(); })
+
+  if(!details.includes("error"))
+  {
+  details = details.replace('[','')
+  details = details.replace(']','')
+  details = details.replace(/\"/g,'')
+  var myArray = details.split(',');
+
+  this.setState({JourneyHis: myArray});
+  }
+
 }
 
   render() {
-
     const Trips= [
-      {id: '01', item: 'July 20th', color: 'Malabe', size: 'Kandy', price: 125.00},
-      {id: '02', item: 'July 18th', color: 'Kaduwela', size: 'Nugegoda', price: 50.00}
+        {Date: this.state.JourneyHis[0], From: this.state.JourneyHis[1], To: this.state.JourneyHis[2], price: this.state.JourneyHis[3]},
+      {Date: '2019-07-18', From: 'Kaduwela', To: 'Nugegoda', price: 50.00}
       ]
 
     const TripItems = Trips.map((Trips) =>
     <tr>
-      <td>{Trips.item}</td>
-      <td>{Trips.color}</td>
-      <td>{Trips.size}</td>
+      <td>{Trips.Date}</td>
+      <td>{Trips.From}</td>
+      <td>{Trips.To}</td>
       <td>{Trips.price}</td>
     </tr>
     );
