@@ -8,7 +8,8 @@ public class ForeignPassenger implements Passenger
     
     
 	@Override
-	public void verifyPassenger() {
+	public boolean verifyPassenger(String[] details) {
+		return false;
 		// TODO Auto-generated method stub
 		
 	}
@@ -28,7 +29,7 @@ public class ForeignPassenger implements Passenger
 	}
 
 	@Override
-	public void calculateTicketPrice() {
+	public void calculateTicketPrice(String[] details) {
 		// TODO Auto-generated method stub
 		
 	}

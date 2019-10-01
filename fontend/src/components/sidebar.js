@@ -11,9 +11,12 @@ export default class sidebar extends Component {
     this.state = {
       name: userDetails.get('username'),
       Location: 'Malabe',
-      JourneyHis: ["","","",""],
-      TotalFare: 3542.00,
-      TotalJourneys: 56
+      JourneyHis0: ["","","",""],
+      JourneyHis1: ["","","",""],
+      JourneyHis2: ["","","",""],
+      JourneyHis3: ["","","",""],
+      TotalFare: 0.00,
+      TotalJourneys: 0
     };
 
     this.getDetails = this.getDetails.bind(this);
@@ -35,20 +38,49 @@ async getDetails()
 
   if(!details.includes("error"))
   {
-  details = details.replace('[','')
-  details = details.replace(']','')
-  details = details.replace(/\"/g,'')
-  var myArray = details.split(',');
+    var myArray = details.split('],[');
+    var result = ["","","",""]
+    for(var i=0;i<4;i++)
+    {
+      myArray[i] = myArray[i].replace(/\[/g,'')
+      myArray[i] = myArray[i].replace(/\]/g,'')
+      myArray[i] = myArray[i].replace(/\"/g,'')
+      result[i] = myArray[i].split(',')
+    }
 
-  this.setState({JourneyHis: myArray});
+  this.setState({JourneyHis0: result[0]});
+  this.setState({JourneyHis1: result[1]});
+  this.setState({JourneyHis2: result[2]});
+  this.setState({JourneyHis3: result[3]});
+  }
+
+  //Getting user's Total Fares from backend
+  var TotFare = await fetch(`/searchFaresPaid?username=${this.state.name}`)
+  .then(function(response){ return response.text(); })
+
+  if(!!TotFare)
+  {
+    this.setState({TotalFare: TotFare});
+  }
+
+  //Getting user's Total Number of Journeys from backend
+  var total = await fetch(`/TotalJourneys?username=${this.state.name}`)
+  .then(function(response){ return response.text(); })
+
+  if(!!total)
+  {
+    this.setState({TotalJourneys: total});
   }
 
 }
 
   render() {
     const Trips= [
-        {Date: this.state.JourneyHis[0], From: this.state.JourneyHis[1], To: this.state.JourneyHis[2], price: this.state.JourneyHis[3]},
-      {Date: '2019-07-18', From: 'Kaduwela', To: 'Nugegoda', price: 50.00}
+        {Date: this.state.JourneyHis0[0], From: this.state.JourneyHis0[1], To: this.state.JourneyHis0[2], price: this.state.JourneyHis0[3]},
+        {Date: this.state.JourneyHis1[0], From: this.state.JourneyHis1[1], To: this.state.JourneyHis1[2], price: this.state.JourneyHis1[3]},
+        {Date: this.state.JourneyHis2[0], From: this.state.JourneyHis2[1], To: this.state.JourneyHis2[2], price: this.state.JourneyHis2[3]},
+        {Date: this.state.JourneyHis3[0], From: this.state.JourneyHis3[1], To: this.state.JourneyHis3[2], price: this.state.JourneyHis3[3]},
+      // {Date: '2019-07-18', From: 'Kaduwela', To: 'Nugegoda', price: 50.00}
       ]
 
     const TripItems = Trips.map((Trips) =>
@@ -78,7 +110,7 @@ async getDetails()
                 <table style={{width: '100%'}}>
                   <tr>
                     <th>{this.state.TotalJourneys}</th>
-                    <th>LKR {this.state.TotalFare}.00</th>
+                    <th>LKR {this.state.TotalFare}</th>
                   </tr>
                   <tr>
                   <td>Journeys</td>

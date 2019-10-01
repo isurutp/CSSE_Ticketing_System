@@ -61,7 +61,7 @@ export default class RegisterPage extends Component {
             }
             else
             {
-                alert('Something went wrong, unable to create account');
+                alert('Username is taken Please try another one');
             }
         }
         else
