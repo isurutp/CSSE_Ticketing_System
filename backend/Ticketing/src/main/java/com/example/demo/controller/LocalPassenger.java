@@ -1,7 +1,13 @@
 package com.example.demo.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -178,11 +184,26 @@ public class LocalPassenger implements Passenger
     }
     
     
-    public void searchJourneysTaken()
-    {}
+    @RequestMapping(value="/searchJourneysTaken")
+    public String[] searchJourneysTaken(@RequestParam(value="username")String name)
+    {
+    	FareInfo fareInfo = FIRepository.findByName(name);
+    	String[] journeyDet = {fareInfo.getDate(), fareInfo.getStartingLocation(), fareInfo.getEndingLocation(), fareInfo.getFare()};
+    	
+		return journeyDet;
+	}
     
-    public void searchFaresPaid()
-    {}
+    @RequestMapping(value="/searchFaresPaid")
+    public Double searchFaresPaid(@RequestParam(value="username")String name)
+    {
+    	double total = 0;
+    	List<FareInfo> template = FIRepository.findAllByName(name);
+    	for(FareInfo fareInfo: template)
+    	{
+    		total += Double.valueOf(fareInfo.getFare());
+    	}
+    	return total;
+    }
     
     
 	@Override
