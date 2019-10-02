@@ -209,10 +209,6 @@ public class LocalPassenger implements Passenger
 			journeyDet[i][3] = fareInfo.getFare();
 			
 			i++;
-			if(i==5)
-			{
-				break;
-			}
     	}
 		return journeyDet;
 	}
