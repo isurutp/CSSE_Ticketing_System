@@ -80,7 +80,7 @@ async getDetails()
         {Date: this.state.JourneyHis1[0], From: this.state.JourneyHis1[1], To: this.state.JourneyHis1[2], price: this.state.JourneyHis1[3]},
         {Date: this.state.JourneyHis2[0], From: this.state.JourneyHis2[1], To: this.state.JourneyHis2[2], price: this.state.JourneyHis2[3]},
         {Date: this.state.JourneyHis3[0], From: this.state.JourneyHis3[1], To: this.state.JourneyHis3[2], price: this.state.JourneyHis3[3]},
-      // {Date: '2019-07-18', From: 'Kaduwela', To: 'Nugegoda', price: 50.00}
+
       ]
 
     const TripItems = Trips.map((Trips) =>

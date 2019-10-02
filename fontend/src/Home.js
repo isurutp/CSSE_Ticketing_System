@@ -12,6 +12,7 @@ import LoginPage from "./LoginPage";
 import AddCredit from "./AddCredit";
 import RegisterPage from "./RegisterPage";
 import CreditHistory from "./CreditHistory";
+import JourneyHistory from "./JourneysTaken";
 import Admin from "./AdminPanel";
 import AdminOvercrowd from "./AdminOverCrowd";
 import AdminTimetable from "./AdminTimetable";
@@ -94,6 +95,12 @@ export default class Home extends Component {
                 <CreditHistory/>
             </div>
         );
+        }else if (cookies.get('page') === "journeyHistory") {        //Journey History details Page
+            return(
+                <div>
+                    <JourneyHistory/>
+                </div>
+            );
         }else if (cookies.get('page') === "admin") {                //Admin Main Page
             return(
                 <div>
