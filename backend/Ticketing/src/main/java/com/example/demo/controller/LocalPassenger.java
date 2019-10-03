@@ -263,7 +263,6 @@ public class LocalPassenger implements Passenger
 		
 	}
     
-    
     /**
      * Checks if bus driver has marked journey as completed
      * @param details
@@ -286,7 +285,18 @@ public class LocalPassenger implements Passenger
     	return true;
 	}
 
+    //==================================Methods to validate a passenger for journey=========================================
+    
+    @RequestMapping(value="/checkPassengerDetails")
+    public boolean checkPassengerDetails(@RequestParam String username) {
+    	LocalPassenger lp = LPRepository.findByName(username);
+    	if(lp != null){
+    		return true;
+    	}
+		return false;  
+    }
 
+    //======================================================================================================================
 
 	@Override
 	public void calculateTicketPrice(String[] details) {

@@ -7,12 +7,43 @@ export default class BusDriverNavBar extends Component {
         super();
         const userDetails = new Cookies();
         this.state = {
-            name: userDetails.get('username')
+            name: userDetails.get('username'),
+            busRoute: '' ,
+            isCrowded: 'Not Crowded' ,
         };
 
         this.Home = this.Home.bind(this);
         this.logout = this.logout.bind(this);
+    }
 
+    async componentDidMount() {
+        var busRoute = '',
+            busRoute = await fetch(`/getBusRoute?busId=${this.state.name}`)
+                .then(function (response) {
+                    return response.text();
+                })
+                .then(function (data) {
+                    return data;
+                });
+        var crowded = false ,
+            crowded = await fetch(`/getBusIsOverCrowded?busId=${this.state.name}`)
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (data) {
+                    return data ;
+                });
+        if(crowded){
+            this.setState({
+                busRoute: busRoute,
+                isCrowded: 'Over Crowded'
+            })
+        }else{
+            this.setState({
+                busRoute: busRoute,
+                isCrowded: 'Not Crowded'
+            })
+        }
     }
 
     Home()
@@ -58,10 +89,10 @@ export default class BusDriverNavBar extends Component {
                         <div className="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul className="navbar-nav nav-dropdown" data-app-modern-menu="true">
                                 <li className="nav-item">
-                                    <a className="nav-link link text-black display-4" href="#">Notifications</a>
+                                    <a className="nav-link link text-black display-4" href="#">{this.state.isCrowded}</a>
                                 </li>
                                 <li className="nav-item">
-                                    <a className="nav-link link text-black display-4" href="#">About Us</a>
+                                    <a className="nav-link link text-black display-4" href="#">{this.state.busRoute}</a>
                                 </li>
                                 <li className="nav-item">
                                     <a className="nav-link link text-black display-4" href="#">logged in as {this.state.name}</a>
