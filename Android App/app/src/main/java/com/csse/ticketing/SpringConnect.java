@@ -357,6 +357,58 @@ public class SpringConnect
         return atomicBoolean.get();
     }
 
+    /**
+     * Checks if Journey has been completed by connecting to spring backend
+     * @param name
+     * @param date
+     * @return
+     */
+    public Boolean checkJourneyComplete(final String name, final String date)
+    {
+        final AtomicBoolean atomicBoolean = new AtomicBoolean(false);
+        final Thread thread =  new Thread() {
+            public void run() {
+                try {
+
+                    String url = ipAddress + "/checkJourneyComplete?journeyDetails="+name+","+date;
+                    URL aURL = new URL(url);
+
+                    HttpURLConnection connection = (HttpURLConnection) aURL.openConnection();
+                    connection.setRequestMethod("GET");
+                    connection.connect();
+
+                    BufferedReader in = new BufferedReader(
+                            new InputStreamReader(
+                                    connection.getInputStream()));
+                    StringBuilder response = new StringBuilder();
+                    String currentLine;
+
+                    while ((currentLine = in.readLine()) != null)
+                        response.append(currentLine);
+
+                    in.close();
+
+                    if (response.toString().trim().equalsIgnoreCase("true"))
+                    {
+                        atomicBoolean.set(true);
+                    }
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return atomicBoolean.get();
+    }
+
 
 
 }
