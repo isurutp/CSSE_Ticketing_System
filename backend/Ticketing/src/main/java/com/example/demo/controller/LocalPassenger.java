@@ -271,8 +271,19 @@ public class LocalPassenger implements Passenger
     	return true;
 		
 	}
+    
+    //==================================Methods to validate a passenger for journey=========================================
+    
+    @RequestMapping(value="/checkPassengerDetails")
+    public boolean checkPassengerDetails(@RequestParam String username) {
+    	LocalPassenger lp = LPRepository.findByName(username);
+    	if(lp != null){
+    		return true;
+    	}
+		return false;  
+    }
 
-
+    //======================================================================================================================
 
 	@Override
 	public void calculateTicketPrice(String[] details) {

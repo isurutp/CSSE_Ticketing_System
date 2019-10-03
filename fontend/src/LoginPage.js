@@ -64,7 +64,14 @@ export default class LoginPage extends Component {
             }
             else
             {
-                if (this.state.name === 'bus_001'){
+                var details=this.state.name;
+                var busDetails = false ;
+                busDetails = await fetch(`/getBusId?busId=${details}`)
+                    .then(function(response){ return response.json(); })
+                    .then(function(data){
+                        return data;
+                    });
+                if (busDetails){
                     cookies.set('page', 'busDriverMain');
                     window.location.reload();
                     return;

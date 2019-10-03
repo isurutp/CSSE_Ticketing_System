@@ -1,5 +1,8 @@
 package com.example.demo.controller;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +32,27 @@ public class Bus {
 		this.passengerCount = 0 ;
 	}
 	
+	@RequestMapping(value="/getBusDetails")
+    public String[][] getBusDetails(@RequestParam String busId)
+    {
+    	List<Bus> bs = bsRepo.findAllBybusId(busId);
+    	int i=0;
+    	String[][] busDet = new String[1][4];
+    	for (String[] row : busDet) {
+    	    Arrays.fill(row, "");
+    	}
+    		
+    	for(Bus busInfo: bs)
+    	{
+    		busDet[i][0] = busInfo.getBusId();
+    		busDet[i][1] = Integer.toString(busInfo.getNoOfSeats());
+    		busDet[i][2] = Integer.toString(busInfo.getPassengerCount()) ;
+    		busDet[i][3] = busInfo.getNetwork();
+			
+			i++;
+    	}
+		return busDet;
+	}
 	
 	@RequestMapping(value="/getBusIsOverCrowded")
 	public boolean identifyOvercrowd(@RequestParam String busId) {
@@ -49,21 +73,26 @@ public class Bus {
 	@RequestMapping(value="/addNewBus")
 	public boolean create(@RequestParam String busId, @RequestParam int noOfSeats, @RequestParam String route) {
 		try {
-			Bus b = new Bus(busId, noOfSeats, route);
-			bsRepo.save(b);
-			return true ;
+			if(bsRepo.findBybusId(busId)==null) {
+				Bus b = new Bus(busId, noOfSeats, route);
+				bsRepo.save(b);
+				return true ;
+			}
+			return false;
 		}catch (NullPointerException e){
 			return false ;
 		}
 	}
 	
 	@RequestMapping(value="/getBusId")
-	public String getBusId(@RequestParam String busId) {
+	public Boolean getBusId(@RequestParam String busId) {
 		try{
-			return bsRepo.findBybusId(busId).getBusId() ;
+			if (bsRepo.findBybusId(busId).getBusId()!=null) {
+				return true ;
+			}
+			return false ;
 		}catch (Exception e) {
-			System.out.println(e.getMessage());
-			return null ;
+			return false ;
 		}
 	}
 	
