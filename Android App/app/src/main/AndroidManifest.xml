@@ -12,9 +12,12 @@
         android:supportsRtl="true"
         android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/AppTheme">
-        <activity android:name=".Welcome"></activity>
-        <activity android:name=".Register" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".Welcome"
+            android:screenOrientation="portrait" />
+        <activity android:name=".Register"
+            android:screenOrientation="portrait" />
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

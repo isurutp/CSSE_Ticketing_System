@@ -31,14 +31,14 @@ export default class JourneysTaken extends Component {
   async getDetails()
   {  
     //Getting user's journey history from backend
-    var details = await fetch(`/searchJourneysTaken?username=${this.state.name}`)
+    var details = await fetch(`/searchJourneysTaken?username=${this.state.name}&rows=10`)
     .then(function(response){ return response.text(); })
   
     if(!details.includes("error"))
     {
       var myArray = details.split('],[');
       var result = ["","","","","","","","","",""]
-      for(var i=0;i<4;i++)
+      for(var i=0;i<10;i++)
       {
         myArray[i] = myArray[i].replace(/\[/g,'')
         myArray[i] = myArray[i].replace(/\]/g,'')

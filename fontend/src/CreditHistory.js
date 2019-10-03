@@ -41,7 +41,7 @@ export default class CreditHistory extends Component {
     }
   
     //Getting user's journey history from backend
-    var details = await fetch(`/searchJourneysTaken?username=${this.state.name}`)
+    var details = await fetch(`/searchJourneysTaken?username=${this.state.name}&rows=10`)
     .then(function(response){ return response.text(); })
   
     if(!details.includes("error"))

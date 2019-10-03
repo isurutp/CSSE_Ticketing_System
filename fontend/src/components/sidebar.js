@@ -33,13 +33,13 @@ async getDetails()
   this.setState({Location: address});
 
   //Getting user's journey history from backend
-  var details = await fetch(`/searchJourneysTaken?username=${this.state.name}`)
+  var details = await fetch(`/searchJourneysTaken?username=${this.state.name}&rows=4`)
   .then(function(response){ return response.text(); })
 
   if(!details.includes("error"))
   {
     var myArray = details.split('],[');
-    var result = ["","","",""]
+    var result = ["","","","","","","","","",""]
     for(var i=0;i<4;i++)
     {
       myArray[i] = myArray[i].replace(/\[/g,'')
