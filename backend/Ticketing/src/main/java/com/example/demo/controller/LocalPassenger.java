@@ -289,7 +289,7 @@ public class LocalPassenger implements Passenger
     /**
      * Get unfinished journey of a particular User
      * @param name
-     * @return The total fares paid
+     * @return The previous Token
      */
     @RequestMapping(value="/getPreviousToken")
     public String getPreviousToken(@RequestParam(value="username")String name)

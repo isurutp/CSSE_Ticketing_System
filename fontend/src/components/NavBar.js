@@ -31,6 +31,22 @@ export default class NavBar extends Component {
         window.location.reload();  
     }
 
+    CreditHistory()
+    {
+            const cookies = new Cookies();
+            cookies.get('page');
+            cookies.set('page', 'creditHistory');
+            window.location.reload();  
+    }
+  
+    JourneyHistory()
+    {
+            const cookies = new Cookies();
+            cookies.get('page');
+            cookies.set('page', 'journeyHistory');
+            window.location.reload();  
+    }
+
 
     render() {
 
@@ -58,17 +74,17 @@ export default class NavBar extends Component {
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav nav-dropdown" data-app-modern-menu="true">
                         <li className="nav-item">
-                            <a className="nav-link link text-black display-4" href="#">Notifications</a>
+                            <a className="nav-link link text-black display-4" onClick={this.JourneyHistory}>Journeys</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link link text-black display-4" href="#">About Us</a>
+                            <a className="nav-link link text-black display-4" onClick={this.CreditHistory}>Expenses</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link link text-black display-4" href="#">logged in as {this.state.name}</a>
+                            <a className="nav-link link text-black display-4" onClick={this.Home}>logged in as {this.state.name}</a>
                         </li>
                     </ul>
                     <div className="navbar-buttons mbr-section-btn">
-                        <button className="btn btn-sm btn-primary display-4" href="#" onClick={this.logout}>Log Out</button>
+                        <button className="btn btn-sm btn-primary display-4" onClick={this.logout}>Log Out</button>
                     </div>
                     </div>
                 </nav>
