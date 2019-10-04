@@ -7,7 +7,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class SpringConnect
 {
@@ -21,48 +21,14 @@ public class SpringConnect
      */
     public boolean checkLoginDetails(final String username, final String password)
     {
-        final AtomicBoolean atomicBoolean = new AtomicBoolean(false);
-        final Thread thread =  new Thread() {
-            public void run() {
-                try {
+        boolean result = false;
 
-                    String url = ipAddress + "/login?userDetails=" + username + "," + password;
-                    URL aURL = new URL(url);
-
-                    HttpURLConnection connection = (HttpURLConnection) aURL.openConnection();
-                    connection.setRequestMethod("GET");
-                    connection.connect();
-
-                    BufferedReader in = new BufferedReader(
-                            new InputStreamReader(
-                                    connection.getInputStream()));
-                    StringBuilder response = new StringBuilder();
-                    String currentLine;
-
-                    while ((currentLine = in.readLine()) != null)
-                        response.append(currentLine);
-
-                    in.close();
-
-                    if (response.toString().trim().equalsIgnoreCase("true"))
-                    {
-                            atomicBoolean.set(true);
-                    }
-
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-        };
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        String url = ipAddress + "/login?userDetails=" + username + "," + password;
+        if (getResult(url).equalsIgnoreCase("true"))
+        {
+            result = true;
         }
-        return atomicBoolean.get();
+        return result;
     }
 
     /**
@@ -71,138 +37,36 @@ public class SpringConnect
      * @param password
      * @return true if login is valid
      */
-    public boolean registerNewUser(final String username, final String NIC, final String location, final String dob, final String password, final String email)
+    public boolean registerNewUser(String username, String NIC, String location, String dob, String password, String email)
     {
-        final AtomicBoolean atomicBoolean = new AtomicBoolean(false);
-        final Thread thread =  new Thread() {
-            public void run() {
-                try {
+        boolean result = false;
 
-                    String url = ipAddress + "/register?userDetails=" + username + "," + NIC + "," + location+ "," + dob+ "," + password+ "," + email;
-                    URL aURL = new URL(url);
-
-                    HttpURLConnection connection = (HttpURLConnection) aURL.openConnection();
-                    connection.setRequestMethod("GET");
-                    connection.connect();
-
-                    BufferedReader in = new BufferedReader(
-                            new InputStreamReader(
-                                    connection.getInputStream()));
-                    StringBuilder response = new StringBuilder();
-                    String currentLine;
-
-                    while ((currentLine = in.readLine()) != null)
-                        response.append(currentLine);
-
-                    in.close();
-
-                    if (response.toString().trim().equalsIgnoreCase("true"))
-                    {
-                        atomicBoolean.set(true);
-                    }
-
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-        };
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        String url = ipAddress + "/register?userDetails=" + username + "," + NIC + "," + location+ "," + dob+ "," + password+ "," + email;
+        if (getResult(url).equalsIgnoreCase("true"))
+        {
+            result = true;
         }
-        return atomicBoolean.get();
+        return result;
     }
 
     /**
      * Updates user's address by connecting to spring backend
      * @param username
      */
-    public void getAddress(final String username)
+    public void getAddress(String username)
     {
-        final Thread thread =  new Thread() {
-            public void run() {
-                try {
-
-                    String url = ipAddress + "/getAddress?username=" + username;
-                    URL aURL = new URL(url);
-
-                    HttpURLConnection connection = (HttpURLConnection) aURL.openConnection();
-                    connection.setRequestMethod("GET");
-                    connection.connect();
-
-                    BufferedReader in = new BufferedReader(
-                            new InputStreamReader(
-                                    connection.getInputStream()));
-                    StringBuilder response = new StringBuilder();
-                    String currentLine;
-
-                    while ((currentLine = in.readLine()) != null)
-                        response.append(currentLine);
-                    in.close();
-
-                    MainActivity.location = response.toString();
-
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-        };
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        String url = ipAddress + "/getAddress?username=" + username;
+        MainActivity.location = getResult(url);
     }
 
     /**
      * Updates user's balance by connecting to spring backend
      * @param username
      */
-    public void getAmount(final String username)
+    public void getAmount(String username)
     {
-        final Thread thread =  new Thread() {
-            public void run() {
-                try {
-
-                    String url = ipAddress + "/getAmount?username=" + username;
-                    URL aURL = new URL(url);
-
-                    HttpURLConnection connection = (HttpURLConnection) aURL.openConnection();
-                    connection.setRequestMethod("GET");
-                    connection.connect();
-
-                    BufferedReader in = new BufferedReader(
-                            new InputStreamReader(
-                                    connection.getInputStream()));
-                    StringBuilder response = new StringBuilder();
-                    String currentLine;
-
-                    while ((currentLine = in.readLine()) != null)
-                        response.append(currentLine);
-                    in.close();
-
-                    MainActivity.balance = Double.valueOf(response.toString());
-
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-        };
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        String url = ipAddress + "/getAmount?username=" + username;
+        MainActivity.balance = Double.valueOf(getResult(url));
     }
 
     /**
@@ -210,50 +74,16 @@ public class SpringConnect
      * @param username
      * @param amount The fare charge to deduct from the balance
      */
-    public Boolean ReduceFare(final String username,final String amount)
+    public Boolean ReduceFare(String username,String amount)
     {
-        final AtomicBoolean atomicBoolean = new AtomicBoolean(false);
-        final Thread thread =  new Thread() {
-            public void run() {
-                try {
+        boolean result = false;
 
-                    String url = ipAddress + "/ReduceFare?fareDetails=" + username + "," + amount;
-                    URL aURL = new URL(url);
-
-                    HttpURLConnection connection = (HttpURLConnection) aURL.openConnection();
-                    connection.setRequestMethod("GET");
-                    connection.connect();
-
-                    BufferedReader in = new BufferedReader(
-                            new InputStreamReader(
-                                    connection.getInputStream()));
-                    StringBuilder response = new StringBuilder();
-                    String currentLine;
-
-                    while ((currentLine = in.readLine()) != null)
-                        response.append(currentLine);
-
-                    in.close();
-
-                    if (response.toString().trim().equalsIgnoreCase("true"))
-                    {
-                        atomicBoolean.set(true);
-                    }
-
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-        };
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        String url = ipAddress + "/ReduceFare?fareDetails=" + username + "," + amount;
+        if (getResult(url).trim().equalsIgnoreCase("true"))
+        {
+            result = true;
         }
-        return atomicBoolean.get();
+        return result;
     }
 
 
@@ -261,100 +91,34 @@ public class SpringConnect
      * sends Journey details to spring backend
      * @param username
      */
-    public Boolean setJourney(final String username,final String starting, final String ending, final String fare, final String tokenID)
+    public Boolean setJourney(String username,String starting,  String ending, String fare, String tokenID)
     {
-        final AtomicBoolean atomicBoolean = new AtomicBoolean(false);
-        final Thread thread =  new Thread() {
-            public void run() {
-                try {
-                    String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
-                    String url = ipAddress + "/setJourney?journeyDetails=" + username + "," + starting + "," + ending + "," + fare + "," + tokenID + "," + date;
-                    URL aURL = new URL(url);
+        boolean result = false;
 
-                    HttpURLConnection connection = (HttpURLConnection) aURL.openConnection();
-                    connection.setRequestMethod("GET");
-                    connection.connect();
+        String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        String url = ipAddress + "/setJourney?journeyDetails=" + username + "," + starting + "," + ending + "," + fare + "," + tokenID + "," + date;
 
-                    BufferedReader in = new BufferedReader(
-                            new InputStreamReader(
-                                    connection.getInputStream()));
-                    StringBuilder response = new StringBuilder();
-                    String currentLine;
-
-                    while ((currentLine = in.readLine()) != null)
-                        response.append(currentLine);
-
-                    in.close();
-
-                    if (response.toString().trim().equalsIgnoreCase("true"))
-                    {
-                        atomicBoolean.set(true);
-                    }
-
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-        };
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        if (getResult(url).trim().equalsIgnoreCase("true"))
+        {
+            result = true;
         }
-        return atomicBoolean.get();
+        return result;
     }
 
     /**
      * Checks if token ID is usable by connecting to spring backend
      * @param tokenID
      */
-    public Boolean checkTokenID(final String tokenID)
+    public Boolean checkTokenID(String tokenID)
     {
-        final AtomicBoolean atomicBoolean = new AtomicBoolean(false);
-        final Thread thread =  new Thread() {
-            public void run() {
-                try {
+        boolean result = false;
 
-                    String url = ipAddress + "/checkToken?token="+tokenID;
-                    URL aURL = new URL(url);
-
-                    HttpURLConnection connection = (HttpURLConnection) aURL.openConnection();
-                    connection.setRequestMethod("GET");
-                    connection.connect();
-
-                    BufferedReader in = new BufferedReader(
-                            new InputStreamReader(
-                                    connection.getInputStream()));
-                    StringBuilder response = new StringBuilder();
-                    String currentLine;
-
-                    while ((currentLine = in.readLine()) != null)
-                        response.append(currentLine);
-
-                    in.close();
-
-                    if (response.toString().trim().equalsIgnoreCase("true"))
-                    {
-                        atomicBoolean.set(true);
-                    }
-
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-        };
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        String url = ipAddress + "/checkToken?token="+tokenID;
+        if (getResult(url).trim().equalsIgnoreCase("true"))
+        {
+            result = true;
         }
-        return atomicBoolean.get();
+        return result;
     }
 
     /**
@@ -363,41 +127,67 @@ public class SpringConnect
      * @param date
      * @return
      */
-    public Boolean checkJourneyComplete(final String name, final String date)
+    public Boolean checkJourneyComplete(String name, String date)
     {
-        final AtomicBoolean atomicBoolean = new AtomicBoolean(false);
+        boolean result = false;
+
+        String url = ipAddress + "/checkJourneyComplete?journeyDetails="+name+","+date;
+        if (getResult(url).trim().equalsIgnoreCase("true"))
+        {
+            result = true;
+        }
+        return result;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**
+     * Will get the reply obtained from the URL passed.
+     * @param url
+     * @return the reply as a string
+     */
+    public String getResult(final String url)
+    {
+        final AtomicReference<String> result = new AtomicReference<>();
+
         final Thread thread =  new Thread() {
             public void run() {
                 try {
-
-                    String url = ipAddress + "/checkJourneyComplete?journeyDetails="+name+","+date;
+                    //Pasing URL and making connection
                     URL aURL = new URL(url);
-
                     HttpURLConnection connection = (HttpURLConnection) aURL.openConnection();
                     connection.setRequestMethod("GET");
                     connection.connect();
 
+                    //Preparing to receive the response
                     BufferedReader in = new BufferedReader(
                             new InputStreamReader(
                                     connection.getInputStream()));
                     StringBuilder response = new StringBuilder();
                     String currentLine;
 
+                    //Reading the response and storing it in 'response'
                     while ((currentLine = in.readLine()) != null)
                         response.append(currentLine);
 
                     in.close();
-
-                    if (response.toString().trim().equalsIgnoreCase("true"))
-                    {
-                        atomicBoolean.set(true);
-                    }
-
-
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    result.set(response.toString());
                 }
-
+                catch(Exception e)
+                {
+                    e.printStackTrace();
+                    result.set("");
+                }
             }
         };
         thread.start();
@@ -406,7 +196,7 @@ public class SpringConnect
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return atomicBoolean.get();
+        return result.get();
     }
 
 
