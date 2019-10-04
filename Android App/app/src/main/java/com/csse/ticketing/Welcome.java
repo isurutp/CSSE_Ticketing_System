@@ -3,7 +3,6 @@ package com.csse.ticketing;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -97,11 +96,11 @@ public class Welcome extends AppCompatActivity {
             }
         });
 
-        SharedPreferences prefs = getSharedPreferences("History", MODE_PRIVATE);
-        if(prefs.getString(MainActivity.username,null) != null)
+        String previousToken = springConnect.getPreviousToken(MainActivity.username);
+        if(!previousToken.equals("000000"))
         {
-            loadIncompleteJourney(prefs.getString(MainActivity.username,null));
-            journeyCompleted();
+            loadIncompleteJourney(previousToken);
+            waitTillJourneyCompletes();
         }
 
 
@@ -165,10 +164,7 @@ public class Welcome extends AppCompatActivity {
                             springConnect.getAmount(MainActivity.username);
                             balance.setText(String.valueOf(MainActivity.balance));
 
-                            SharedPreferences.Editor editor = getSharedPreferences("History", MODE_PRIVATE).edit();
-                            editor.putString(MainActivity.username, token);
-                            editor.apply();
-                            journeyCompleted();
+                            waitTillJourneyCompletes();
                         }
                         else
                         {
@@ -208,7 +204,7 @@ public class Welcome extends AppCompatActivity {
     }
 
     //Checks if bus driver marked journey as complete
-    public void journeyCompleted()
+    public void waitTillJourneyCompletes()
     {
         Thread thread =  new Thread() {
             public void run() {
@@ -221,10 +217,7 @@ public class Welcome extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
-                SharedPreferences.Editor editor = getSharedPreferences("History", MODE_PRIVATE).edit();
-                editor.clear();
-                editor.apply();
-
+                
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
