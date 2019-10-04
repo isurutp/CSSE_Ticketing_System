@@ -139,6 +139,17 @@ public class SpringConnect
         return result;
     }
 
+    /**
+     * Retrieves incomplete journey tokens by connecting to spring backend
+     * @param name
+     * @return
+     */
+    public String getPreviousToken(String name)
+    {
+        String url = ipAddress + "/getPreviousToken?username="+name;
+        return getResult(url);
+    }
+
 
 
 

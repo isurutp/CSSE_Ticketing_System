@@ -284,6 +284,30 @@ public class LocalPassenger implements Passenger
     	}
     	return true;
 	}
+    
+    
+    /**
+     * Get unfinished journey of a particular User
+     * @param name
+     * @return The total fares paid
+     */
+    @RequestMapping(value="/getPreviousToken")
+    public String getPreviousToken(@RequestParam(value="username")String name)
+    {
+    	String token="000000";
+    	List<FareInfo> FIList = FIRepository.findAllByName(name);
+    	for(FareInfo fareInfo: FIList)
+    	{
+    		if(!fareInfo.getToken().equals("000000"))
+    		{
+    			token = fareInfo.getToken();
+    		}
+    	}
+    	return token;
+    }
+    
+    
+    
 
     //==================================Methods to validate a passenger for journey=========================================
     
