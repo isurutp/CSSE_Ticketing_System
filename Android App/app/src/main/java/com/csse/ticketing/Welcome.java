@@ -217,7 +217,7 @@ public class Welcome extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
-                
+
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
