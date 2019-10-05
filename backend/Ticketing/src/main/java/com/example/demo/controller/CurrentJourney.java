@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.repository.BusRepository;
 import com.example.demo.repository.CurrentJourneyRepository;
 
 @RestController
@@ -23,6 +24,9 @@ public class CurrentJourney {
 	String username;
 	String paymentType;
 	Date startTime ;
+	
+	@Autowired
+	private BusRepository bsRepo ;
 	
 	@Autowired
 	private CurrentJourneyRepository cjRepo ;
@@ -56,7 +60,14 @@ public class CurrentJourney {
     {
     	List<CurrentJourney> bs = cjRepo.findAllBybusId(busId);
     	int size = bs.size();
-    	System.out.println("Number of passengers on " + busId + " : "+ size);
+    	
+    	Bus currentBus = bsRepo.findBybusId(busId) ;
+    	currentBus.setPassengerCount(size);
+    	bsRepo.save(currentBus);
+    	System.out.println("=========================================================================");
+    	System.out.println("Number of passengers on " + busId + " : "+ currentBus.getPassengerCount());
+    	System.out.println("Number of seats on "+ busId + " : " + currentBus.getNoOfSeats());
+    	
     	int i=0;
     	String[][] cjDet = new String[size][4];
     	for (String[] row : cjDet) {
@@ -98,6 +109,31 @@ public class CurrentJourney {
 			return e.getMessage() ;
 		}
 	}
+	
+	
+	@RequestMapping(value="/checkUserInBus")
+	public String checkUserInBus(@RequestParam(value="username") String username) 
+	{
+		CurrentJourney currentJourney = cjRepo.findByusername(username);
+		if(currentJourney != null)
+		{
+			return currentJourney.busId;
+		}
+		return "none";
+	}
+	
+	@RequestMapping(value="/checkTime")
+	public String checkTime(@RequestParam(value="username") String username) 
+	{
+		CurrentJourney currentJourney = cjRepo.findByusername(username);
+		if(currentJourney != null)
+		{
+			return currentJourney.startTime.toString();
+		}
+		return "none";
+	}
+	
+	
 	
 	//=========================================Getters and Setters=========================================================
 	public String getId() {

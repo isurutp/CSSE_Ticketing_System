@@ -5,10 +5,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,7 +23,6 @@ public class LocalPassenger implements Passenger
 	private String name;
 	private String email;
     private String NIC;
-//    private String tokenId;
     private double amount;
     private String address;
     private int password;
@@ -44,13 +39,12 @@ public class LocalPassenger implements Passenger
     
     public LocalPassenger() {}
     
-    public LocalPassenger(String name, String NIC, /*String tokenID,*/ double amount,String address, String dob, String password, String email)
+    public LocalPassenger(String name, String NIC, double amount,String address, String dob, String password, String email)
     {
 		this.name = name;
 		this.NIC = NIC;
-//		this.tokenId = tokenID;
 		this.amount = amount;
-		this.email = email;
+		this.setEmail(email);
 		this.address = address;
 		this.dob = dob;
 		this.setPassword(password.hashCode());	//Avoid storing plain text password
@@ -104,13 +98,6 @@ public class LocalPassenger implements Passenger
         
     }
     
-    
-    
-    public void showDetails()
-    {
-       
-    }
-    
     /**
      * Capturing data sent from TransferCredit.js when the TransferMoney function is called
      * @param details is an array of the transfer details.
@@ -136,7 +123,7 @@ public class LocalPassenger implements Passenger
      * 					details[1]	-> amount
      */
     @RequestMapping(value="/ReduceFare")
-    public boolean ReduceFare(@RequestParam(value="fareDetails") String[] details)
+    public boolean reduceFare(@RequestParam(value="fareDetails") String[] details)
     {
     	LocalPassenger localPassenger = LPRepository.findByName(details[0]);
     	localPassenger.amount -= Double.valueOf(details[1]);
@@ -191,17 +178,17 @@ public class LocalPassenger implements Passenger
      * @return String array of journey details
      */
     @RequestMapping(value="/searchJourneysTaken")
-    public String[][] searchJourneysTaken(@RequestParam(value="username")String name)
+    public String[][] searchJourneysTaken(@RequestParam(value="username")String name, @RequestParam(value="rows")int rows)
     {
-    	List<FareInfo> template = FIRepository.findAllByName(name);
+    	List<FareInfo> FIList = FIRepository.findAllByName(name);
     	int i=0;
-    	String[][] journeyDet = new String[4][4];
+    	String[][] journeyDet = new String[rows][4];
     	for (String[] row : journeyDet) {
     	    Arrays.fill(row, "");
     	}
     	
     	
-    	for(FareInfo fareInfo: template)
+    	for(FareInfo fareInfo: FIList)
     	{
     		journeyDet[i][0] = fareInfo.getDate();
     		journeyDet[i][1] = fareInfo.getStartingLocation();
@@ -209,6 +196,10 @@ public class LocalPassenger implements Passenger
 			journeyDet[i][3] = fareInfo.getFare();
 			
 			i++;
+			if(i==rows)
+			{
+				break;
+			}
     	}
 		return journeyDet;
 	}
@@ -223,8 +214,8 @@ public class LocalPassenger implements Passenger
     public Double searchFaresPaid(@RequestParam(value="username")String name)
     {
     	double total = 0;
-    	List<FareInfo> template = FIRepository.findAllByName(name);
-    	for(FareInfo fareInfo: template)
+    	List<FareInfo> FIList = FIRepository.findAllByName(name);
+    	for(FareInfo fareInfo: FIList)
     	{
     		total += Double.valueOf(fareInfo.getFare());
     	}
@@ -238,7 +229,7 @@ public class LocalPassenger implements Passenger
      * @return The total Number of journeys
      */
     @RequestMapping(value="/TotalJourneys")
-    public int TotalJourneys(@RequestParam(value="username")String name)
+    public int totalJourneys(@RequestParam(value="username")String name)
     {
     	List<FareInfo> template = FIRepository.findAllByName(name);
     	return template.size();
@@ -272,6 +263,52 @@ public class LocalPassenger implements Passenger
 		
 	}
     
+    /**
+     * Checks if bus driver has marked journey as completed
+     * @param details
+     *					details[0]	-> User name
+     *					details[1]	-> date
+     * @return true if journey is completed
+     */
+    @RequestMapping(value="/checkJourneyComplete")
+	public boolean checkJourneyComplete(@RequestParam(value="journeyDetails")String[] details) {
+		
+    	List<FareInfo> FIList = FIRepository.findAllByNameAndDate(details[0], details[1]);
+    	
+    	for(FareInfo fareInfo: FIList)
+    	{
+    		if(!fareInfo.getToken().equals("000000"))
+    		{
+    			return false;
+    		}
+    	}
+    	return true;
+	}
+    
+    
+    /**
+     * Get unfinished journey of a particular User
+     * @param name
+     * @return The previous Token
+     */
+    @RequestMapping(value="/getPreviousToken")
+    public String getPreviousToken(@RequestParam(value="username")String name)
+    {
+    	String token="000000";
+    	List<FareInfo> FIList = FIRepository.findAllByName(name);
+    	for(FareInfo fareInfo: FIList)
+    	{
+    		if(!fareInfo.getToken().equals("000000"))
+    		{
+    			token = fareInfo.getToken();
+    		}
+    	}
+    	return token;
+    }
+    
+    
+    
+
     //==================================Methods to validate a passenger for journey=========================================
     
     @RequestMapping(value="/checkPassengerDetails")
@@ -294,6 +331,20 @@ public class LocalPassenger implements Passenger
     
     
     
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
     
 //**********************************************************************************************************
 //--------------------------------------- Setters and Getters ----------------------------------------------
@@ -308,16 +359,6 @@ public class LocalPassenger implements Passenger
     {
         this.NIC = NIC;
     }
-
-//    public String getTokenId()
-//    {
-//        return tokenId;
-//    }
-//
-//    public void setTokenId(String tokenId)
-//    {
-//        this.tokenId = tokenId;
-//    }
 
     @RequestMapping(value="/getAmount")
     public double getAmount(@RequestParam(value="username")String name)
@@ -367,6 +408,14 @@ public class LocalPassenger implements Passenger
 
 	public void setPassword(int password) {
 		this.password = password;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 }

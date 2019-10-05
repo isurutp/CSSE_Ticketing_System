@@ -78,7 +78,7 @@
         android:layout_width="233dp"
         android:layout_height="25dp"
         android:onClick="registerButton"
-        android:text="New users click here to sign up"
+        android:text="New users tap here to sign up"
         android:textAlignment="center"
         android:textColor="@android:color/background_light"
         android:textSize="14sp"
