@@ -17,6 +17,11 @@ export default class BusDriverMain extends Component {
             selectedUser: ''
         };
 
+        //bus ID 1
+        //Passenger username 2
+        //Payment type 3
+        //Start Time 4
+
         this.addUser = this.addUser.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.setData = this.setData.bind(this);
@@ -28,6 +33,27 @@ export default class BusDriverMain extends Component {
         this.setState([
             this.state.selectedUser = target.value
         ]);
+
+        const userDetails = new Cookies();
+        var busRoute = userDetails.get('busRoute');
+        var userName ;
+        var startTime ;
+        var paymentType ;
+
+        var i = 0 ;
+        while(i < 100){
+            if (this.state.crrJourney[i][1] == this.state.selectedUser){
+                userName = this.state.crrJourney[i][1];
+                startTime = this.state.crrJourney[i][4];
+                paymentType = this.state.crrJourney[i][3];
+                alert(userName +" "+ busRoute);
+                //add these data to FairInfo and then delete from journey
+                return ;
+                //here======================================================
+            }
+            i++ ;
+        }
+
         var deleteUser = false;
         deleteUser = await fetch(`/deleteOneCurrentJourney?username=${this.state.selectedUser}`)
             .then(function (response) {

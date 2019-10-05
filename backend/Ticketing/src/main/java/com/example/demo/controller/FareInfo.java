@@ -1,5 +1,9 @@
 package com.example.demo.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +18,13 @@ public class FareInfo
 {
 	
 	private String name;
-	private String startingLocation;
-	private String endingLocation;
-	private String fare;
+	private String startingLocation; 	//start time
+	private String endingLocation; 		//end time
+	private String network ;   			//bus route
+	private String paymentType ;
+	private String fare; 				//auto generate number between 10-100
 	private String token;
-	private String date;
+	private String date; 				//end time
 	
 	@Autowired
     private FareInfoRepository FIRepository;
@@ -35,10 +41,33 @@ public class FareInfo
 		this.token = token;
 		this.setDate(date);
 	}
-
 	
+	public FareInfo(String name, String startingLocation,String network)
+	{
+		this.name = name;
+		this.startingLocation = startingLocation;
+		this.endingLocation = getTime();
+		this.fare = generateFare() ;
+		this.token = generateToken() ;
+		this.date = getTime();
+	}
 	
+	public String generateToken() {
+		//generate a random number 
+		return "" ;
+	}
 	
+	public String generateFare() {
+		//generate a random number between 10-100
+		return " " ;
+	}
+	
+	public String getTime() {
+		Date crrDate = Calendar.getInstance().getTime();
+		DateFormat dateFormat = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss z");
+		String strDate = dateFormat.format(crrDate);
+		return strDate;
+	}
 	
 	
 //**********************************************************************************************************

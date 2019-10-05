@@ -44,6 +44,9 @@ export default class BusDriverNavBar extends Component {
                 isCrowded: 'Not Crowded'
             })
         }
+        const userDetails = new Cookies();
+        userDetails.get('busRoute');
+        userDetails.set('busRoute', this.state.busRoute);
     }
 
     Home()
