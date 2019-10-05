@@ -19,11 +19,11 @@ import com.example.demo.repository.CurrentJourneyRepository;
 @RestController
 public class CurrentJourney {
 	@Id
-	String id;
-	String busId;
-	String username;
-	String paymentType;
-	Date startTime ;
+	private String id;
+	private String busId;
+	private String username;
+	private String paymentType;
+	private Date startTime ;
 	
 	@Autowired
 	private BusRepository bsRepo ;
@@ -64,6 +64,7 @@ public class CurrentJourney {
     	Bus currentBus = bsRepo.findBybusId(busId) ;
     	currentBus.setPassengerCount(size);
     	bsRepo.save(currentBus);
+    	System.out.println("=========================================================================");
     	System.out.println("Number of passengers on " + busId + " : "+ currentBus.getPassengerCount());
     	System.out.println("Number of seats on "+ busId + " : " + currentBus.getNoOfSeats());
     	

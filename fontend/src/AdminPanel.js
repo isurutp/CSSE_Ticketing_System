@@ -31,6 +31,13 @@ export default class AdminPanel extends Component {
         window.location.reload();  
     }
 
+    addBus(){
+        const cookies = new Cookies();
+        cookies.get('page');
+        cookies.set('page', 'addBus');
+        window.location.reload();
+    }
+
     render() {
         return(
             <div>
@@ -53,6 +60,11 @@ export default class AdminPanel extends Component {
                             <tr>
                             <button onClick={this.countDetails} style={{backgroundColor:'#33ccff', padding: '20px 80px'}}>Passenger Count Details</button> 
                             </tr>
+                            <br/>
+                            <tr>
+                            <button onClick={this.addBus} style={{backgroundColor:'#33ccff', padding: '20px 80px'}}>Add Bus</button> 
+                            </tr>
+
                         </table>
 
 

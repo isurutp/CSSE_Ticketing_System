@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.BusFactory;
+import com.example.demo.PassengerFactory;
 import com.example.demo.repository.BusRepository;
 
 @RestController
@@ -83,6 +85,21 @@ public class Bus {
 			return false ;
 		}
 	}
+	
+	@RequestMapping(value="/addNewBuss")
+    public boolean setBusData(@RequestParam(value="busDetails") String[] details) {
+    	
+    	Bus bus = BusFactory.makeBus(details[0], Integer.parseInt(details[1]), details[2]);
+    	
+    	if(bsRepo.findBybusId(bus.busId) != null)
+    	{
+    		return false;
+    	}
+        
+    	bsRepo.save(bus);    	
+    	return true;
+        
+    }
 	
 	@RequestMapping(value="/getBusId")
 	public Boolean getBusId(@RequestParam String busId) {
