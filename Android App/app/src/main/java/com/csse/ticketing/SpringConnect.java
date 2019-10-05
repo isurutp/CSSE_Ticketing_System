@@ -122,31 +122,36 @@ public class SpringConnect
     }
 
     /**
-     * Checks if Journey has been completed by connecting to spring backend
+     * Checks if user is inside a bus by connecting to spring backend
      * @param name
-     * @param date
-     * @return
+     * @return busID
      */
-    public Boolean checkJourneyComplete(String name, String date)
+    public String checkUserInBus(String name)
     {
-        boolean result = false;
-
-        String url = ipAddress + "/checkJourneyComplete?journeyDetails="+name+","+date;
-        if (getResult(url).trim().equalsIgnoreCase("true"))
-        {
-            result = true;
-        }
-        return result;
+        String url = ipAddress + "/checkUserInBus?username="+name;
+        return getResult(url);
     }
 
     /**
-     * Retrieves incomplete journey tokens by connecting to spring backend
+     * gets time user go onto bus by connecting to spring backend
      * @param name
-     * @return
+     * @return Time
      */
-    public String getPreviousToken(String name)
+    public String checkTime(String name)
     {
-        String url = ipAddress + "/getPreviousToken?username="+name;
+        String url = ipAddress + "/checkTime?username="+name;
+        return getResult(url);
+    }
+
+
+    /**
+     * Get the fare of a completed Journey
+     * @param name
+     * @return The amount charged
+     */
+    public String getFare(String name)
+    {
+        String url = ipAddress + "/getFare?username="+name;
         return getResult(url);
     }
 
