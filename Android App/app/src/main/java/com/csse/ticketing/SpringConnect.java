@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SpringConnect
 {
-    public final String ipAddress = "http://192.168.8.110:8080"; //Need to add to network_security_config.xml
+    public final String ipAddress = "http://172.28.29.47:8080"; //Need to add to network_security_config.xml
 
     /**
      * Checking login details by connecting to spring backend
