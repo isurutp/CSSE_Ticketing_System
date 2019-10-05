@@ -99,6 +99,31 @@ public class CurrentJourney {
 		}
 	}
 	
+	
+	@RequestMapping(value="/checkUserInBus")
+	public String checkUserInBus(@RequestParam(value="username") String username) 
+	{
+		CurrentJourney currentJourney = cjRepo.findByusername(username);
+		if(currentJourney != null)
+		{
+			return currentJourney.busId;
+		}
+		return "none";
+	}
+	
+	@RequestMapping(value="/checkTime")
+	public String checkTime(@RequestParam(value="username") String username) 
+	{
+		CurrentJourney currentJourney = cjRepo.findByusername(username);
+		if(currentJourney != null)
+		{
+			return currentJourney.startTime.toString();
+		}
+		return "none";
+	}
+	
+	
+	
 	//=========================================Getters and Setters=========================================================
 	public String getId() {
 		return id;

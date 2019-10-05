@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -72,14 +74,32 @@ public class FareInfo
 		this.endingLocation = endingLocation;
 	}
 
-
-	public String getFare() {
-		return fare;
+	/**
+	 * Returns the fare of non complete journey
+	 * @param tokenID new id to check if usable.
+	 * @return true if token can be used.
+	 */
+	@RequestMapping(value="/getFare")
+	public String getFare(@RequestParam(value="username")String name) 
+	{
+		List<FareInfo> FIList = FIRepository.findAllByName(name);
+		for(FareInfo fareInfo : FIList)
+		{
+			if(!fareInfo.token.equals("000000")) 
+			{
+				return fareInfo.fare;
+			}
+		}
+		return "0";
 	}
 
 
 	public void setFare(String fare) {
 		this.fare = fare;
+	}
+	
+	public String getFare() {
+		return fare;
 	}
 
 

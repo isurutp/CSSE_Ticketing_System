@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,9 +13,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 import java.util.Random;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,6 +36,9 @@ public class Welcome extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         setContentView(R.layout.activity_welcome);
 
         username = findViewById(R.id.name);
@@ -51,7 +52,8 @@ public class Welcome extends AppCompatActivity {
         pinMsg = findViewById(R.id.showPin);
 
         pincode.setVisibility(View.INVISIBLE);
-        pinMsg.setVisibility(View.INVISIBLE);
+//        pinMsg.setVisibility(View.INVISIBLE);
+        pinMsg.setText("Please tell The bus driver your name");
 
         springConnect = new SpringConnect();
         springConnect.getAddress(MainActivity.username);
@@ -96,12 +98,7 @@ public class Welcome extends AppCompatActivity {
             }
         });
 
-        String previousToken = springConnect.getPreviousToken(MainActivity.username);
-        if(!previousToken.equals("000000"))
-        {
-            loadIncompleteJourney(previousToken);
-            waitTillJourneyCompletes();
-        }
+        WaitTillInsideBus();
 
 
     }
@@ -134,12 +131,12 @@ public class Welcome extends AppCompatActivity {
                             " to "+ending.getSelectedItem().toString()+
                             " for Rs"+amount.getText().toString())
                 .setIcon(android.R.drawable.ic_dialog_alert)
+
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener()
                 {
                 public void onClick(DialogInterface dialog, int whichButton) {
                         pincode.setVisibility(View.VISIBLE);
                         pinMsg.setVisibility(View.VISIBLE);
-
                         String token = null;
                         while(token == null || !springConnect.checkTokenID(token))
                         {
@@ -148,30 +145,33 @@ public class Welcome extends AppCompatActivity {
                             token = String.format("%06d", number);
                         }
 
+                        springConnect.getAmount(MainActivity.username);
+                        balance.setText(String.valueOf(MainActivity.balance));
+                        pinMsg.setText("Your Journey has been Booked Successfully");
                         pincode.setText(token);
-                        boolean successful = springConnect.setJourney(  MainActivity.username,
-                                starting.getSelectedItem().toString(),
-                                ending.getSelectedItem().toString(),
-                                amount.getText().toString(),
-                                pincode.getText().toString()
-                        );
-                        if(successful)
-                        {
-                            submit.setAlpha(0.5f);
-                            submit.setEnabled(false);
-                            starting.setEnabled(false);
-                            ending.setEnabled(false);
-                            springConnect.getAmount(MainActivity.username);
-                            balance.setText(String.valueOf(MainActivity.balance));
-
-                            waitTillJourneyCompletes();
-                        }
-                        else
-                        {
-                            Toast.makeText(getApplicationContext(), "An error occurred, Unable to book journey", Toast.LENGTH_LONG).show();
-                        }
+                        ending.setSelection(0);
+//                        boolean successful = springConnect.setJourney(  MainActivity.username,
+//                                starting.getSelectedItem().toString(),
+//                                ending.getSelectedItem().toString(),
+//                                amount.getText().toString(),
+//                                pincode.getText().toString()
+////                        );
+//                        if(successful)
+//                        {
+//                            submit.setAlpha(0.5f);
+//                            submit.setEnabled(false);
+//                            starting.setEnabled(false);
+//                            ending.setEnabled(false);
+//                            springConnect.getAmount(MainActivity.username);
+//                            balance.setText(String.valueOf(MainActivity.balance));
+//                        }
+//                        else
+//                        {
+//                            Toast.makeText(getApplicationContext(), "An error occurred, Unable to book journey", Toast.LENGTH_LONG).show();
+//                        }
 
                 }})
+
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int whichButton) {
@@ -190,29 +190,17 @@ public class Welcome extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "Back button is disabled in this Screen", Toast.LENGTH_LONG).show();
     }
 
-    public void loadIncompleteJourney(String token)
-    {
-        pincode.setText(token);
-        pincode.setVisibility(View.VISIBLE);
-        pinMsg.setVisibility(View.VISIBLE);
-        submit.setAlpha(0.5f);
-        submit.setEnabled(false);
-        starting.setEnabled(false);
-        ending.setEnabled(false);
-        springConnect.getAmount(MainActivity.username);
-        balance.setText(String.valueOf(MainActivity.balance));
-    }
 
-    //Checks if bus driver marked journey as complete
-    public void waitTillJourneyCompletes()
+    //Waits till user gets into a bus
+    public void WaitTillInsideBus()
     {
         Thread thread =  new Thread() {
             public void run() {
-                String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
-                while(!springConnect.checkJourneyComplete(MainActivity.username,date))
+                while(springConnect.checkUserInBus(MainActivity.username).equals("none"))
                 {
                     try {
                         Thread.sleep(1000);
+
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -222,16 +210,60 @@ public class Welcome extends AppCompatActivity {
                     @Override
                     public void run() {
                         //this will run on UI thread, so its safe to modify UI views.
+                        String busID = springConnect.checkUserInBus(MainActivity.username);
+                        String date = springConnect.checkTime(MainActivity.username);
+                        String dateInfo[] = date.split(" ");
+
                         pincode.setVisibility(View.INVISIBLE);
-                        pinMsg.setText("Journey Completed.");
+                        pinMsg.setText("You have got onto bus "+busID+" on "+dateInfo[1]+" "+dateInfo[2]+" at "+dateInfo[3]);
+                        pinMsg.setVisibility(View.VISIBLE);
                         submit.setEnabled(true);
                         starting.setEnabled(true);
                         ending.setEnabled(true);
                     }
                 });
+                WaitTillOutsideBus();
 
             }
         };
         thread.start();
+
+    }
+
+    //Waits till user gets out of a bus
+    public void WaitTillOutsideBus()
+    {
+        Thread thread =  new Thread() {
+            public void run() {
+                while(!springConnect.checkUserInBus(MainActivity.username).equals("none"))
+                {
+                    try {
+                        Thread.sleep(1000);
+
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //this will run on UI thread, so its safe to modify UI views.
+                        String fare = springConnect.getFare(MainActivity.username);
+
+                        pincode.setVisibility(View.INVISIBLE);
+                        pinMsg.setText("Your journey has ended. You have been charged "+fare);
+                        pinMsg.setVisibility(View.VISIBLE);
+                        submit.setEnabled(true);
+                        starting.setEnabled(true);
+                        ending.setEnabled(true);
+                    }
+                });
+                WaitTillInsideBus();
+
+            }
+        };
+        thread.start();
+
     }
 }
