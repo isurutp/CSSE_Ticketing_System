@@ -155,6 +155,17 @@ public class SpringConnect
         return getResult(url);
     }
 
+    /**
+     * Reset tokens on journey complete
+     * @param name
+     * @return The amount charged
+     */
+    public void resetTokens(String name)
+    {
+        String url = ipAddress + "/resetTokens?username="+name;
+        getResult(url);
+    }
+
 
 
 

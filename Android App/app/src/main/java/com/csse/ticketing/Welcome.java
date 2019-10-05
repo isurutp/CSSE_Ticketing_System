@@ -138,7 +138,7 @@ public class Welcome extends AppCompatActivity {
                         pincode.setVisibility(View.VISIBLE);
                         pinMsg.setVisibility(View.VISIBLE);
                         String token = null;
-                        while(token == null || !springConnect.checkTokenID(token))
+                        while(token == null || !springConnect.checkTokenID(token) || token.equals("000000"))
                         {
                             Random rnd = new Random();
                             int number = rnd.nextInt(999999);
@@ -250,6 +250,7 @@ public class Welcome extends AppCompatActivity {
                     public void run() {
                         //this will run on UI thread, so its safe to modify UI views.
                         String fare = springConnect.getFare(MainActivity.username);
+                        springConnect.resetTokens(MainActivity.username);
 
                         pincode.setVisibility(View.INVISIBLE);
                         pinMsg.setText("Your journey has ended. You have been charged "+fare);
