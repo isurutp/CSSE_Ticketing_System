@@ -55,13 +55,19 @@ public class FareInfo
 	}
 	
 	public String generateToken() {
-		//generate a random number 
-		return "" ;
+		//generate a random 6 digit number 
+		double randomDouble = Math.random();
+		randomDouble = randomDouble * 900000 + 100000;
+		int randomInt = (int) randomDouble ;
+		return Integer.toString(randomInt) ;
 	}
 	
 	public String generateFare() {
 		//generate a random number between 10-100
-		return " " ;
+		double randomDouble = Math.random();
+		randomDouble = randomDouble * 90 + 10;
+		int randomInt = (int) randomDouble ;
+		return Integer.toString(randomInt) ;
 	}
 	
 	public String getTime() {
@@ -71,10 +77,49 @@ public class FareInfo
 		return strDate;
 	}
 	
+	@RequestMapping(value="/addNewJourney_FairInfo")
+	public boolean addNewJourney_FairInfo(@RequestParam String name, @RequestParam String startingLocation, @RequestParam String network, @RequestParam String paymentType) {
+		try {
+			FareInfo fi = new FareInfo(name, startingLocation, network, paymentType);
+			FIRepository.save(fi);
+			System.out.println("=========================================================================");
+			System.out.println("Adding new Journey...");
+			System.out.println("User : " + fi.getName());
+			System.out.println("Fare : " + fi.getFare());
+			return true ;
+		}catch (NullPointerException e){
+			return false ;
+		}
+	}
+	
 	
 //**********************************************************************************************************
 //--------------------------------------- Setters and Getters ----------------------------------------------
 //**********************************************************************************************************
+
+	public String getNetwork() {
+		return network;
+	}
+
+	public void setNetwork(String network) {
+		this.network = network;
+	}
+
+	public String getPaymentType() {
+		return paymentType;
+	}
+
+	public void setPaymentType(String paymentType) {
+		this.paymentType = paymentType;
+	}
+
+	public FareInfoRepository getFIRepository() {
+		return FIRepository;
+	}
+
+	public void setFIRepository(FareInfoRepository fIRepository) {
+		FIRepository = fIRepository;
+	}
 
 	public String getName() {
 		return name;

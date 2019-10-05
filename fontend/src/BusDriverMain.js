@@ -41,35 +41,45 @@ export default class BusDriverMain extends Component {
         var paymentType ;
 
         var i = 0 ;
-        while(i < 100){
+        while(i < 1000){
             if (this.state.crrJourney[i][1] == this.state.selectedUser){
                 userName = this.state.crrJourney[i][1];
                 startTime = this.state.crrJourney[i][4];
                 paymentType = this.state.crrJourney[i][3];
                 alert(userName +" "+ busRoute);
-                //add these data to FairInfo and then delete from journey
+
+                var addNewJourney = false;
+                addNewJourney = await fetch(`/addNewJourney_FairInfo?name=${userName}&startingLocation=${startTime}&network=${busRoute}&paymentType=${paymentType}`)
+                    .then(function (response) {
+                        return response.json();
+                    })
+                    .then(function (data) {
+                        return data;
+                    });
+                if (addNewJourney){
+                    var deleteUser = false;
+                    deleteUser = await fetch(`/deleteOneCurrentJourney?username=${this.state.selectedUser}`)
+                        .then(function (response) {
+                            return response.json();
+                        })
+                        .then(function (data) {
+                            return data;
+                        });
+                    if(deleteUser){
+                        alert('Successfully finished the journey of user : ' + this.state.selectedUser) ;
+                        window.location.reload();
+                        return ;
+                    }else{
+                        alert(this.state.selectedUser + ' Not found');
+                        return ;
+                    }
+                }else{
+                    alert ("Something went wrong");
+                    return ;
+                }
                 return ;
-                //here======================================================
             }
             i++ ;
-        }
-
-        var deleteUser = false;
-        deleteUser = await fetch(`/deleteOneCurrentJourney?username=${this.state.selectedUser}`)
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (data) {
-                return data;
-            });
-        if(deleteUser){
-            alert('Deleted the user ' + this.state.selectedUser + ' from journey list') ;
-            //Add user details to the ride list
-            window.location.reload();
-            return ;
-        }else{
-            alert(this.state.selectedUser + ' Not found');
-            return ;
         }
     }
 

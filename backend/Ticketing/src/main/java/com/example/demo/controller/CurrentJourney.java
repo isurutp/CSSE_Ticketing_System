@@ -64,6 +64,7 @@ public class CurrentJourney {
     	Bus currentBus = bsRepo.findBybusId(busId) ;
     	currentBus.setPassengerCount(size);
     	bsRepo.save(currentBus);
+    	System.out.println("=========================================================================");
     	System.out.println("Number of passengers on " + busId + " : "+ currentBus.getPassengerCount());
     	System.out.println("Number of seats on "+ busId + " : " + currentBus.getNoOfSeats());
     	
