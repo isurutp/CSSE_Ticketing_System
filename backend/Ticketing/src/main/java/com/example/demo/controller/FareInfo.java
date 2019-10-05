@@ -42,11 +42,13 @@ public class FareInfo
 		this.setDate(date);
 	}
 	
-	public FareInfo(String name, String startingLocation,String network)
+	public FareInfo(String name, String startingLocation,String network, String paymentType)
 	{
 		this.name = name;
 		this.startingLocation = startingLocation;
 		this.endingLocation = getTime();
+		this.network = network ;
+		this.paymentType = paymentType ;
 		this.fare = generateFare() ;
 		this.token = generateToken() ;
 		this.date = getTime();
