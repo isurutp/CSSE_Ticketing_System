@@ -200,6 +200,13 @@ public class Welcome extends AppCompatActivity {
                 {
                     try {
                         Thread.sleep(1000);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                springConnect.getAmount(MainActivity.username);
+                                balance.setText(String.valueOf(MainActivity.balance));
+                            }
+                        });
 
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -217,9 +224,9 @@ public class Welcome extends AppCompatActivity {
                         pincode.setVisibility(View.INVISIBLE);
                         pinMsg.setText("You have got onto bus "+busID+" on "+dateInfo[1]+" "+dateInfo[2]+" at "+dateInfo[3]);
                         pinMsg.setVisibility(View.VISIBLE);
-                        submit.setEnabled(true);
-                        starting.setEnabled(true);
-                        ending.setEnabled(true);
+                        submit.setEnabled(false);
+                        starting.setEnabled(false);
+                        ending.setEnabled(false);
                     }
                 });
                 WaitTillOutsideBus();
@@ -240,6 +247,14 @@ public class Welcome extends AppCompatActivity {
                     try {
                         Thread.sleep(1000);
 
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                springConnect.getAmount(MainActivity.username);
+                                balance.setText(String.valueOf(MainActivity.balance));
+                            }
+                        });
+
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -251,6 +266,9 @@ public class Welcome extends AppCompatActivity {
                         //this will run on UI thread, so its safe to modify UI views.
                         String fare = springConnect.getFare(MainActivity.username);
                         springConnect.resetTokens(MainActivity.username);
+                        springConnect.ReduceFare(MainActivity.username,fare);
+                        springConnect.getAmount(MainActivity.username);
+                        balance.setText(String.valueOf(MainActivity.balance));
 
                         pincode.setVisibility(View.INVISIBLE);
                         pinMsg.setText("Your journey has ended. You have been charged "+fare);
