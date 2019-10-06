@@ -39,6 +39,12 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void oneTime(View view)
+    {
+        Intent intent = new Intent(this,TemporaryToken.class);
+        startActivity(intent);
+    }
+
     public void loginButton(View view)
     {
         SpringConnect springConnect = new SpringConnect();

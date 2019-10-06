@@ -14,6 +14,8 @@
         android:theme="@style/AppTheme">
         <activity android:name=".Welcome"
             android:screenOrientation="portrait" />
+        <activity android:name=".TemporaryToken"
+            android:screenOrientation="portrait" />
         <activity android:name=".Register"
             android:screenOrientation="portrait" />
         <activity android:name=".MainActivity"

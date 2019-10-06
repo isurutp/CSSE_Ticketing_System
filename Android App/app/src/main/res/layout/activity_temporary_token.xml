@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
-    tools:context=".Welcome">
+    android:background="@mipmap/blur_bg"
+    tools:context=".TemporaryToken">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -17,32 +17,32 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorPrimaryDark">
+            android:layout_height="match_parent">
 
             <Button
                 android:id="@+id/loginButton2"
                 android:layout_width="104dp"
                 android:layout_height="53dp"
-                android:layout_marginEnd="20dp"
                 android:layout_marginStart="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
                 android:backgroundTint="@android:color/holo_blue_dark"
-                android:onClick="submitButton"
-                android:text="Submit"
+                android:onClick="end"
+                android:text="End Trip"
                 android:textColor="@android:color/background_light"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/loginButton3"
-                tools:layout_editor_absoluteY="455dp" />
+                app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
             <Button
                 android:id="@+id/loginButton3"
                 android:layout_width="104dp"
                 android:layout_height="53dp"
-                android:layout_marginEnd="40dp"
                 android:layout_marginStart="20dp"
+                android:layout_marginEnd="40dp"
                 android:backgroundTint="@android:color/holo_blue_dark"
-                android:onClick="logout"
-                android:text="LogOut"
+                android:onClick="exit"
+                android:text="Exit "
                 android:textColor="@android:color/background_light"
                 app:layout_constraintBaseline_toBaselineOf="@+id/loginButton2"
                 app:layout_constraintEnd_toStartOf="@+id/loginButton2"
@@ -90,27 +90,31 @@
                 android:id="@+id/cardView"
                 android:layout_width="0dp"
                 android:layout_height="200dp"
-                android:layout_marginEnd="20dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
                 app:cardBackgroundColor="@color/colorPrimary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView12" >
+                app:layout_constraintTop_toBottomOf="@+id/textView12">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <ImageView
-                        android:id="@+id/imageView2"
-                        android:layout_width="110dp"
-                        android:layout_height="120dp"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="50dp"
+                    <TextView
+                        android:id="@+id/text_token"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:letterSpacing="1.2"
+                        android:text="000000"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/background_light"
+                        android:textSize="36sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@mipmap/userimage" />
+                        app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.cardview.widget.CardView>

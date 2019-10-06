@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class SpringConnect
 {
-    public final String ipAddress = "http://172.28.29.47:8080"; //Need to add to network_security_config.xml
+    public final String ipAddress = "http://192.168.43.171:8080"; //Need to add to network_security_config.xml
 
     /**
      * Checking login details by connecting to spring backend
@@ -158,15 +158,6 @@ public class SpringConnect
 
 
 
-
-
-
-
-
-
-
-
-
     /**
      * Will get the reply obtained from the URL passed.
      * @param url
@@ -215,6 +206,40 @@ public class SpringConnect
         return result.get();
     }
 
+
+    /**
+     * Checking login details by connecting to spring backend
+     * @param token
+     * @return true if login is valid
+     */
+    public boolean checkTempPassenger( final String token)
+    {
+        boolean result = false;
+
+        String url = ipAddress + "/checkTemp?token=" + token;
+        if (getResult(url).equalsIgnoreCase("true"))
+        {
+            result = true;
+        }
+        return result;
+    }
+
+    /**
+     * Checking login details by connecting to spring backend
+     * @param token
+     * @return true if login is valid
+     */
+    public boolean createTempPassenger( final String token)
+    {
+        boolean result = false;
+
+        String url = ipAddress + "/setTemp?token=" + token;
+        if (getResult(url).equalsIgnoreCase("true"))
+        {
+            result = true;
+        }
+        return result;
+    }
 
 
 }
