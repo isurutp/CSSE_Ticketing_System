@@ -86,6 +86,23 @@ public class SpringConnect
         return result;
     }
 
+    /**
+     * Adds to user's balance by connecting to spring backend
+     * @param username
+     * @param amount The fare to add from the balance
+     */
+    public Boolean transferCredit(String username,String amount)
+    {
+        boolean result = false;
+
+        String url = ipAddress + "/transferCredit?amountDetails=" + username + "," + amount;
+        if (getResult(url).trim().equalsIgnoreCase("true"))
+        {
+            result = true;
+        }
+        return result;
+    }
+
 
     /**
      * sends Journey details to spring backend
