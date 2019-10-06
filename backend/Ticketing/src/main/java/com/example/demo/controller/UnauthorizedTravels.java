@@ -36,6 +36,7 @@ public class UnauthorizedTravels {
 		this.fare = fare ;
 	}
 
+	//add new data set to the unauthorized travel table
 	@RequestMapping(value="/addNewUnauthorizedTravels")
 	public boolean addNewUnauthorizedTravels(@RequestParam String name, @RequestParam String route, @RequestParam double fare) {
 		try {
@@ -47,6 +48,7 @@ public class UnauthorizedTravels {
 		}
 	}
 	
+	//get all from unauthorized travel
 	@RequestMapping(value="/getAllUnauthorizedTravels")
     public String[][] getAllUnauthorizedTravels() {
     	List<UnauthorizedTravels> ut = unTravels.findAll();
@@ -89,6 +91,8 @@ public class UnauthorizedTravels {
 		return travDet;
 	}
 	
+	
+	//delete all from the repository
 	@RequestMapping(value="/deleteAllUnauthorizedTravels")
 	public String deleteAll() {
 		try{

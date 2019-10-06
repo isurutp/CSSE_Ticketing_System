@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.BusFactory;
-import com.example.demo.PassengerFactory;
 import com.example.demo.repository.BusRepository;
 
 @RestController
@@ -34,6 +33,7 @@ public class Bus {
 		this.passengerCount = 0 ;
 	}
 	
+	//method to get details of a particular bus
 	@RequestMapping(value="/getBusDetails")
     public String[][] getBusDetails(@RequestParam String busId)
     {
@@ -56,6 +56,7 @@ public class Bus {
 		return busDet;
 	}
 	
+	//get over crowded bus details
 	@RequestMapping(value="/getOCBusDetails")
 	public String[][] getOCBusDetails()
     {
@@ -102,7 +103,7 @@ public class Bus {
 	}
 	
 	
-	
+	//check if a particular bus is overcrowded
 	@RequestMapping(value="/getBusIsOverCrowded")
 	public boolean identifyOvercrowd(@RequestParam String busId) {
 		try{
@@ -119,6 +120,7 @@ public class Bus {
 		}
 	}
 	
+	//method to add a new bus
 	@RequestMapping(value="/addNewBus")
 	public boolean create(@RequestParam String busId, @RequestParam int noOfSeats, @RequestParam String route) {
 		try {
