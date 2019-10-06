@@ -63,7 +63,7 @@ public class SpringConnect
      * Updates user's balance by connecting to spring backend
      * @param username
      */
-    public void getAmount(String username)
+    public void getBalance(String username)
     {
         String url = ipAddress + "/getAmount?username=" + username;
         MainActivity.balance = Double.valueOf(getResult(url));

@@ -57,7 +57,7 @@ public class Welcome extends AppCompatActivity {
 
         springConnect = new SpringConnect();
         springConnect.getAddress(MainActivity.username);
-        springConnect.getAmount(MainActivity.username);
+        springConnect.getBalance(MainActivity.username);
 
         username.setText(MainActivity.username);
         location.setText(MainActivity.location);
@@ -145,7 +145,7 @@ public class Welcome extends AppCompatActivity {
                             token = String.format("%06d", number);
                         }
 
-                        springConnect.getAmount(MainActivity.username);
+                        springConnect.getBalance(MainActivity.username);
                         balance.setText(String.valueOf(MainActivity.balance));
                         pinMsg.setText("Your Journey has been Booked Successfully");
                         pincode.setText(token);
@@ -162,7 +162,7 @@ public class Welcome extends AppCompatActivity {
 //                            submit.setEnabled(false);
 //                            starting.setEnabled(false);
 //                            ending.setEnabled(false);
-//                            springConnect.getAmount(MainActivity.username);
+//                            springConnect.getBalance(MainActivity.username);
 //                            balance.setText(String.valueOf(MainActivity.balance));
 //                        }
 //                        else
@@ -203,7 +203,7 @@ public class Welcome extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                springConnect.getAmount(MainActivity.username);
+                                springConnect.getBalance(MainActivity.username);
                                 balance.setText(String.valueOf(MainActivity.balance));
                             }
                         });
@@ -250,7 +250,7 @@ public class Welcome extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                springConnect.getAmount(MainActivity.username);
+                                springConnect.getBalance(MainActivity.username);
                                 balance.setText(String.valueOf(MainActivity.balance));
                             }
                         });
@@ -267,7 +267,7 @@ public class Welcome extends AppCompatActivity {
                         String fare = springConnect.getFare(MainActivity.username);
                         springConnect.resetTokens(MainActivity.username);
                         springConnect.ReduceFare(MainActivity.username,fare);
-                        springConnect.getAmount(MainActivity.username);
+                        springConnect.getBalance(MainActivity.username);
                         balance.setText(String.valueOf(MainActivity.balance));
 
                         pincode.setVisibility(View.INVISIBLE);
