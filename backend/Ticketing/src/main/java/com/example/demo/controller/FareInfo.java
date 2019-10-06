@@ -5,8 +5,12 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.Id;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,7 +20,8 @@ import com.example.demo.repository.FareInfoRepository;
 @RestController
 public class FareInfo 
 {
-	
+	@Id
+	ObjectId _id;
 	private String name;
 	private String startingLocation; 	//start time
 	private String endingLocation; 		//end time
@@ -44,9 +49,14 @@ public class FareInfo
 	
 	public FareInfo(String name, String startingLocation,String network, String paymentType)
 	{
+		String[] locations = {"Kaduwela","Kollupitiya","Rajagiriya","Kothalawala","Koswatta","Battaramulla"};
+		int randomInteger = new Random().nextInt(5);
+		
 		this.name = name;
-		this.startingLocation = startingLocation;
-		this.endingLocation = getTime();
+		this.startingLocation = "Malabe";
+//		this.startingLocation = startingLocation;
+//		this.endingLocation = getTime();
+		this.endingLocation = locations[randomInteger];
 		this.network = network ;
 		this.paymentType = paymentType ;
 		this.fare = generateFare() ;
@@ -167,6 +177,26 @@ public class FareInfo
 			}
 		}
 		return "0";
+	}
+	
+	/**
+	 * Returns the fare of non complete journey
+	 * @param tokenID new id to check if usable.
+	 * @return true if token can be used.
+	 */
+	@RequestMapping(value="/resetTokens")
+	public void resetTokens(@RequestParam(value="username")String name) 
+	{
+		List<FareInfo> FIList = FIRepository.findAllByName(name);
+		for(FareInfo fareInfo : FIList)
+		{
+			if(!fareInfo.token.equals("000000")) 
+			{
+				FareInfo FIUpdate = FIRepository.findBy_id(fareInfo._id);
+				FIUpdate.token = "000000";
+				FIRepository.save(FIUpdate);
+			}
+		}
 	}
 
 

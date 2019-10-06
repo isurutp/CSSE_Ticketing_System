@@ -9,9 +9,11 @@
 
     <View
         android:id="@+id/view4"
-        android:layout_width="381dp"
-        android:layout_height="166dp"
+        android:layout_width="0dp"
+        android:layout_height="219dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
         android:background="#007d6d"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.466"
@@ -20,9 +22,11 @@
 
     <View
         android:id="@+id/view"
-        android:layout_width="381dp"
+        android:layout_width="0dp"
         android:layout_height="183dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="40dp"
+        android:layout_marginEnd="8dp"
         android:background="#34781a"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.466"
@@ -33,27 +37,25 @@
         android:id="@+id/loginButton3"
         android:layout_width="104dp"
         android:layout_height="53dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
         android:backgroundTint="@android:color/holo_blue_dark"
         android:onClick="logout"
         android:text="Log out"
         android:textColor="@android:color/background_light"
-        app:layout_constraintBaseline_toBaselineOf="@+id/loginButton2"
-        app:layout_constraintStart_toStartOf="parent" />
-
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/loginButton2"
         android:layout_width="104dp"
         android:layout_height="53dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="64dp"
         android:backgroundTint="@android:color/holo_blue_dark"
         android:onClick="submitButton"
         android:text="Submit"
         android:textColor="@android:color/background_light"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/view4"
+        app:layout_constraintEnd_toEndOf="@+id/view4" />
 
     <EditText
         android:id="@+id/amount"
@@ -95,6 +97,7 @@
         app:layout_constraintBaseline_toBaselineOf="@+id/textView14"
         app:layout_constraintStart_toStartOf="@+id/location" />
 
+
     <EditText
         android:id="@+id/balance"
         android:layout_width="108dp"
@@ -111,11 +114,12 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="82dp"
-        android:layout_height="88dp"
-        android:layout_marginStart="32dp"
+        android:layout_width="92dp"
+        android:layout_height="92dp"
         android:layout_marginTop="40dp"
-        app:layout_constraintStart_toStartOf="@+id/view"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView16"
+        app:layout_constraintEnd_toStartOf="@+id/textView15"
         app:layout_constraintTop_toTopOf="@+id/view"
         app:srcCompat="@mipmap/userimage" />
 
@@ -153,13 +157,13 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="16dp"
         android:text="Welcome"
         android:textColor="@android:color/background_light"
         android:textSize="36sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/loginButton3" />
 
     <TextView
         android:id="@+id/showPin"
@@ -183,7 +187,10 @@
         android:text="Name: "
         android:textColor="@android:color/background_light"
         android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/view" />
 
     <TextView
@@ -214,7 +221,7 @@
         android:id="@+id/textView11"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="32dp"
         android:text="Book Journey"
         android:textColor="@android:color/background_light"
         android:textSize="16sp"

@@ -19,11 +19,11 @@ import com.example.demo.repository.CurrentJourneyRepository;
 @RestController
 public class CurrentJourney {
 	@Id
-	String id;
-	String busId;
-	String username;
-	String paymentType;
-	Date startTime ;
+	private String id;
+	private String busId;
+	private String username;
+	private String paymentType;
+	private Date startTime ;
 	
 	@Autowired
 	private BusRepository bsRepo ;
