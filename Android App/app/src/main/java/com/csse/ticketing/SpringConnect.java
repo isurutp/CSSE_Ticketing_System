@@ -63,7 +63,7 @@ public class SpringConnect
      * Updates user's balance by connecting to spring backend
      * @param username
      */
-    public void getAmount(String username)
+    public void getBalance(String username)
     {
         String url = ipAddress + "/getAmount?username=" + username;
         MainActivity.balance = Double.valueOf(getResult(url));
@@ -153,6 +153,17 @@ public class SpringConnect
     {
         String url = ipAddress + "/getFare?username="+name;
         return getResult(url);
+    }
+
+    /**
+     * Reset tokens on journey complete
+     * @param name
+     * @return The amount charged
+     */
+    public void resetTokens(String name)
+    {
+        String url = ipAddress + "/resetTokens?username="+name;
+        getResult(url);
     }
 
 

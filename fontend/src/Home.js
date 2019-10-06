@@ -21,6 +21,7 @@ import AdminFinancePanel from "./AdminFinancePanel";
 import AdminPlanFinance from "./AdminPlanFiniance";
 import AdminUnauthorized from "./AdminUnauthorized";
 import BusDriverMain from "./BusDriverMain" ;
+import AddBus from "./AddBus";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -147,6 +148,12 @@ export default class Home extends Component {
             return(
                 <div>
                     <BusDriverMain/>
+                </div>
+            );
+        }else if (cookies.get('page') === "addBus"){    //Add Bus Page
+            return(
+                <div>
+                    <AddBus/>
                 </div>
             );
         }

@@ -57,7 +57,7 @@ public class Welcome extends AppCompatActivity {
 
         springConnect = new SpringConnect();
         springConnect.getAddress(MainActivity.username);
-        springConnect.getAmount(MainActivity.username);
+        springConnect.getBalance(MainActivity.username);
 
         username.setText(MainActivity.username);
         location.setText(MainActivity.location);
@@ -109,6 +109,8 @@ public class Welcome extends AppCompatActivity {
         MainActivity.username = "";
         MainActivity.location = "";
 
+
+
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
@@ -138,14 +140,14 @@ public class Welcome extends AppCompatActivity {
                         pincode.setVisibility(View.VISIBLE);
                         pinMsg.setVisibility(View.VISIBLE);
                         String token = null;
-                        while(token == null || !springConnect.checkTokenID(token))
+                        while(token == null || !springConnect.checkTokenID(token) || token.equals("000000"))
                         {
                             Random rnd = new Random();
                             int number = rnd.nextInt(999999);
                             token = String.format("%06d", number);
                         }
 
-                        springConnect.getAmount(MainActivity.username);
+                        springConnect.getBalance(MainActivity.username);
                         balance.setText(String.valueOf(MainActivity.balance));
                         pinMsg.setText("Your Journey has been Booked Successfully");
                         pincode.setText(token);
@@ -162,7 +164,7 @@ public class Welcome extends AppCompatActivity {
 //                            submit.setEnabled(false);
 //                            starting.setEnabled(false);
 //                            ending.setEnabled(false);
-//                            springConnect.getAmount(MainActivity.username);
+//                            springConnect.getBalance(MainActivity.username);
 //                            balance.setText(String.valueOf(MainActivity.balance));
 //                        }
 //                        else
@@ -200,6 +202,13 @@ public class Welcome extends AppCompatActivity {
                 {
                     try {
                         Thread.sleep(1000);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                springConnect.getBalance(MainActivity.username);
+                                balance.setText(String.valueOf(MainActivity.balance));
+                            }
+                        });
 
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -217,15 +226,16 @@ public class Welcome extends AppCompatActivity {
                         pincode.setVisibility(View.INVISIBLE);
                         pinMsg.setText("You have got onto bus "+busID+" on "+dateInfo[1]+" "+dateInfo[2]+" at "+dateInfo[3]);
                         pinMsg.setVisibility(View.VISIBLE);
-                        submit.setEnabled(true);
-                        starting.setEnabled(true);
-                        ending.setEnabled(true);
+                        submit.setEnabled(false);
+                        starting.setEnabled(false);
+                        ending.setEnabled(false);
                     }
                 });
                 WaitTillOutsideBus();
 
             }
         };
+        thread.setDaemon(true);
         thread.start();
 
     }
@@ -240,6 +250,14 @@ public class Welcome extends AppCompatActivity {
                     try {
                         Thread.sleep(1000);
 
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                springConnect.getBalance(MainActivity.username);
+                                balance.setText(String.valueOf(MainActivity.balance));
+                            }
+                        });
+
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -250,6 +268,10 @@ public class Welcome extends AppCompatActivity {
                     public void run() {
                         //this will run on UI thread, so its safe to modify UI views.
                         String fare = springConnect.getFare(MainActivity.username);
+                        springConnect.resetTokens(MainActivity.username);
+                        springConnect.ReduceFare(MainActivity.username,fare);
+                        springConnect.getBalance(MainActivity.username);
+                        balance.setText(String.valueOf(MainActivity.balance));
 
                         pincode.setVisibility(View.INVISIBLE);
                         pinMsg.setText("Your journey has ended. You have been charged "+fare);
@@ -263,6 +285,7 @@ public class Welcome extends AppCompatActivity {
 
             }
         };
+        thread.setDaemon(true);
         thread.start();
 
     }

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.BusFactory;
+import com.example.demo.PassengerFactory;
 import com.example.demo.repository.BusRepository;
 
 @RestController
@@ -54,6 +56,53 @@ public class Bus {
 		return busDet;
 	}
 	
+	@RequestMapping(value="/getOCBusDetails")
+	public String[][] getOCBusDetails()
+    {
+    	List<Bus> bs = bsRepo.findAll();
+    	int i=0;
+    	String[][] busDet = new String[10][4];
+    	for (String[] row : busDet) {
+    	    Arrays.fill(row, "");
+    	}
+    		
+    	for(Bus busInfo: bs)
+    	{
+    		if(busInfo.getNoOfSeats() < busInfo.getPassengerCount())
+    		{
+	    		busDet[i][0] = busInfo.getBusId();
+	    		busDet[i][1] = busInfo.getNetwork();
+	    		busDet[i][2] = Integer.toString(busInfo.getNoOfSeats());
+	    		busDet[i][3] = Integer.toString(busInfo.getPassengerCount()) ;
+    		}
+			i++;
+    	}
+		return busDet;
+	}
+	
+	@RequestMapping(value="/getAllBusDetails")
+	public String[][] getAllBusDetails()
+    {
+    	List<Bus> bs = bsRepo.findAll();
+    	int i=0;
+    	String[][] busDet = new String[10][4];
+    	for (String[] row : busDet) {
+    	    Arrays.fill(row, "");
+    	}
+    		
+    	for(Bus busInfo: bs)
+    	{
+	    		busDet[i][0] = busInfo.getBusId();
+	    		busDet[i][1] = busInfo.getNetwork();
+	    		busDet[i][2] = Integer.toString(busInfo.getNoOfSeats());
+	    		busDet[i][3] = Integer.toString(busInfo.getPassengerCount()) ;
+			i++;
+    	}
+		return busDet;
+	}
+	
+	
+	
 	@RequestMapping(value="/getBusIsOverCrowded")
 	public boolean identifyOvercrowd(@RequestParam String busId) {
 		try{
@@ -83,6 +132,21 @@ public class Bus {
 			return false ;
 		}
 	}
+	
+	@RequestMapping(value="/addNewBuss")
+    public boolean setBusData(@RequestParam(value="busDetails") String[] details) {
+    	
+    	Bus bus = BusFactory.makeBus(details[0], Integer.parseInt(details[1]), details[2]);
+    	
+    	if(bsRepo.findBybusId(bus.busId) != null)
+    	{
+    		return false;
+    	}
+        
+    	bsRepo.save(bus);    	
+    	return true;
+        
+    }
 	
 	@RequestMapping(value="/getBusId")
 	public Boolean getBusId(@RequestParam String busId) {
