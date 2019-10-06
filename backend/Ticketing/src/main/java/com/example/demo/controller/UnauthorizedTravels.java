@@ -68,6 +68,27 @@ public class UnauthorizedTravels {
 		return travDet;
 	}
 	
+	@RequestMapping(value="/getAllUnauthorizedTravelss")
+    public String[][] getAllUnauthorizedTravelss() {
+    	List<UnauthorizedTravels> ut = unTravels.findAll();
+    	int i=0;
+    	int size = ut.size() ;
+    	String[][] travDet = new String[10][4];
+    	for (String[] row : travDet) {
+    	    Arrays.fill(row, "");
+    	}
+    		
+    	for(UnauthorizedTravels travInfo: ut) {
+    		travDet[i][0] = travInfo.getName();
+    		travDet[i][1] = travInfo.getDateToString();
+    		travDet[i][2] = travInfo.getRoute();
+    		travDet[i][3] = Double.toString(travInfo.getFare());
+			
+			i++;
+    	}
+		return travDet;
+	}
+	
 	@RequestMapping(value="/deleteAllUnauthorizedTravels")
 	public String deleteAll() {
 		try{

@@ -60,7 +60,6 @@ public class Bus {
 	public String[][] getOCBusDetails()
     {
     	List<Bus> bs = bsRepo.findAll();
-    	bs.stream().forEach(System.out::println);
     	int i=0;
     	String[][] busDet = new String[10][4];
     	for (String[] row : busDet) {
@@ -70,11 +69,33 @@ public class Bus {
     	for(Bus busInfo: bs)
     	{
     		if(busInfo.getNoOfSeats() < busInfo.getPassengerCount())
-    		busDet[i][0] = busInfo.getBusId();
-    		busDet[i][1] = Integer.toString(busInfo.getNoOfSeats());
-    		busDet[i][2] = Integer.toString(busInfo.getPassengerCount()) ;
-    		busDet[i][3] = busInfo.getNetwork();
-			
+    		{
+	    		busDet[i][0] = busInfo.getBusId();
+	    		busDet[i][1] = busInfo.getNetwork();
+	    		busDet[i][2] = Integer.toString(busInfo.getNoOfSeats());
+	    		busDet[i][3] = Integer.toString(busInfo.getPassengerCount()) ;
+    		}
+			i++;
+    	}
+		return busDet;
+	}
+	
+	@RequestMapping(value="/getAllBusDetails")
+	public String[][] getAllBusDetails()
+    {
+    	List<Bus> bs = bsRepo.findAll();
+    	int i=0;
+    	String[][] busDet = new String[10][4];
+    	for (String[] row : busDet) {
+    	    Arrays.fill(row, "");
+    	}
+    		
+    	for(Bus busInfo: bs)
+    	{
+	    		busDet[i][0] = busInfo.getBusId();
+	    		busDet[i][1] = busInfo.getNetwork();
+	    		busDet[i][2] = Integer.toString(busInfo.getNoOfSeats());
+	    		busDet[i][3] = Integer.toString(busInfo.getPassengerCount()) ;
 			i++;
     	}
 		return busDet;
