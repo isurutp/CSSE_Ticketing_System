@@ -99,12 +99,10 @@ public class TemporaryToken extends AppCompatActivity {
 
 
 
-    public void WaitTillJourneyComplete()
-    {
+    public void WaitTillJourneyComplete() {
         Thread thread =  new Thread() {
             public void run() {
-                while(springConnect.checkUserInBus(token).equals("none"))
-                {
+                while(springConnect.checkUserInBus(token).equals("none")) {
                     try {
                         Thread.sleep(1000);
 
@@ -132,12 +130,10 @@ public class TemporaryToken extends AppCompatActivity {
 
     }
 
-    public void WaitTillOutsideBus()
-    {
+    public void WaitTillOutsideBus() {
         Thread thread =  new Thread() {
             public void run() {
-                while(!springConnect.checkUserInBus(token).equals("none"))
-                {
+                while(!springConnect.checkUserInBus(token).equals("none")) {
                     try {
                         Thread.sleep(1000);
 
