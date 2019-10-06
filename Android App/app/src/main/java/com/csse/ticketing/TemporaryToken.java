@@ -17,7 +17,6 @@ import java.util.Random;
 
 public class TemporaryToken extends AppCompatActivity {
 
-    public TokenDB db;
     public String token;
     public TextView text_token;
     public TextView showPin;
@@ -26,8 +25,7 @@ public class TemporaryToken extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-          setContentView(R.layout.activity_temporary_token);
-          db = new TokenDB(this);
+        setContentView(R.layout.activity_temporary_token);
         springConnect = new SpringConnect();
         text_token = findViewById(R.id.text_token);
         showPin = findViewById(R.id.showPin);
