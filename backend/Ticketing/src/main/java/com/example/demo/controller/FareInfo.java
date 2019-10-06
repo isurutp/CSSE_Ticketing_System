@@ -49,9 +49,14 @@ public class FareInfo
 	
 	public FareInfo(String name, String startingLocation,String network, String paymentType)
 	{
+		String[] locations = {"Kaduwela","Kollupitiya","Rajagiriya","Kothalawala","Koswatta","Battaramulla"};
+		int randomInteger = new Random().nextInt(5);
+		
 		this.name = name;
-		this.startingLocation = startingLocation;
-		this.endingLocation = getTime();
+		this.startingLocation = "Malabe";
+//		this.startingLocation = startingLocation;
+//		this.endingLocation = getTime();
+		this.endingLocation = locations[randomInteger];
 		this.network = network ;
 		this.paymentType = paymentType ;
 		this.fare = generateFare() ;

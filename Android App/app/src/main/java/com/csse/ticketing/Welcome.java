@@ -109,6 +109,8 @@ public class Welcome extends AppCompatActivity {
         MainActivity.username = "";
         MainActivity.location = "";
 
+
+
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
@@ -233,6 +235,7 @@ public class Welcome extends AppCompatActivity {
 
             }
         };
+        thread.setDaemon(true);
         thread.start();
 
     }
@@ -282,6 +285,7 @@ public class Welcome extends AppCompatActivity {
 
             }
         };
+        thread.setDaemon(true);
         thread.start();
 
     }
