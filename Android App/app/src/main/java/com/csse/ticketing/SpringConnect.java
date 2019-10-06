@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class SpringConnect
 {
-    public final String ipAddress = "http://192.168.8.110:8080"; //Need to add to network_security_config.xml
+    public final String ipAddress = "http://192.168.43.171:8080"; //Need to add to network_security_config.xml
 
     /**
      * Checking login details by connecting to spring backend
@@ -79,6 +79,23 @@ public class SpringConnect
         boolean result = false;
 
         String url = ipAddress + "/ReduceFare?fareDetails=" + username + "," + amount;
+        if (getResult(url).trim().equalsIgnoreCase("true"))
+        {
+            result = true;
+        }
+        return result;
+    }
+
+    /**
+     * Adds to user's balance by connecting to spring backend
+     * @param username
+     * @param amount The fare to add from the balance
+     */
+    public Boolean transferCredit(String username,String amount)
+    {
+        boolean result = false;
+
+        String url = ipAddress + "/transferCredit?amountDetails=" + username + "," + amount;
         if (getResult(url).trim().equalsIgnoreCase("true"))
         {
             result = true;
@@ -169,15 +186,6 @@ public class SpringConnect
 
 
 
-
-
-
-
-
-
-
-
-
     /**
      * Will get the reply obtained from the URL passed.
      * @param url
@@ -226,6 +234,40 @@ public class SpringConnect
         return result.get();
     }
 
+
+    /**
+     * Checking login details by connecting to spring backend
+     * @param token
+     * @return true if login is valid
+     */
+    public boolean checkTempPassenger( final String token)
+    {
+        boolean result = false;
+
+        String url = ipAddress + "/checkTemp?token=" + token;
+        if (getResult(url).equalsIgnoreCase("true"))
+        {
+            result = true;
+        }
+        return result;
+    }
+
+    /**
+     * Checking login details by connecting to spring backend
+     * @param token
+     * @return true if login is valid
+     */
+    public boolean createTempPassenger( final String token)
+    {
+        boolean result = false;
+
+        String url = ipAddress + "/setTemp?token=" + token;
+        if (getResult(url).equalsIgnoreCase("true"))
+        {
+            result = true;
+        }
+        return result;
+    }
 
 
 }
