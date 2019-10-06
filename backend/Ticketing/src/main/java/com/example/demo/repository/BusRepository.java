@@ -11,4 +11,5 @@ import com.example.demo.controller.Bus;
 public interface BusRepository extends MongoRepository<Bus,String>{
 	public Bus findBybusId(String busId);
 	public List<Bus> findAllBybusId(String busId);
+	public List<Bus> findAll();
 }
