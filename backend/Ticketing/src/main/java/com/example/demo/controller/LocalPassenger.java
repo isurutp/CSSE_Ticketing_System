@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
@@ -187,10 +188,14 @@ public class LocalPassenger implements Passenger
     	    Arrays.fill(row, "");
     	}
     	
+//    	String[] locations = {"Kaduwela","Kollupitiya","Rajagiriya","Kothalawala","Koswatta","Battaramulla"};
     	
     	for(FareInfo fareInfo: FIList)
     	{
-    		journeyDet[i][0] = fareInfo.getDate();
+    		String dateInfo[] = fareInfo.getDate().split(" ");
+//    		int randomInteger = new Random().nextInt(5);
+    		
+    		journeyDet[i][0] = dateInfo[1]+" "+dateInfo[2];
     		journeyDet[i][1] = fareInfo.getStartingLocation();
 			journeyDet[i][2] = fareInfo.getEndingLocation();
 			journeyDet[i][3] = fareInfo.getFare();
