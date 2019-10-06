@@ -182,7 +182,7 @@ export default class BusDriverMain extends Component {
             <div>
                 <BusNavbar/>
                 <br/><br/><br/><br/><br/>
-                <div style={{textAlign: 'left', paddingLeft:'40px'}}>
+                <div style={{textAlign: 'left', paddingLeft:'100px'}}>
 
                     <table style={{ width: '100%'}}>
                         <tr>
@@ -204,7 +204,7 @@ export default class BusDriverMain extends Component {
                     </table>
                 </div>
                 <div>
-                <div style={{width:'40%', float:'left'}}>
+                <div style={{width:'50%', float:'left', paddingLeft:'100px'}}>
                     <br/>
                     <h4>Journey</h4>
                     <table id={"myTable"} className="table table-striped" style={{marginTop:'10px'}}>
@@ -220,9 +220,6 @@ export default class BusDriverMain extends Component {
                         {PassItemsNew}
                         </tbody>
                     </table>
-                </div>
-                <div style={{textAlign:'center'}}>
-                    <button className="btn btn-sm btn-primary display-4" href="#" style={{marginLeft:'0px'}}>End Journey</button>
                 </div>
             </div>
             </div>

@@ -40,6 +40,7 @@ public class CurrentJourney {
 		this.startTime = Calendar.getInstance().getTime();
 	}
 	
+	//method to start a journey for a particular passenger
 	@RequestMapping(value="/addNewUserToJourney")
 	public boolean addNewUserToJourney(@RequestParam String busId, @RequestParam String username, @RequestParam String payment) {
 		try {
@@ -55,6 +56,7 @@ public class CurrentJourney {
 		}
 	}
 	
+	//method will return the journey details of a particular bus
 	@RequestMapping(value="/getCurrentJourneyDetails")
     public String[][] getCurrentJourneyDetails(@RequestParam String busId)
     {
@@ -86,6 +88,7 @@ public class CurrentJourney {
 		return cjDet;
 	}
 	
+	//remove an user from the journey
 	@RequestMapping(value="/deleteOneCurrentJourney")
 	public boolean deleteOneJourney(@RequestParam String username) {
 		try {
@@ -100,6 +103,7 @@ public class CurrentJourney {
 		}
 	}
 	
+	//delete all from the current journey repository
 	@RequestMapping(value="/deleteAllCurrentJourney")
 	public String deleteAll() {
 		try{
@@ -110,7 +114,7 @@ public class CurrentJourney {
 		}
 	}
 	
-	
+	//check if a particular user is already in a bus
 	@RequestMapping(value="/checkUserInBus")
 	public String checkUserInBus(@RequestParam(value="username") String username) 
 	{
