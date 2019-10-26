@@ -74,7 +74,7 @@ public class UnauthorizedTravels {
     public String[][] getAllUnauthorizedTravelss() {
     	List<UnauthorizedTravels> ut = unTravels.findAll();
     	int i=0;
-    	int size = ut.size() ;
+    	//int size = ut.size() ;
     	String[][] travDet = new String[10][4];
     	for (String[] row : travDet) {
     	    Arrays.fill(row, "");
